@@ -1,0 +1,5 @@
+<%= form_for @images, html: { multipart: true }) do |f| %>
+  <div>
+    <%= image_tag(f.image) %>
+  </div>
+<% end %>

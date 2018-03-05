@@ -1,0 +1,7 @@
+<%= form_for @images do |f| %>
+  <div>
+    <%= f.label :image %>
+    <%= f.file_field :image.thumbs %>
+  </div>
+<%= f.submit %>
+<% end %>

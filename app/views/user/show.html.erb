@@ -1,0 +1,13 @@
+<% provide(:title, current_user.name) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <h1>        
+        <%= current_user.name %>
+	<section class="micropost_form">
+          <%= render 'images/image_form' %>
+        </section>
+      </h1>
+    </section>
+  </aside>
+</div>
