@@ -4,9 +4,8 @@ class Image < ApplicationRecord
   has_many :comments, dependent: :destroy 
   validates :user_id, presence: true
   validates :image, presence: true
-  #default_scope -> { order(created_at: :desc) }
-  scope :recent_time, -> { where('created_at >= :1_day_ago', one_day_ago: Time.now - 1.day) }
-  scope :recent, -> { recent_time.where("aasm_state = unverified") }
+  scope :recent_time, -> { where(created_at:((1.day.ago)..(Time.now))) } #'created_at >= ?', one_day_ago: Time.now - 1.day
+  scope :recent, -> { recent_time.where(aasm_state: :rejected) }
   mount_uploader :image, ImageUploader
   acts_as_votable
   
@@ -16,19 +15,11 @@ class Image < ApplicationRecord
     state :verified
 
     event :verify do
-      transitions from: [:unverified], to: :verified
+      transitions from: [:unverified,:rejected], to: :verified
     end
 
     event :reject do
-      transitions from: [:unverified], to: :rejected
-    end
-
-    event :reverify do
-      transitions from: [:rejected], to: :verified
-    end
-
-    event :unverify do
-      transitions from: [:verified], to: :rejected
+      transitions from: [:unverified,:verified], to: :rejected
     end
   end
 end

@@ -289,29 +289,15 @@ span.picture {
   padding: 0;
 }
 
-.foto_in_gallery {
-  marging : 10px;
-  marging-right: 5px;
-  marging-top: 15px;
-  height: 205px;
-  width: 205px;
-  float: left;
-  a span {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0,0,0,0.6);
-    color: #ddd;
-    padding: 20px;
-}
-}
+
 
 .button{
   display: block;
   position:relative;
   marging-bottom: 10px;
+}
+
+.jumbotron .white-a{
+  color: white;
 }
 

@@ -1,6 +1,6 @@
 class CleanImages
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
+  #include Sidetiq::Schedulable
 
   recurrence { daily }
 

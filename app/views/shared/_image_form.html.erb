@@ -1,8 +1,9 @@
-<%=# require  %>
 <%= form_for @images do |f| %>
-  <div>
-    <%= f.label :image %>
-    <%= f.file_field :image %>
+  <div class="form-group">
+    <%= f.label :image%>
+    <%= f.file_field :image class="btn btn-default btn-file" %>
   </div>
 <%= f.submit %>
 <% end %>
+
+    
