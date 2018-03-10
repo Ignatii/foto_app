@@ -1,28 +1,32 @@
 class CommentsController < ApplicationController  
 
+  before_action :get_parent
+   
+  def new
+    @comment = @parent.comments.build
+  end
+ 
   def create
-    @image = Image.find(params[:image_id])
-    @comment = @image.comments.create(:body => params[:comment][:body], :user => current_user)
-    @comment.user_id = current_user.id
+    @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
+     debugger
     if @comment.save
-      redirect_to @image
+      redirect_to root_url, :notice => 'Thank you for your comment!'
     else
-      flash.now[:danger] = "Can't create comment!"
+      render :new
     end
   end
-
-  def update
-    @comment = Comment.find(params[:comment_id])
-    if @comment.update
-     flash[:notice] = "You updated your comment"
-    else
-     flash[:alert] = "Failed to update"
-    end
+ 
+  protected
+   
+  def get_parent
+    @parent = Image.find_by_id(params[:image_id]) if params[:image_id]
+    @parent = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
+     
+    redirect_to root_path unless defined?(@parent)
   end
 
-  def destroy
-    @comment = Comment.find(params[:comment_id])
-    @comment.destroy
-    redirect_to @image.image_path
-  end
+  def image
+    return @image if defined?(@image)
+    @image = commentable.is_a?(Image) ? commentable : commentable.post
+end
 end

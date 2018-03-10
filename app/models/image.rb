@@ -1,7 +1,7 @@
 class Image < ApplicationRecord
   include AASM
   belongs_to :user
-  has_many :comments, dependent: :destroy 
+  has_many :comments, :as => :commentable, :dependent => :destroy
   validates :user_id, presence: true
   validates :image, presence: true
   scope :recent_time, -> { where(created_at:((1.day.ago)..(Time.now))) } #'created_at >= ?', one_day_ago: Time.now - 1.day

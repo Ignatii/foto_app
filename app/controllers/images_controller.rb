@@ -5,13 +5,18 @@ class ImagesController < ApplicationController
   end
 
   def create
-    @images = current_user.images.build(image: params[:image][:image])    
-    if @images.save
-      flash[:success] = "Image updated!"
-      redirect_to current_user
+    if(params.key?(:image))
+	@images = current_user.images.build(image: params[:image][:image])    
+	if @images.save
+	  flash[:success] = "Image updated!"
+	  redirect_to current_user
+	else
+	  flash[:warning] = "Image do not updated!"
+	  redirect_to root_url
+	end
     else
-      flash[:warning] = "Image do not updated!"
-      redirect_to root_url
+      flash[:warning] = "Choose image!"
+      redirect_to current_user
     end
   end
 

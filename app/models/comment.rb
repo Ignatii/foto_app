@@ -1,7 +1,6 @@
 class Comment < ApplicationRecord
-  belongs_to :user
-  belongs_to :image
   validates :user_id, presence: true
-  validates :image_id, presence: true
   validates :body, presence: true
+  belongs_to :commentable, :polymorphic => true
+  has_many :comments, :as => :commentable, :dependent => :destroy
 end
