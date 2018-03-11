@@ -29,7 +29,6 @@ gem 'redis-namespace'
 gem 'redis-rack-cache'
 gem 'leaderboard'
 gem 'acts_as_votable'
-gem 'ancestry'
 
 group :development, :test do
   gem 'sqlite3', '1.3.13'
@@ -52,6 +51,7 @@ end
 
 group :production do
   gem 'pg', '0.18.4'
+  gem 'fog'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
