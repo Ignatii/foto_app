@@ -10,6 +10,8 @@ class CommentsController < ApplicationController
     if !params[:comment][:body].empty?
 	    @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
 	    if @comment.save
+	      flash[:success] = "Comment added"
+	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id]
 	      redirect_to request.referrer
 	    else
 	      render :new
@@ -37,6 +39,6 @@ class CommentsController < ApplicationController
 
   def image
     return @image if defined?(@image)
-    @image = commentable.is_a?(Image) ? commentable : commentable.post
+    @image = commentable.is_a?(Image) ? commentable : commentable.image
 end
 end

@@ -31,6 +31,7 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
     @image.upvote_by current_user
     #$redis.set(params[:id].to_s,@image.score)
+    debugger
     IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score,{name: @image[:id]}.to_json)
     redirect_to current_user
   end
@@ -39,7 +40,7 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
     @image.downvote_by current_user
     #$redis.set(params[:id].to_s,@image.score)
-    IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score,{name: @image[:id]}.to_json)
+    IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.get_upvotes.size - @image.get_downvotes.size,{name: @image[:id]}.to_json)
     redirect_to current_user
   end
 
