@@ -11,6 +11,6 @@
   <%= render :partial => 'comments/comment', :collection => @image.comments %>
 </ul>
 
-
-
-<%= link_to 'Add a Comment', new_image_comment_path(@image) %>
+<div class="center-block" style="width: 300px;height:40px;">
+<%= link_to "Add a Comment", new_image_comment_path(@image), class: "btn btn-lg btn-info center-block" %>
+</div>

@@ -1,19 +1,29 @@
 class CommentsController < ApplicationController  
 
-  before_action :get_parent
+  before_action :get_parent, only: [:create, :new]
    
   def new
     @comment = @parent.comments.build
   end
  
   def create
-    @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
-     debugger
-    if @comment.save
-      redirect_to root_url, :notice => 'Thank you for your comment!'
+    if !params[:comment][:body].empty?
+	    @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
+	    if @comment.save
+	      redirect_to request.referrer
+	    else
+	      render :new
+	    end
     else
-      render :new
+      flash[:warning] = "Comment must not be empty!"
     end
+  end
+
+  def destroy
+    @comment = Comment.find_by_id(params[:id])
+    @comment.destroy
+    flash[:success] = "Comment deleted"
+    redirect_to request.referrer
   end
  
   protected
