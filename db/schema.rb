@@ -46,10 +46,12 @@ ActiveRecord::Schema.define(version: 20180305080214) do
   create_table "comments", force: :cascade do |t|
     t.integer "user_id"
     t.text "body"
-    t.integer "image_id"
+    t.integer "commentable_id"
+    t.string "commentable_type"
+    t.string "ancestry"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["image_id"], name: "index_comments_on_image_id"
+    t.index ["ancestry"], name: "index_comments_on_ancestry"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
