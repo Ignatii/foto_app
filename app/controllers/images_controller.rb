@@ -31,7 +31,6 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
     @image.upvote_by current_user
     #$redis.set(params[:id].to_s,@image.score)
-    debugger
     IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score,{name: @image[:id]}.to_json)
     redirect_to current_user
   end
