@@ -85,7 +85,7 @@ p {
 }
 
 /* footer */
-footer {
+/*footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
@@ -95,13 +95,18 @@ footer {
   bottom:0;
   width:100%;
   bavkground-color: gray;
-}
+}*/
 
 footer {
-  margin-top: 45px;
-  padding-top: 5px;
+  /*margin-top: 45px;
+  padding-top: 5px;*/
   border-top: 1px solid #eaeaea;
   color: #777;
+  position:fixed;
+  left:10px;
+  bottom:0;
+  width:100%;
+  bavkground-color: gray;
   a {
     color: #555;
     &:hover {
