@@ -32,7 +32,7 @@ class ImagesController < ApplicationController
     @image.upvote_by current_user
     #$redis.set(params[:id].to_s,@image.score)
     #IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score,{name: @image[:id]}.to_json)
-    redirect_to current_user
+    redirect_to root_url
   end
 
   def downvote
@@ -40,7 +40,7 @@ class ImagesController < ApplicationController
     @image.downvote_by current_user
     #$redis.set(params[:id].to_s,@image.score)
     #IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score,{name: @image[:id]}.to_json)
-    redirect_to current_user
+    redirect_to root_url
   end
 
 end
