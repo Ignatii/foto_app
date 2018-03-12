@@ -19,7 +19,7 @@
 	    	  <div class="thumbnail">
 		    <%= link_to image_tag(image.image.thumb.url, :alt => image[:id]), {:controller => 'images', :action => 'show', :id => image[:id]} %>
 	      	  <div class="caption">
-		    <h3>Will vote for food</h3>
+		    <h3>Votes:<%= image.score %></h3>
 		    <p>
 		    	<%= link_to "Upvote", like_image_path(image), method: :put , class: "btn btn-xs btn-success center-block" %>
 			<%= link_to "Downvote", dislike_image_path(image), method: :put , class: "btn btn-xs btn-danger center-block" %>

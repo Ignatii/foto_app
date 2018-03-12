@@ -22,4 +22,8 @@ class Image < ApplicationRecord
       transitions from: [:unverified,:verified], to: :rejected
     end
   end
+
+  def score
+    self.get_upvotes.size - self.get_downvotes.size
+  end
 end
