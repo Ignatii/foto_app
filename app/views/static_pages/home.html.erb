@@ -1,12 +1,13 @@
   
-  <div class="center jumbotron">   
+<div class="center jumbotron">  
+<div class="row"> 
   <% @images.each do |image| %>
-      <div class="row">
+      
   	<div class="col-sm-6 col-md-4">
     	  <div class="thumbnail">
-            <%= link_to image_tag(image.image.thumb.url, :alt => image[:id]), {:controller => 'images', :action => 'show', :id => image[:id]} %>
+            <%= link_to image_tag(image.image.thumb.url, :alt => image[:id]), {:controller => 'images', :action => 'show', :id => image[:id]},class:"thumbnail" %>
       	  <div class="caption">
-            <h3>Votes:<%= image.score %></h3>
+            <h3>Votes:<%= image.get_upvotes.size - image.get_downvotes.size %></h3>
             <% if current_user %>
             <p>
 	    	<%= link_to "Upvote", like_image_path(image), method: :put , class: "btn btn-xs btn-success center-block" %>
@@ -16,9 +17,10 @@
           </div>
          </div>
        </div>
-     </div>      
-    </div>
+     
+<% end %>  
+</div>    
+</div>
   
-  </div>
-<% end %>
+
     

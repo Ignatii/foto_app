@@ -24,9 +24,9 @@ Rails.application.routes.draw do
   end
 
   root 'static_pages#home'
-  get  '/help',    to: 'static_pages#help'
-  get  '/about',   to: 'static_pages#about'
-  get  '/contacts', to: 'static_pages#contacts'
+  get  'static_pages/help',    to: 'static_pages#help'
+  get  'static_pages/about',   to: 'static_pages#about'
+  get  'static_pages/contacts', to: 'static_pages#contacts'
   #get 'static_pages/home',    to: 'static_pages#home'  
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
