@@ -4,6 +4,9 @@ class CommentsController < ApplicationController
    
   def new
     @comment = @parent.comments.build
+    image_id = params[:image_id_comment] if params[:image_id_comment]
+    flash[:image_id] = params[:image_id_comment] if params[:image_id_comment]
+    flash.keep(:image_id)
   end
  
   def create
@@ -12,9 +15,11 @@ class CommentsController < ApplicationController
 	    if @comment.save
 	      flash[:success] = "Comment added"
 	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id]
-	      redirect_to request.referrer
+	      redirect_to Image.find_by_id(flash[:image_id]) if flash[:image_id]
 	    else
-	      render :new
+ 	      flash[:sucwarningcess] = "Comment didn't save"
+	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id]
+	      redirect_to Image.find_by_id(flash[:image_id]) if flash[:image_id]
 	    end
     else
       flash[:warning] = "Comment must not be empty!"
