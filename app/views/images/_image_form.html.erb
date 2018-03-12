@@ -1,6 +1,6 @@
 <%= form_for([@user, @user.images.build], html: { multipart: true }) do |f| %>
   <div>
-    <%= f.label 'Upload Image', class:"btn btn-default btn-file"%>
+    <%= f.label 'Upload Image'%>
     <%= f.file_field :image, class: "btn btn-default btn-file" %>
   </div>
 <%= f.submit 'Save Image'%>
