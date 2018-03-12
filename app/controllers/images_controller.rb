@@ -29,18 +29,36 @@ class ImagesController < ApplicationController
 
   def upvote
     @image = Image.find(params[:id])
-    @image.upvote_by current_user
-    #$redis.set(params[:id].to_s,@image.score)
-    #IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score,{name: @image[:id]}.to_json)
+    if !current_user.voted_up_on?(@image)
+    	@image.upvote_by current_user
+    	#$redis.set(params[:id].to_s,@image.score)
+    	IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score)
+    else
+        flash[:warning] = "You already voted for this image!"
+    end
     redirect_to root_url
   end
 
   def downvote
     @image = Image.find(params[:id])
-    @image.downvote_by current_user
-    #$redis.set(params[:id].to_s,@image.score)
-    #IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score,{name: @image[:id]}.to_json)
+    if !current_user.voted_down_on?(@image)
+      @image.downvote_by current_user
+      #$redis.set(params[:id].to_s,@image.score)
+      IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score)
+    else
+      flash[:warning] = "You already downvoted for this image!"
+    end
     redirect_to root_url
   end
+
+  private
+
+    def page(options)
+      options[:page] || 1
+    end
+
+    def page_size(options)
+      options[:page_size] || 12
+    end
 
 end
