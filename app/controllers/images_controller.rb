@@ -9,6 +9,7 @@ class ImagesController < ApplicationController
 	@images = current_user.images.build(image: params[:image][:image])    
 	if @images.save
 	  flash[:success] = "Image updated!"
+          IMAGE_VOTES_COUNT.rank_member(@images.id.to_s, 0)
 	  redirect_to current_user
 	else
 	  flash[:warning] = "Image do not updated!"
@@ -21,7 +22,7 @@ class ImagesController < ApplicationController
   end
 
   def destroy
-    @images.destroy
+    @image.destroy
     flash[:success] = "Micropost deleted"
     redirect_to request.referrer || root_url
     #redirect_back(fallback_location: root_url)

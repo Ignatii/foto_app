@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
   def home
-    @images = Image.all.where(:aasm_state => 'unverified')    
+    @images = ListImages.run!.page(params[:page]).per(12)   
   end
 
   def help

@@ -4,22 +4,23 @@ class CommentsController < ApplicationController
    
   def new
     @comment = @parent.comments.build
-    image_id = params[:image_id_comment] if params[:image_id_comment]
-    flash[:image_id] = params[:image_id_comment] if params[:image_id_comment]
-    flash.keep(:image_id)
+    #image_id = params[:image_id_comment] if params[:image_id_comment]
+    #flash[:image_id] = params[:image_id_comment] if params[:image_id_comment]
+    #flash.keep(:image_id)
   end
  
   def create
+debugger
     if !params[:comment][:body].empty?
 	    @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
 	    if @comment.save
 	      flash[:success] = "Comment added"
 	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id]
-	      redirect_to Image.find_by_id(flash[:image_id]) if flash[:image_id]
+	      redirect_to Image.find_by_id(params[:comment][:image_id]) if params[:comment][:image_id]
 	    else
  	      flash[:warning] = "Comment didn't save"
 	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id]
-	      redirect_to Image.find_by_id(flash[:image_id]) if flash[:image_id]
+	      redirect_to Image.find_by_id(params[:comment][:image_id]) if params[:comment][:image_id]
 	    end
     else
       flash[:warning] = "Comment must not be empty!"
