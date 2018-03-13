@@ -27,6 +27,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_interaction (3.6.1)
+      activemodel (>= 4, < 6)
     activeadmin (1.2.1)
       arbre (>= 1.1.1)
       coffee-rails
@@ -535,6 +537,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm
+  active_interaction (~> 3.6)
   activeadmin
   acts_as_votable
   bootstrap-sass
