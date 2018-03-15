@@ -1,4 +1,4 @@
-class CommentsController < ApplicationController  
+class CommentsController < ProxyController  
 
   before_action :get_parent, only: [:create, :new]
    

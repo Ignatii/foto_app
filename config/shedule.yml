@@ -1,0 +1,4 @@
+clear_rejected_images:
+  cron: '*/5 * * * *'
+  class: "CleanImages"
+  queue: default

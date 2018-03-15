@@ -1,10 +1,13 @@
 <% provide(:title, "Help") %>
 <h1>Help</h1>
-<p>
-  Get help on the Ruby on Rails Tutorial at the
-  <a href="http://www.railstutorial.org/help">Rails Tutorial help
-  page</a>.
-  To get help on this sample app, see the
-  <a href="http://www.railstutorial.org/book"><em>Ruby on Rails
-  Tutorial</em> book</a>.Ignatiy creating this app to be Ruby-programmist!
-</p>
+<h2>
+  If you have any problems with opening site please contact us on: bla-bla-bla
+</h2>
+
+<% if current_user[:banned_until] > Time.now %>
+
+<h2>
+  You have been banned.You ugly motherf*cker
+</h2>
+
+<% end %>

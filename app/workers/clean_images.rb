@@ -1,11 +1,10 @@
 class CleanImages
   include Sidekiq::Worker
-  #include Sidetiq::Schedulable
 
-  #recurrence { daily }
-
-  def perform
-    File.delete(Image.recent[:image]) if File.exist?(Image.recent[:image])
-    Image.recent.destroy_all
+  def perform(id_image)
+    image = Image.find_by(id: id_image)
+    if image.rejected?
+      image.destroy!
+    end
   end
 end

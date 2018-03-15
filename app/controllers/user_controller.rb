@@ -1,8 +1,7 @@
-class UserController < ApplicationController
+class UserController < ProxyController
 
   def show
     @user = User.find(params[:id])
-    @images = @user.images.first
   end
   
   def index

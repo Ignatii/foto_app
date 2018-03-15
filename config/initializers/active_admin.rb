@@ -1,10 +1,12 @@
+require 'activeadmin'
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Foto App"
+  config.site_title = 'Foto App'
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -119,7 +121,7 @@ ActiveAdmin.setup do |config|
   # This allows your users to comment on any resource registered with Active Admin.
   #
   # You can completely disable comments:
-  # config.comments = false
+   config.comments = false
   #
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
@@ -222,7 +224,7 @@ ActiveAdmin.setup do |config|
   #     end
   #   end
   #
-  # If you wanted to add a static menu item to the default menu provided:
+  # If you wanted to add a static menu item to the dkip_before_action :authenticate_user!efault menu provided:
   #
   #   config.namespace :admin do |admin|
   #     admin.build_menu :default do |menu|
@@ -236,7 +238,7 @@ ActiveAdmin.setup do |config|
   # or customize the formats shown per namespace/globally
   #
   # To disable/customize for the :admin namespace:
-  #
+  # kip_before_action :authenticate_user!
   #   config.namespace :admin do |admin|
   #
   #     # Disable the links entirely
