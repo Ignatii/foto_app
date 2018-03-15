@@ -6,7 +6,7 @@ class ProxyController < ApplicationController
   private
   
   def check_current_user
-    redirect_to static_pages_help_path unless current_user        
+    redirect_to static_pages_help_path and return unless current_user        
   end
 
   def check_banned_user
