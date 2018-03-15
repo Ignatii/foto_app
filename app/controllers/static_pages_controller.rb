@@ -1,5 +1,5 @@
 class StaticPagesController < ProxyController
-  #skip_before_action :check_current_user
+  skip_before_action :check_current_user
   #skip_before_action :check_banned_user
 
   def home
@@ -14,5 +14,4 @@ class StaticPagesController < ProxyController
 
   def contacts
   end
-
 end
