@@ -65,9 +65,9 @@ ActiveAdmin.register Image do
     end
 
     def reject
+      image = Image.find_by(id: params[:id])
       begin
 	r = Redis.new.set('getstatus',1)
-        image = Image.find_by(id: params[:id])
         IMAGE_VOTES_COUNT.remove_member(params[:id])
         if image.reject!
           CleanImages.perform_at(1.hour.from_now, image.id)
@@ -87,9 +87,9 @@ ActiveAdmin.register Image do
     end
 
     def verify
-      begin
-	r = Redis.new.set('getstatus',1)
-        image = Image.find_by(id: params[:id])
+      image = Image.find_by(id: params[:id])
+      begin	
+	r = Redis.new.set('getstatus',1)        
         IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
         if image.rejected?
 	  scheduled = Sidekiq::ScheduledSet.new.select
