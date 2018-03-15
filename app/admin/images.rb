@@ -73,15 +73,15 @@ ActiveAdmin.register Image do
           CleanImages.perform_at(1.hour.from_now, image.id)
 	  redirect_to request.referer, notice: 'Image Rejected!'
         else
-          redirect_to request.referer, notice: 'Action didnt work!'
+          redirect_to request.referer, alert: 'Action didnt work!'
         end
       rescue Redis::CannotConnectError
 	#redirect_to request.referer, notice: 'Cant work because Redis is down now'
         if image.reject!
           #CleanImages.perform_at(1.hour.from_now, image.id)
-	  redirect_to request.referer, notice: 'Image Rejected! Without Redis! Talk with administrator right now!'
+	  redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!'
         else
-          redirect_to request.referer, notice: 'Action didnt work!'
+          redirect_to request.referer, alert: 'Action didnt work!'
         end
       end      
     end
@@ -102,14 +102,14 @@ ActiveAdmin.register Image do
         if image.verify!
           redirect_to request.referer, notice: 'Image Verified! Task deleted!'
         else
-          redirect_to request.referer, notice: 'Action didnt work!'
+          redirect_to request.referer, alert: 'Action didnt work!'
         end
       rescue Redis::CannotConnectError
 	#redirect_to request.referer, notice: 'Cant work because Redis is down now'
         if image.verify!
-          redirect_to request.referer, notice: 'Image Verified! Without redis'
+          redirect_to request.referer, alert: 'Image Verified! Without redis'
         else
-          redirect_to request.referer, notice: 'Action didnt work! Without redis'
+          redirect_to request.referer, alert: 'Action didnt work! Without redis'
         end
       end    
     end
