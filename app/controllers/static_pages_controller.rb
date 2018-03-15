@@ -1,4 +1,4 @@
-class StaticPagesController < ProxyController
+class StaticPagesController < ApplicationController
   #skip_before_action :check_current_user
   #skip_before_action :check_banned_user
 
