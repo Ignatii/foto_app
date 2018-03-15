@@ -14,4 +14,5 @@ class StaticPagesController < ProxyController
 
   def contacts
   end
+
 end

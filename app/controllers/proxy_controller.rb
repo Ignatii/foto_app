@@ -6,17 +6,19 @@ class ProxyController < ApplicationController
   private
   
   def check_current_user
-    redirect_to static_pages_help_path and return unless current_user        
+    #redirect_to static_pages_help_path and return unless current_user        
   end
 
   def check_banned_user
-    unless current_user[:banned_until].nil?
-      redirect_to static_pages_help_path unless current_user[:banned_until] < Time.now
-    end   
+    if current_user
+      unless current_user[:banned_until].nil?
+        redirect_to static_pages_help_path unless current_user[:banned_until] < Time.now
+      end 
+    end  
   end 
 
   def current_user
-    return nil if session[:user_id].nil?
+    return false if session[:user_id].nil?
     begin
       User.find(session[:user_id])    	
     rescue ActiveRecord::RecordNotFound
