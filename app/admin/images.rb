@@ -87,8 +87,9 @@ ActiveAdmin.register Image do
     end
 
     def verify
+      image = Image.find_by(id: params[:id])
       begin	
-	r = Redis.new.set('getstatus',1)        
+	      r = Redis.new.set('getstatus',1)        
         IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
         if image.rejected?
 	       scheduled = Sidekiq::ScheduledSet.new.select
@@ -105,7 +106,7 @@ ActiveAdmin.register Image do
         end
         rescue Redis::CannotConnectError
           image.verify!
-	  redirect_to request.referer, warning: 'Image verified but cant work because Redis is down now'
+	        redirect_to request.referer, warning: 'Image verified but cant work because Redis is down now'
       end    
     end
   end
