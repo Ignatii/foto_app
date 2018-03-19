@@ -19375,3 +19375,134 @@ Did you mean?  image_url):
   
 app/admin/images.rb:107:in `rescue in verify'
 app/admin/images.rb:90:in `verify'
+Started GET "/admin/images" for 127.0.0.1 at 2018-03-19 15:42:39 +0300
+Processing by Admin::ImagesController#index as HTML
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "images"[0m
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mImage Load (0.3ms)[0m  [1m[34mSELECT  "images".* FROM "images" ORDER BY "images"."id" desc LIMIT ? OFFSET ?[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  [1m[36mActsAsVotable::Vote Load (0.2ms)[0m  [1m[34mSELECT "votes".* FROM "votes"[0m
+  Rendered /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb (172.2ms)
+Completed 200 OK in 204ms (Views: 172.9ms | ActiveRecord: 4.6ms)
+
+
+Started POST "/admin/images/4/verify" for 127.0.0.1 at 2018-03-19 15:42:42 +0300
+Processing by Admin::ImagesController#verify as HTML
+  Parameters: {"authenticity_token"=>"oJ4GL0b53M21y9XgOFGnAFnGYdyakZLQCcu3TZNJlfpw/Sc+ELtEUNeLhSlrlLhnpBDoX9onfEPaBUL4bjGRfQ==", "id"=>"4"}
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.5ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "images" SET "updated_at" = ?, "aasm_state" = ? WHERE "images"."id" = ?[0m  [["updated_at", "2018-03-19 12:42:42.278284"], ["aasm_state", "verified"], ["id", 4]]
+  [1m[35m (207.3ms)[0m  [1m[36mcommit transaction[0m
+Redirected to http://localhost:3000/admin/images
+Completed 302 Found in 224ms (ActiveRecord: 209.4ms)
+
+
+Started GET "/admin/images" for 127.0.0.1 at 2018-03-19 15:42:42 +0300
+Processing by Admin::ImagesController#index as HTML
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "images"[0m
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mImage Load (0.2ms)[0m  [1m[34mSELECT  "images".* FROM "images" ORDER BY "images"."id" desc LIMIT ? OFFSET ?[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mComment Load (0.2ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  [1m[36mActsAsVotable::Vote Load (0.3ms)[0m  [1m[34mSELECT "votes".* FROM "votes"[0m
+  Rendered /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb (157.2ms)
+Completed 200 OK in 164ms (Views: 159.9ms | ActiveRecord: 1.6ms)
+
+
+Started POST "/admin/images/4/reject" for 127.0.0.1 at 2018-03-19 15:43:02 +0300
+Processing by Admin::ImagesController#reject as HTML
+  Parameters: {"authenticity_token"=>"vGL3snrLRW0q5h4DwCr+1oETImLv94wPoKHcNj3NlcdsAdajLInd8EimTsqT7+GxfMWr4a9BYpxzbymDwLWRQA==", "id"=>"4"}
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.1ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+Redirected to http://localhost:3000/admin/images
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35mSQL (1.9ms)[0m  [1m[33mUPDATE "images" SET "updated_at" = ?, "aasm_state" = ? WHERE "images"."id" = ?[0m  [["updated_at", "2018-03-19 12:43:02.917540"], ["aasm_state", "rejected"], ["id", 4]]
+  [1m[35m (114.8ms)[0m  [1m[36mcommit transaction[0m
+Redirected to 
+Completed 500 Internal Server Error in 186ms (ActiveRecord: 119.7ms)
+
+
+  
+AbstractController::DoubleRenderError (Render and/or redirect were called multiple times in this action. Please note that you may only call render OR redirect, and at most once per action. Also note that neither redirect nor render terminate execution of the action, so if you want to exit an action after redirecting, you need to do something like "redirect_to(...) and return".):
+  
+app/admin/images.rb:82:in `rescue in reject'
+app/admin/images.rb:69:in `reject'
+Started POST "/admin/images/4/reject" for 127.0.0.1 at 2018-03-19 15:43:54 +0300
+  
+SyntaxError (/tmp/foto_app/app/admin/images.rb:109: syntax error, unexpected end-of-input, expecting keyword_end):
+  
+app/admin/images.rb:109: syntax error, unexpected end-of-input, expecting keyword_end
+config/routes.rb:3:in `block in <top (required)>'
+config/routes.rb:1:in `<top (required)>'
+Started POST "/admin/images/4/reject" for 127.0.0.1 at 2018-03-19 15:45:08 +0300
+Processing by Admin::ImagesController#reject as HTML
+  Parameters: {"authenticity_token"=>"vGL3snrLRW0q5h4DwCr+1oETImLv94wPoKHcNj3NlcdsAdajLInd8EimTsqT7+GxfMWr4a9BYpxzbymDwLWRQA==", "id"=>"4"}
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.2ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+Completed 500 Internal Server Error in 43ms (ActiveRecord: 2.3ms)
+
+
+  
+AASM::InvalidTransition (Event 'reject' cannot transition from 'rejected'. ):
+  
+app/admin/images.rb:79:in `rescue in reject'
+app/admin/images.rb:69:in `reject'
+Started GET "/admin/images" for 127.0.0.1 at 2018-03-19 15:45:17 +0300
+Processing by Admin::ImagesController#index as HTML
+  [1m[36mAdminUser Load (0.9ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "images"[0m
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mImage Load (0.3ms)[0m  [1m[34mSELECT  "images".* FROM "images" ORDER BY "images"."id" desc LIMIT ? OFFSET ?[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mComment Load (0.1ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  [1m[36mActsAsVotable::Vote Load (0.2ms)[0m  [1m[34mSELECT "votes".* FROM "votes"[0m
+  Rendered /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb (193.9ms)
+Completed 200 OK in 205ms (Views: 197.1ms | ActiveRecord: 3.3ms)
+
+
+Started POST "/admin/images/4/verify" for 127.0.0.1 at 2018-03-19 15:45:21 +0300
+Processing by Admin::ImagesController#verify as HTML
+  Parameters: {"authenticity_token"=>"e9nbssgJ0bXCRH+mjl7i/Xtsi5VKy0Ti7WRiyewjWEKruvqjnktJKKAEL2/dm/2ahroCFgp9qnE+qpd8EVtcxQ==", "id"=>"4"}
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.1ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "images" SET "updated_at" = ?, "aasm_state" = ? WHERE "images"."id" = ?[0m  [["updated_at", "2018-03-19 12:45:21.222683"], ["aasm_state", "verified"], ["id", 4]]
+  [1m[35m (220.1ms)[0m  [1m[36mcommit transaction[0m
+Redirected to http://localhost:3000/admin/images
+Completed 302 Found in 236ms (ActiveRecord: 221.1ms)
+
+
+Started GET "/admin/images" for 127.0.0.1 at 2018-03-19 15:45:21 +0300
+Processing by Admin::ImagesController#index as HTML
+  [1m[36mAdminUser Load (0.2ms)[0m  [1m[34mSELECT  "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = ? ORDER BY "admin_users"."id" ASC LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "images"[0m
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT  1 FROM "images" LIMIT ? OFFSET ?) subquery_for_count[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mImage Load (0.3ms)[0m  [1m[34mSELECT  "images".* FROM "images" ORDER BY "images"."id" desc LIMIT ? OFFSET ?[0m  [["LIMIT", 30], ["OFFSET", 0]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mComment Load (0.2ms)[0m  [1m[34mSELECT "comments".* FROM "comments"[0m
+  [1m[36mActsAsVotable::Vote Load (0.2ms)[0m  [1m[34mSELECT "votes".* FROM "votes"[0m
+  Rendered /var/lib/gems/2.3.0/gems/activeadmin-1.2.1/app/views/active_admin/resource/index.html.arb (142.7ms)
+Completed 200 OK in 148ms (Views: 144.0ms | ActiveRecord: 1.5ms)
+
+

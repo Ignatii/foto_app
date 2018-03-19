@@ -73,15 +73,12 @@ ActiveAdmin.register Image do
           CleanImages.perform_at(1.hour.from_now, image.id)
 	  redirect_to request.referer, notice: 'Image Rejected!'
         else
-          redirect_to request.referer, warning: 'Action didnt work!'
+          redirect_to request.referer, alert: 'Action didnt work!'
         end
       rescue Redis::CannotConnectError
-	redirect_to request.referer, warning: 'Cant work because Redis is down now'
         if image.reject!
           #CleanImages.perform_at(1.hour.from_now, image.id)
-	  redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!'
-        else
-          redirect_to request.referer, alert: 'Action didnt work!'
+	        redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!'
         end
       end      
     end
@@ -92,21 +89,21 @@ ActiveAdmin.register Image do
 	      r = Redis.new.set('getstatus',1)        
         IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
         if image.rejected?
-	       scheduled = Sidekiq::ScheduledSet.new.select
-	       jobs = scheduled.map do |job|
-            if job.args == Array(params[:id].to_i)            
-              job.delete
-            end
-          end.compact
+  	       scheduled = Sidekiq::ScheduledSet.new.select
+  	       jobs = scheduled.map do |job|
+              if job.args == Array(params[:id].to_i)            
+                job.delete
+              end
+            end.compact
         end
         if image.verify!
           redirect_to request.referer, notice: 'Image Verified! Task deleted!'
         else
           redirect_to request.referer, alert: 'Action didnt work!'
         end
-        rescue Redis::CannotConnectError
-          image.verify!
-	        redirect_to request.referer, warning: 'Image verified but cant work because Redis is down now'
+      rescue Redis::CannotConnectError
+        image.verify!
+	      redirect_to request.referer, alert: 'Image verified but cant work because Redis is down now'
       end    
     end
   end
