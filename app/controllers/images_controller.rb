@@ -39,7 +39,7 @@ class ImagesController < ProxyController
           @image.upvote_by current_user
           IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score)             	
         rescue Redis::CannotConnectError
-          @image.upvote_by @user
+          @image.upvote_by current_user
         end
     else
         flash[:warning] = "You already voted for this image!"
