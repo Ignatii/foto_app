@@ -4,10 +4,10 @@
   If you have any problems with opening site please contact us on: bla-bla-bla
 </h2>
 
-<% if current_user[:banned_until] > Time.now %>
-
-<h2>
-  You have been banned.You ugly motherf*cker
-</h2>
-
+<% if current_user %>
+  <% if current_user[:banned_until] > Time.now %>
+    <h2>
+      You have been banned.You ugly motherf*cker
+    </h2>
+  <% end %>
 <% end %>

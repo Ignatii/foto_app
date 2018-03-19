@@ -65,9 +65,9 @@ ActiveAdmin.register Image do
     end
 
     def reject
+      image = Image.find_by(id: params[:id])
       begin
 	r = Redis.new.set('getstatus',1)
-        image = Image.find_by(id: params[:id])
         IMAGE_VOTES_COUNT.remove_member(params[:id])
         if image.reject!
           CleanImages.perform_at(1.hour.from_now, image.id)
@@ -76,14 +76,19 @@ ActiveAdmin.register Image do
           redirect_to request.referer, warning: 'Action didnt work!'
         end
       rescue Redis::CannotConnectError
-	       redirect_to request.referer, warning: 'Cant work because Redis is down now'
+	redirect_to request.referer, warning: 'Cant work because Redis is down now'
+        if image.reject!
+          #CleanImages.perform_at(1.hour.from_now, image.id)
+	  redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!'
+        else
+          redirect_to request.referer, alert: 'Action didnt work!'
+        end
       end      
     end
 
     def verify
-      begin
-	      r = Redis.new.set('getstatus',1)
-        image = Image.find_by(id: params[:id])
+      begin	
+	r = Redis.new.set('getstatus',1)        
         IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
         if image.rejected?
 	       scheduled = Sidekiq::ScheduledSet.new.select
@@ -94,13 +99,13 @@ ActiveAdmin.register Image do
           end.compact
         end
         if image.verify!
-          redirect_to request.referer, notice: 'Image Verified!'
+          redirect_to request.referer, notice: 'Image Verified! Task deleted!'
         else
-          redirect_to request.referer, warning: 'Action didnt work!'
+          redirect_to request.referer, alert: 'Action didnt work!'
         end
         rescue Redis::CannotConnectError
           image.verify!
-	        redirect_to request.referer, warning: 'Image verified but cant work because Redis is down now'
+	  redirect_to request.referer, warning: 'Image verified but cant work because Redis is down now'
       end    
     end
   end
