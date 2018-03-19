@@ -27,6 +27,8 @@ gem 'redis'
 gem 'active_interaction', '~> 3.6'
 gem 'acts_as_votable'
 gem 'leaderboard'
+gem 'active_model_serializers', '0.9.3'
+gem 'active_hash_relation', '~> 1.4.0'
 
 group :development, :test do
   gem 'byebug',  '9.0.6', platform: :mri

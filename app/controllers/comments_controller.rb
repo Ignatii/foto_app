@@ -1,5 +1,5 @@
 class CommentsController < ProxyController  
-
+  skip_before_action :verify_authenticity_token
   before_action :get_parent, only: [:create, :new]
    
   def new
@@ -10,17 +10,16 @@ class CommentsController < ProxyController
   end
  
   def create
-debugger
     if !params[:comment][:body].empty?
 	    @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
 	    if @comment.save
 	      flash[:success] = "Comment added"
-	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id]
-	      redirect_to Image.find_by_id(params[:comment][:image_id]) if params[:comment][:image_id]
+	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id] 
+        #redirect_to Image.find_by_id(params[:comment][:image_id]) if params[:comment][:image_id] && !params[:comment][:image_id].nil?
 	    else
  	      flash[:warning] = "Comment didn't save"
 	      redirect_to Image.find_by_id(params[:image_id]) if params[:image_id]
-	      redirect_to Image.find_by_id(params[:comment][:image_id]) if params[:comment][:image_id]
+	      #redirect_to Image.find_by_id(params[:comment][:image_id]) if params[:comment][:image_id] && !params[:comment][:image_id].nil?
 	    end
     else
       flash[:warning] = "Comment must not be empty!"

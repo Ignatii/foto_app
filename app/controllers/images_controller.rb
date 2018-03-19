@@ -1,6 +1,6 @@
 class ImagesController < ProxyController  
   #include RevealBannedUser
-
+  skip_before_action :verify_authenticity_token
   def show
     @image = Image.find(params[:id])
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305080214) do
+ActiveRecord::Schema.define(version: 20180319063305) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -48,10 +48,9 @@ ActiveRecord::Schema.define(version: 20180305080214) do
     t.text "body"
     t.integer "commentable_id"
     t.string "commentable_type"
-    t.string "ancestry"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ancestry"], name: "index_comments_on_ancestry"
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -61,6 +60,13 @@ ActiveRecord::Schema.define(version: 20180305080214) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "aasm_state"
+    t.integer "cached_votes_total", default: 0
+    t.integer "cached_votes_score", default: 0
+    t.integer "cached_votes_up", default: 0
+    t.integer "cached_votes_down", default: 0
+    t.integer "cached_weighted_score", default: 0
+    t.integer "cached_weighted_total", default: 0
+    t.float "cached_weighted_average", default: 0.0
     t.index ["user_id"], name: "index_images_on_user_id"
   end
 
@@ -72,6 +78,8 @@ ActiveRecord::Schema.define(version: 20180305080214) do
     t.datetime "oauth_expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "api_token"
+    t.string "email"
   end
 
   create_table "votes", force: :cascade do |t|

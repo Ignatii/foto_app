@@ -73,7 +73,7 @@ ActiveAdmin.register Image do
           CleanImages.perform_at(1.hour.from_now, image.id)
 	  redirect_to request.referer, notice: 'Image Rejected!'
         else
-          redirect_to request.referer, notice: 'Action didnt work!'
+          redirect_to request.referer, warning: 'Action didnt work!'
         end
       rescue Redis::CannotConnectError
 	redirect_to request.referer, warning: 'Cant work because Redis is down now'
@@ -82,12 +82,12 @@ ActiveAdmin.register Image do
 
     def verify
       begin
-	r = Redis.new.set('getstatus',1)
+	      r = Redis.new.set('getstatus',1)
         image = Image.find_by(id: params[:id])
         IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
         if image.rejected?
-	  scheduled = Sidekiq::ScheduledSet.new.select
-	  jobs = scheduled.map do |job|
+	       scheduled = Sidekiq::ScheduledSet.new.select
+	       jobs = scheduled.map do |job|
             if job.args == Array(params[:id].to_i)            
               job.delete
             end
@@ -96,10 +96,10 @@ ActiveAdmin.register Image do
         if image.verify!
           redirect_to request.referer, notice: 'Image Verified!'
         else
-          redirect_to request.referer, notice: 'Action didnt work!'
+          redirect_to request.referer, warning: 'Action didnt work!'
         end
-      rescue Redis::CannotConnectError
-	redirect_to request.referer, warning: 'Cant work because Redis is down now'
+        rescue Redis::CannotConnectError
+	      redirect_to request.referer, warning: 'Cant work because Redis is down now'
       end    
     end
   end
