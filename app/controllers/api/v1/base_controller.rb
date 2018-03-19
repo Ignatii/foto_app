@@ -1,6 +1,7 @@
-class Api::V1::BaseController < ApplicationController
-  protect_from_forgery with: :null_session
+class Api::V1::BaseController < ActionController::API
+  #protect_from_forgery with: :null_session
   before_action :destroy_session
+  #before_action :current_user
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   #attr_accessor :current_user
 
@@ -20,7 +21,8 @@ class Api::V1::BaseController < ApplicationController
   def authenticate_user!
     user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
     if user
-      @current_user = user
+      #@current_user = user
+      current_user
     else
       return unauthenticated!
     end

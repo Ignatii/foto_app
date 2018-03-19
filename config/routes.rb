@@ -60,8 +60,8 @@ Rails.application.routes.draw do
           #put 'dislike', to: 'images#downvote'  
         #end
       end
-      #delete 'comments/', to: 'comments#destroy'
-      resources :comments, only: [:index, :create, :show, :update, :destroy]
+      delete 'comments', to: 'comments#destroy'
+      resources :comments, only: [:index, :create, :show, :update]
     end
   end
 end

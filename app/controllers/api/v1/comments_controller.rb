@@ -35,14 +35,19 @@ class Api::V1::CommentsController < Api::V1::BaseController
   end
 
   def destroy
-    @comment = Comment.find_by(id: params['id_comment'])
-    if @comment.user_id == current_user.id
-      @comment.destroy
-      response.headers['WWW-COMMENTS'] = "Token realm=Application"
-      render json: { error: 'Comment deleted' }, status: 401
+    @comment = Comment.find_by(id: params['id_comment'].to_i)
+    if @comment
+      if @comment.user_id == current_user.id
+        @comment.destroy
+        response.headers['WWW-COMMENTS'] = "Token realm=Application"
+        render json: { error: 'Comment deleted' }, status: 401
+      else
+        response.headers['WWW-COMMENTS'] = "Token realm=Application"
+        render json: { error: 'You have no permission to delete this object' }, status: 401
+      end
     else
       response.headers['WWW-COMMENTS'] = "Token realm=Application"
-      render json: { error: 'You have no permission to delete this object' }, status: 401
+      render json: { error: 'Comment not found' }, status: 404
     end
   end
 end

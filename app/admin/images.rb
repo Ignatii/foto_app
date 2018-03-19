@@ -76,7 +76,7 @@ ActiveAdmin.register Image do
           redirect_to request.referer, warning: 'Action didnt work!'
         end
       rescue Redis::CannotConnectError
-	redirect_to request.referer, warning: 'Cant work because Redis is down now'
+	       redirect_to request.referer, warning: 'Cant work because Redis is down now'
       end      
     end
 
@@ -99,7 +99,8 @@ ActiveAdmin.register Image do
           redirect_to request.referer, warning: 'Action didnt work!'
         end
         rescue Redis::CannotConnectError
-	      redirect_to request.referer, warning: 'Cant work because Redis is down now'
+          image.verify!
+	        redirect_to request.referer, warning: 'Image verified but cant work because Redis is down now'
       end    
     end
   end
