@@ -4,7 +4,7 @@
 
 <h2>Comments 
 <% if @image.comments.size > 1 %>
-  <a href="" id="show_comments">Show all Comments</a>
+  [<a href="" id="show_comments">Show all Comments</a>]
 <% end %>
 </h2> 
 <ul class="last_comment" id="last_comment_id">
@@ -13,7 +13,7 @@
     <div class="body">
     <%= @image.comments.last.body %>
     </div>
-    <% if current_user%>
+    <% if !current_user%>
       <%= link_to 'Reply', new_comment_comment_path(@image.comments.last, image_id_comment:@image[:id]) %>
       <% if current_user || current_user.id == @image.comments.last[:user_id]%>
         <%= link_to "Delete", @image.comments.last, method: :delete, data: { confirm: "You sure?" } %>
