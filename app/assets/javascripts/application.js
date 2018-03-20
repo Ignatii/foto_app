@@ -74,6 +74,7 @@ document.addEventListener("turbolinks:load", function() {
     	event.preventDefault();
     	$('#render_new_comment').toggleClass('hide',!$('#render_new_comment').hasClass('hide'));
     	$('#button_new').toggle();
+    	$("html, body").animate({ scrollTop: $(document).height() }, 1000);
     });
     $('.reply_button').on('click', function(event) {
     	event.preventDefault();
