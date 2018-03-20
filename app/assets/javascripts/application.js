@@ -90,6 +90,10 @@ document.addEventListener("turbolinks:load", function() {
     	$('#render_new_comment').toggleClass('hide',!$('#render_new_comment').hasClass('hide'));
     	$('#button_new').toggle();
     });
+    $('#show_api').on('click', function(event) {
+        event.preventDefault();
+        $('#token_api').toggleClass('hide',!$('#token_api').hasClass('hide'));
+    });
 });
 /*$(document).on('turbolinks:load', function() {
 	alert(1);

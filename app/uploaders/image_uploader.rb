@@ -24,6 +24,6 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Restrict uploads to images only
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 end

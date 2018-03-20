@@ -35851,3 +35851,214 @@ Processing by ImagesController#show as HTML
 Completed 200 OK in 374ms (Views: 369.7ms | ActiveRecord: 1.8ms)
 
 
+Started GET "/" for 127.0.0.1 at 2018-03-20 18:13:20 +0300
+Processing by StaticPagesController#home as HTML
+  Rendering static_pages/home.html.erb within layouts/application
+  [1m[36mImage Load (0.3ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" IN (2, 1) ORDER BY CASE id WHEN 2 THEN 0 WHEN 1 THEN 1 ELSE 2 END LIMIT ? OFFSET ?[0m  [["LIMIT", 12], ["OFFSET", 0]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 1], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered collection of images/_image.html.erb [2 times] (20.8ms)
+  Rendered static_pages/home.html.erb within layouts/application (39.9ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 214ms (Views: 205.6ms | ActiveRecord: 2.5ms)
+
+
+Started PUT "/images/2/dislike" for 127.0.0.1 at 2018-03-20 18:13:23 +0300
+Processing by ImagesController#downvote as HTML
+  Parameters: {"authenticity_token"=>"ZfbSsMj4P0sA2Zvv2VeWDPyU+CJKhc0q0oDXmyDhabO1lfOhnrqn1mKZyyaKkolrAUJxoQozI7kBTiIu3ZltNA==", "id"=>"2"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.2ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."voter_id" = ? AND "votes"."voter_type" = ? AND "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_scope" IS NULL AND "votes"."vote_flag" = ?[0m  [["voter_id", 1], ["voter_type", "User"], ["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "f"]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."voter_id" = ? AND "votes"."vote_scope" IS NULL AND "votes"."voter_type" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["voter_id", 1], ["voter_type", "User"]]
+  [1m[36mActsAsVotable::Vote Load (0.2ms)[0m  [1m[34mSELECT  "votes".* FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."voter_id" = ? AND "votes"."vote_scope" IS NULL AND "votes"."voter_type" = ? ORDER BY "votes"."id" DESC LIMIT ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["voter_id", 1], ["voter_type", "User"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.8ms)[0m  [1m[33mUPDATE "votes" SET "updated_at" = ?, "vote_flag" = ? WHERE "votes"."id" = ?[0m  [["updated_at", "2018-03-20 15:13:23.789393"], ["vote_flag", "f"], ["id", 1]]
+  [1m[35m (92.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ?[0m  [["votable_id", 2], ["votable_type", "Image"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "f"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "f"]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "f"]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ?[0m  [["votable_id", 2], ["votable_type", "Image"]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT SUM("votes"."vote_weight") FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "f"]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "images" SET "updated_at" = ?, "cached_votes_score" = ?, "cached_votes_up" = ?, "cached_votes_down" = ?, "cached_weighted_score" = ?, "cached_weighted_average" = ? WHERE "images"."id" = ?[0m  [["updated_at", "2018-03-20 15:13:23.907972"], ["cached_votes_score", -1], ["cached_votes_up", 0], ["cached_votes_down", 1], ["cached_weighted_score", -1], ["cached_weighted_average", -1.0], ["id", 2]]
+  [1m[35m (89.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+Redirected to http://localhost:3000/
+Completed 302 Found in 237ms (ActiveRecord: 188.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2018-03-20 18:13:24 +0300
+Processing by StaticPagesController#home as HTML
+  Rendering static_pages/home.html.erb within layouts/application
+  [1m[36mImage Load (0.5ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" IN (1, 2) ORDER BY CASE id WHEN 1 THEN 0 WHEN 2 THEN 1 ELSE 2 END LIMIT ? OFFSET ?[0m  [["LIMIT", 12], ["OFFSET", 0]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 1], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered collection of images/_image.html.erb [2 times] (6.1ms)
+  Rendered static_pages/home.html.erb within layouts/application (11.9ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 164ms (Views: 158.7ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2018-03-20 18:13:43 +0300
+Processing by StaticPagesController#home as HTML
+  Rendering static_pages/home.html.erb within layouts/application
+  [1m[36mImage Load (0.6ms)[0m  [1m[34mSELECT  "images".* FROM "images" WHERE "images"."id" IN (1, 2) ORDER BY CASE id WHEN 1 THEN 0 WHEN 2 THEN 1 ELSE 2 END LIMIT ? OFFSET ?[0m  [["LIMIT", 12], ["OFFSET", 0]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 1], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "votes" WHERE "votes"."votable_id" = ? AND "votes"."votable_type" = ? AND "votes"."vote_flag" = ?[0m  [["votable_id", 2], ["votable_type", "Image"], ["vote_flag", "t"]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered collection of images/_image.html.erb [2 times] (8.4ms)
+  Rendered static_pages/home.html.erb within layouts/application (15.3ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 180ms (Views: 173.4ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/user/1" for 127.0.0.1 at 2018-03-20 18:13:45 +0300
+Processing by UserController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering user/show.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered images/_image_form.html.erb (6.2ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.3ms)[0m  [1m[34mSELECT "images".* FROM "images" WHERE "images"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered user/show.html.erb within layouts/application (20.5ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (2.0ms)
+  Rendered layouts/_footer.html.erb (0.9ms)
+Completed 200 OK in 192ms (Views: 187.8ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/user/1" for 127.0.0.1 at 2018-03-20 18:17:05 +0300
+Processing by UserController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering user/show.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered images/_image_form.html.erb (2.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.1ms)[0m  [1m[34mSELECT "images".* FROM "images" WHERE "images"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered user/show.html.erb within layouts/application (7.6ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 327ms (Views: 323.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/user/1" for 127.0.0.1 at 2018-03-20 18:17:24 +0300
+Processing by UserController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering user/show.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered images/_image_form.html.erb (2.5ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.2ms)[0m  [1m[34mSELECT "images".* FROM "images" WHERE "images"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered user/show.html.erb within layouts/application (8.5ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 316ms (Views: 312.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/user/1" for 127.0.0.1 at 2018-03-20 18:19:05 +0300
+Processing by UserController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering user/show.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered images/_image_form.html.erb (2.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.1ms)[0m  [1m[34mSELECT "images".* FROM "images" WHERE "images"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered user/show.html.erb within layouts/application (7.8ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 159ms (Views: 156.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/user/1" for 127.0.0.1 at 2018-03-20 18:19:21 +0300
+Processing by UserController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering user/show.html.erb within layouts/application
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered images/_image_form.html.erb (2.5ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mImage Load (0.1ms)[0m  [1m[34mSELECT "images".* FROM "images" WHERE "images"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered user/show.html.erb within layouts/application (8.0ms)
+  Rendered layouts/_shim.html.erb (0.3ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 167ms (Views: 164.7ms | ActiveRecord: 0.4ms)
+
+
