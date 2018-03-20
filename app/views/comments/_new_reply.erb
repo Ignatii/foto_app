@@ -1,0 +1,9 @@
+<%= form_for([comment, comment.comments.build],  html: { multipart: true }) do |f| %>
+  <div class="form-group" style="width: 300px;">
+    <%= f.label :body %>
+    <%= f.text_area :body, class: 'form-control', required: true %>
+    <%= f.hidden_field :image_id, :value => @image.id %>
+  </div>
+
+  <%= f.submit class: 'btn btn-primary', style:"width: 300px;" %>
+<% end %>

@@ -2,11 +2,32 @@
 <h1><%= "Photo provided by #{@image.user.name}" %></h1>
 <%= image_tag(@image.image.thumb_lg.url, :alt => @image[:id], class:"img-responsive center-block") %>
 
-<h2>Comments</h2>
-<ul class="comment_list">
+<h2>Comments 
+<% if @image.comments.size > 1 %>
+  <a href="" id="show_comments">Show all Comments</a>
+<% end %>
+</h2> 
+<ul class="last_comment" id="last_comment_id">
+  <li>
+    <h4>Last comment by: <%= User.find_by(id: @image.comments.last.user_id).name %> (<%= @image.comments.last.created_at.to_formatted_s(:short) %>)</h4>
+    <div class="body">
+    <%= @image.comments.last.body %>
+    </div>
+    <% if current_user%>
+      <%= link_to 'Reply', new_comment_comment_path(@image.comments.last, image_id_comment:@image[:id]) %>
+      <% if current_user || current_user.id == @image.comments.last[:user_id]%>
+        <%= link_to "Delete", @image.comments.last, method: :delete, data: { confirm: "You sure?" } %>
+      <% end %>
+    <% end %>
+  </li>
+</ul>
+<ul class="comment_list hide" id="comment_list_id">
   <%= render :partial => 'comments/comment', :collection => @image.comments %>
 </ul>
 
-<div class="center-block" style="width: 300px;height:40px;">
+<div class="center-block" style="width: 300px;height:40px;" id="button_new">
 <%= link_to "Add a Comment", new_image_comment_path(@image), class: "btn btn-lg btn-info center-block", style:"margin-bottom: 50px;"%>
+</div>
+<div id="render_new_comment" style="margin-bottom: 70px;width:50%;" class="hide center-block">
+  <%= render :partial => 'comments/new' %>
 </div>

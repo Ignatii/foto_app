@@ -1,17 +1,4 @@
 ActiveAdmin.register Image do
-
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
   permit_params :aasm_state
 
   member_action :reject, method: :post, only: :index do
@@ -22,17 +9,14 @@ ActiveAdmin.register Image do
 
   index do
     column :id
-    #column 'Image', :image
-    column "Image" do |image|
-        image_tag image.image.thumb.url#, class: 'my_image_size'
+    column 'Image' do |image|
+      image_tag image.image.thumb.url # , class: 'my_image_size'
     end
     column 'User ID', :user_id
     column 'State', :aasm_state
     actions defaults: true do |image|
-      item 'Reject',  reject_admin_image_path(image), method: :post unless image.rejected? 
-      item 'Verify', verify_admin_image_path(image), method: :post unless image.verified? 
-      #link_to('Reject', reject_admin_image_path(params), method: :post) + " " + unless image.rejected? 
-      #link_to('Verify', verify_admin_image_path(params), method: :post) unless image.verified? 
+      item 'Reject',  reject_admin_image_path(image), method: :post unless image.rejected?
+      item 'Verify', verify_admin_image_path(image), method: :post unless image.verified?
     end
     
   end
@@ -46,18 +30,18 @@ ActiveAdmin.register Image do
     default_main_content
   end
 
-  action_item :Reject, only: :show, if: proc{ image.verified? ||  image.unverified?} do
-    link_to('Reject', reject_admin_image_path(image), method: :post) #unless image.rejected? 
+  action_item :Reject, only: :show, if: proc { image.verified? || image.unverified? } do
+    link_to('Reject', reject_admin_image_path(image), method: :post)
   end
 
-  action_item :Verify, only: :show, if: proc{ image.rejected? ||  image.unverified?  } do
-    link_to('Verify', verify_admin_image_path(image), method: :post) #unless image.rejected? 
+  action_item :Verify, only: :show, if: proc { image.rejected? || image.unverified? } do
+    link_to('Verify', verify_admin_image_path(image), method: :post)
   end
 
   controller do
     def update
       @image = Image.find(params[:id])
-      @image.update_attributes(:aasm_state => params[:image][:aasm_state])
+      @image.update_attributes(aasm_state: params[:image][:aasm_state])
       if @image.rejected?
 	@image.reject!
       end
@@ -67,7 +51,7 @@ ActiveAdmin.register Image do
     def reject
       image = Image.find_by(id: params[:id])
       begin
-	r = Redis.new.set('getstatus',1)
+	      Redis.new.set('getstatus', 1)
         IMAGE_VOTES_COUNT.remove_member(params[:id])
         if image.reject!
           CleanImages.perform_at(1.hour.from_now, image.id)
@@ -77,7 +61,6 @@ ActiveAdmin.register Image do
         end
       rescue Redis::CannotConnectError
         if image.reject!
-          #CleanImages.perform_at(1.hour.from_now, image.id)
 	        redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!'
         end
       end      
@@ -85,13 +68,13 @@ ActiveAdmin.register Image do
 
     def verify
       image = Image.find_by(id: params[:id])
-      begin	
-	      r = Redis.new.set('getstatus',1)        
+      begin
+	      Redis.new.set('getstatus', 1)        
         IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
         if image.rejected?
   	       scheduled = Sidekiq::ScheduledSet.new.select
   	       jobs = scheduled.map do |job|
-              if job.args == Array(params[:id].to_i)            
+              if job.args == Array(params[:id].to_i)
                 job.delete
               end
             end.compact

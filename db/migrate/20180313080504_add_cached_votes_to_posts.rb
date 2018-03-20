@@ -1,3 +1,4 @@
+# add votes data to images model
 class AddCachedVotesToPosts < ActiveRecord::Migration[5.1]
   def change
     change_table :images do |t|

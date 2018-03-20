@@ -1,16 +1,21 @@
-<li class="comment">
-  <h3>Comment by: <%= User.find_by_id(comment[:user_id]).name %></h3>
+<% if comment.user_id %>
+<li class="comment center_block" id="comment_id">
+  <h4>Comment by: <%= User.find_by(id: comment[:user_id]).name %></h4>
  
   <div class="body">
     <%= comment.body %>
   </div>
    
   <% if current_user%>
-    <%= link_to 'Reply', new_comment_comment_path(comment, image_id_comment:@image[:id]) %>
+    <%= link_to 'Reply', new_comment_comment_path(comment, image_id_comment:@image[:id]), id:'reply_comment', class: "reply_button", id: "#{comment.id}"%>
     <% if current_user || current_user.id == comment[:user_id]%>
       <%= link_to "Delete", comment, method: :delete, data: { confirm: "You sure?" } %>
     <% end %>
+    <div class="hide" id=<%= "image_#{comment.id}"%>>
+      <%= render :partial => 'comments/new_reply', locals: {comment: comment} %>
+    </div>
   <% end %>
+
    
   <% unless comment.comments.empty? %>
     <ul class="comment_list">
@@ -18,3 +23,4 @@
     </ul>
   <% end %>
 </li>
+<% end %>

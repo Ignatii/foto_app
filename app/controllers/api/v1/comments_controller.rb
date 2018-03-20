@@ -1,3 +1,4 @@
+# comments controller for API
 class Api::V1::CommentsController < Api::V1::BaseController
   include ActiveHashRelation
   before_action :authenticate_user!
@@ -7,19 +8,17 @@ class Api::V1::CommentsController < Api::V1::BaseController
   end
 
   def index
-  	#user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
-  	#render(json: Api::V1::UserSerializer.new(Image.all.verified_image).to_json)
     @comments = Comment.all.where(user_id: current_user.id)
     render(
       json: ActiveModel::ArraySerializer.new(
         @comments,
         each_serializer: Api::V1::ImageSerializer,
         root: 'images',
-        #meta: meta_attributes(Image.all.verified_image)
+        # meta: meta_attributes(Image.all.verified_image)
       )
     )
   end
-  
+
   def create
     @comment = Comment.new
     @comment.body = params['body']
@@ -29,7 +28,7 @@ class Api::V1::CommentsController < Api::V1::BaseController
     if @comment.save
       render(json: Api::V1::CommentSerializer.new(@comment).to_json)
     else
-      response.headers['WWW-COMMENTS'] = "Token realm=Application"
+      response.headers['WWW-COMMENTS'] = 'Token realm=Application'
       render json: { error: 'Cant save comment.Check all required parametres' }, status: 401
     end
   end
@@ -39,14 +38,14 @@ class Api::V1::CommentsController < Api::V1::BaseController
     if @comment
       if @comment.user_id == current_user.id
         @comment.destroy
-        response.headers['WWW-COMMENTS'] = "Token realm=Application"
+        response.headers['WWW-COMMENTS'] = 'Token realm=Application'
         render json: { error: 'Comment deleted' }, status: 401
       else
-        response.headers['WWW-COMMENTS'] = "Token realm=Application"
+        response.headers['WWW-COMMENTS'] = 'Token realm=Application'
         render json: { error: 'You have no permission to delete this object' }, status: 401
       end
     else
-      response.headers['WWW-COMMENTS'] = "Token realm=Application"
+      response.headers['WWW-COMMENTS'] = 'Token realm=Application'
       render json: { error: 'Comment not found' }, status: 404
     end
   end

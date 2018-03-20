@@ -1,3 +1,4 @@
+# add comment to active admin model
 class CreateActiveAdminComments < ActiveRecord::Migration::Current
   def self.up
     create_table :active_admin_comments do |t|
@@ -8,7 +9,6 @@ class CreateActiveAdminComments < ActiveRecord::Migration::Current
       t.timestamps
     end
     add_index :active_admin_comments, [:namespace]
-
   end
 
   def self.down
