@@ -4,13 +4,13 @@
     <section class="user_info">
       <h1>        
         <%= current_user.name %></h1>  
-      
+        
     </section> 
 	<%= render 'images/image_form' %>
    </aside>         
    <div class="col-md-4">		  
       <div class="center-block" style="width: 300px;height:40px;" id="show_api">
-        <%= link_to "Show Api", '', class: "btn btn-m btn-info center-block"%>
+        <%= link_to "Show Api", '', class: "btn btn-m btn-info center-block", style: "margin-top:10px;"%>
       </div>
       <p style="font-size:16px;" id="token_api" class="hide center-block"><%= current_user.api_token%></p>
    </div>

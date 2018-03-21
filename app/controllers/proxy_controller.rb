@@ -13,7 +13,7 @@ class ProxyController < ApplicationController
   def check_banned_user
     if current_user
       unless current_user[:banned_until].nil?
-        redirect_to static_pages_help_path unless current_user[:banned_until] < Time.now
+        redirect_to static_pages_help_path unless current_user[:banned_until] < Time.current
       end
     end
   end

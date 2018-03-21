@@ -4,7 +4,7 @@ class Api::V1::CommentsController < Api::V1::BaseController
   before_action :authenticate_user!
   def show
     comment = Comment.find_by(id: request.params['id'])
-    render(json: Api::V1::CommentSerializer.new(comment).to_json) 
+    render(json: Api::V1::CommentSerializer.new(comment).to_json)
   end
 
   def index
@@ -29,7 +29,8 @@ class Api::V1::CommentsController < Api::V1::BaseController
       render(json: Api::V1::CommentSerializer.new(@comment).to_json)
     else
       response.headers['WWW-COMMENTS'] = 'Token realm=Application'
-      render json: { error: 'Cant save comment.Check all required parametres' }, status: 401
+      render json: { error: 'Cant save comment.Check all required parametres' },
+             status: 401
     end
   end
 
@@ -42,7 +43,8 @@ class Api::V1::CommentsController < Api::V1::BaseController
         render json: { error: 'Comment deleted' }, status: 401
       else
         response.headers['WWW-COMMENTS'] = 'Token realm=Application'
-        render json: { error: 'You have no permission to delete this object' }, status: 401
+        render json: { error: 'You have no permission to delete this object' },
+               status: 401
       end
     else
       response.headers['WWW-COMMENTS'] = 'Token realm=Application'

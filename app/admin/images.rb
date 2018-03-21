@@ -18,7 +18,6 @@ ActiveAdmin.register Image do
       item 'Reject',  reject_admin_image_path(image), method: :post unless image.rejected?
       item 'Verify', verify_admin_image_path(image), method: :post unless image.verified?
     end
-    
   end
 
   show do
@@ -30,64 +29,58 @@ ActiveAdmin.register Image do
     default_main_content
   end
 
-  action_item :Reject, only: :show, if: proc { image.verified? || image.unverified? } do
+  action_item :Reject, only: :show,
+                       if: proc { image.verified? || image.unverified? } do
     link_to('Reject', reject_admin_image_path(image), method: :post)
   end
 
-  action_item :Verify, only: :show, if: proc { image.rejected? || image.unverified? } do
+  action_item :Verify, only: :show,
+                       if: proc { image.rejected? || image.unverified? } do
     link_to('Verify', verify_admin_image_path(image), method: :post)
   end
 
   controller do
     def update
       @image = Image.find(params[:id])
-      @image.update_attributes(aasm_state: params[:image][:aasm_state])
-      if @image.rejected?
-	@image.reject!
-      end
+      Image.update(@image.id, params[:image][:aasm_state])
+      # @image.update_attributes(aasm_state: params[:image][:aasm_state])
+      @image.reject! if @image.rejected?
       redirect_to request.referer
     end
 
     def reject
       image = Image.find_by(id: params[:id])
-      begin
-	      Redis.new.set('getstatus', 1)
-        IMAGE_VOTES_COUNT.remove_member(params[:id])
-        if image.reject!
-          CleanImages.perform_at(1.hour.from_now, image.id)
-	  redirect_to request.referer, notice: 'Image Rejected!'
-        else
-          redirect_to request.referer, alert: 'Action didnt work!'
-        end
+      Redis.new.set('getstatus', 1)
+      IMAGE_VOTES_COUNT.remove_member(params[:id])
+      if image.reject!
+        CleanImages.perform_at(1.hour.from_now, image.id)
+        redirect_to request.referer, notice: 'Image Rejected!'
+      else
+        redirect_to request.referer, alert: 'Action didnt work!'
+      end
       rescue Redis::CannotConnectError
-        if image.reject!
-	        redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!'
-        end
-      end      
+        redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!' if image.reject!
     end
 
     def verify
       image = Image.find_by(id: params[:id])
-      begin
-	      Redis.new.set('getstatus', 1)        
-        IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
-        if image.rejected?
-  	       scheduled = Sidekiq::ScheduledSet.new.select
-  	       jobs = scheduled.map do |job|
-              if job.args == Array(params[:id].to_i)
-                job.delete
-              end
-            end.compact
-        end
-        if image.verify!
-          redirect_to request.referer, notice: 'Image Verified! Task deleted!'
-        else
-          redirect_to request.referer, alert: 'Action didnt work!'
-        end
+      Redis.new.set('getstatus', 1)
+      IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
+      if image.rejected?
+        scheduled = Sidekiq::ScheduledSet.new.select
+        scheduled.map do |job|
+          if job.args == Array(params[:id].to_i)
+            job.delete
+          end
+        end.compact
+      end
+      if image.verify!
+        redirect_to request.referer, notice: 'Image Verified! Task deleted!'
+      else
+        redirect_to request.referer, alert: 'Action didnt work!'
+      end
       rescue Redis::CannotConnectError
-        image.verify!
-	      redirect_to request.referer, alert: 'Image verified but cant work because Redis is down now'
-      end    
+        redirect_to request.referer, alert: 'Image verified but cant work because Redis is down now' if image.verify!
     end
   end
 end

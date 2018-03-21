@@ -12,20 +12,15 @@ class User < ApplicationRecord
       user.name = auth.info.name
       user.email = auth.info.email
       user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.provider == 'facebook'
-	    # user.provider = auth.provider
-      # user.uid = auth.uid
-      # user.name = auth.info.name
-      # user.email = auth.info.email
-      # user.oauth_token = auth.credentials.token
+      user.oauth_expires_at = Time.zone.at(auth.credentials.expires_at) if auth.provider == 'facebook'
       user.save!
     end
   end
 
   def generate_authentication_token
-      loop do
-        self.api_token = SecureRandom.base64(20)
-        break unless User.find_by(api_token: api_token)
-      end
+    loop do
+      self.api_token = SecureRandom.base64(20)
+      break unless User.find_by(api_token: api_token)
+    end
   end
 end

@@ -7,6 +7,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def index
-  	render(json: Api::V1::UserSerializer.new(current_user).to_json)
+    render(json: Api::V1::UserSerializer.new(current_user).to_json)
   end
 end

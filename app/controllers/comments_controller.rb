@@ -9,11 +9,11 @@ class CommentsController < ProxyController
 
   def create
     if !params[:comment][:body].empty?
-	    @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
-	    if @comment.save
-	      flash[:success] = 'Comment added'
-	    else
- 	      flash[:warning] = 'Comment didnt save'
+      @comment = @parent.comments.build(body: params[:comment][:body], user_id: current_user.id)
+      if @comment.save
+        flash[:success] = 'Comment added'
+      else
+        flash[:warning] = 'Comment didnt save'
       end
       redirect_to Image.find_by(id: params[:image_id]) if params[:image_id]
       redirect_to Image.find_by(id: params[:comment][:image_id]) if params[:comment][:image_id]
@@ -23,17 +23,17 @@ class CommentsController < ProxyController
   end
 
   def destroy
-    @comment = Comment.find_by_id(params[:id])
+    @comment = Comment.find_by(id: params[:id])
     @comment.destroy
     flash[:success] = 'Comment deleted'
-    redirect_to request.referrer
+    redirect_to request.referer
   end
 
   protected
 
   def get_parent
-    @parent = Image.find_by_id(params[:image_id]) if params[:image_id]
-    @parent = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
+    @parent = Image.find_by(id: params[:image_id]) if params[:image_id]
+    @parent = Comment.find_by(id: params[:comment_id]) if params[:comment_id]
 
     redirect_to root_path unless defined?(@parent)
   end

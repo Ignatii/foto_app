@@ -31,9 +31,9 @@ class Api::V1::BaseController < ActionController::API
 
   def current_user
     if request.headers['HTTP_TOKEN_USER']
-      return User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
+      User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
     else
-      return nil
+      nil
     end
   end
 end
