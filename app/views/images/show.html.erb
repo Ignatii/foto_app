@@ -3,9 +3,9 @@
 <%= image_tag(@image.image.thumb_lg.url, :alt => @image[:id], class:"img-responsive center-block") %>
 
 <h2>Comments 
-<% if @image.comments.size > 1 %>
+<%# if @image.comments.size > 1 %>
   [<a href="" id="show_comments">Show all Comments</a>]
-<% end %>
+<%# end %>
 </h2>
 <% if @image.comments.last %> 
 <ul class="last_comment" id="last_comment_id">

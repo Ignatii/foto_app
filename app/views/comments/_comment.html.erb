@@ -1,7 +1,10 @@
 <% if comment.user_id %>
 <li class="comment center_block" id="comment_id">
-  <h4>Comment by: <%= User.find_by(id: comment[:user_id]).name %></h4>
- 
+  <% if comment.commentable_type == 'Image' %>
+    <h4>Comment by: <%= User.find_by(id: comment[:user_id]).name %></h4>
+  <% else %>
+    <h4>Reply by: <%= User.find_by(id: comment[:user_id]).name %></h4>
+  <% end %>
   <div class="body">
     <%= comment.body %>
   </div>
