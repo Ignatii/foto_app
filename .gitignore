@@ -1,4 +1,4 @@
 /config/app_environment_variables.rb
-public/
+public/uploads
 tmp/
 db/seeds.rb
