@@ -1,5 +1,5 @@
 <% if comment.user_id %>
-<li class="comment center_block" id="comment_id">
+<li class="comment center_block" id="comment_id" style="border-bottom: 1px solid gray;">
   <% if comment.commentable_type == 'Image' %>
     <h4>Comment by: <%= User.find_by(id: comment[:user_id]).name %></h4>
   <% else %>
