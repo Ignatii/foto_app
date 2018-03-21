@@ -3,7 +3,7 @@
 <%= form_for [@parent, @comment] do |f| %>  
   <div class="form-group">
     <%= f.label :body %>
-    <%= f.text_area :body, class: 'form-control', required: true %>
+    <%= f.text_area :body, class: 'form-control', required: true, maxlength:'200' %>
     <%= f.hidden_field :image_id, :value => params[:image_id_comment] %>
   </div>
 
