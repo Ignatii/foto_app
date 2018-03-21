@@ -4,7 +4,9 @@ require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
+#Bundler.require(*Rails.groups)
+Bundler.require(:default, :assets, Rails.env)
+
 # require 'active_model/railtie'
 # require 'active_job/railtie'
 # require 'active_record/railtie'
@@ -23,6 +25,8 @@ module FotoApp
     config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
     config.assets.initialize_on_precompile = false
     config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")
+    config.assets.enabled = true
+    config.assets.version = '1.0'
     # Settings in config/environments/*
     # take precedence over those specified here.
     # Application configuration should go into files in config/initializers
