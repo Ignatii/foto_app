@@ -3,8 +3,8 @@ class Api::V1::CommentsController < Api::V1::BaseController
   include ActiveHashRelation
   before_action :authenticate_user!
   def show
-    comment = Comment.find_by(id: request.params['id_image'])
-    render(json: Api::V1::CommentSerializer.new(comment).to_json)
+    comment = Comment.find_by(id: request.params['id'])
+    render(json: Api::V1::CommentSerializer.new(comment).to_json) 
   end
 
   def index
@@ -12,8 +12,8 @@ class Api::V1::CommentsController < Api::V1::BaseController
     render(
       json: ActiveModel::ArraySerializer.new(
         @comments,
-        each_serializer: Api::V1::ImageSerializer,
-        root: 'images',
+        each_serializer: Api::V1::CommentSerializer,
+        root: 'comments',
         # meta: meta_attributes(Image.all.verified_image)
       )
     )
