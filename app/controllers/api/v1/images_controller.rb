@@ -38,12 +38,14 @@ class Api::V1::ImagesController < Api::V1::BaseController
   def upvote
     @image = Image.find(params['id'])
     if !current_user.voted_up_on?(@image)
-      Redis.new.set('getstatus', 1)
-      @image.upvote_by current_user
-      IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score)
+      begin
+        Redis.new.set('getstatus', 1)
+        @image.upvote_by current_user
+        IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score)
       rescue Redis::CannotConnectError
         @image.upvote_by @user
         render(json: Api::V1::ImageSerializer.new(@image).to_json)
+      end
     else
       response.headers['WWW-UPLOAD'] = 'Token realm=Application'
       render json: { error: 'Current user already upvoted for this picture' }, status: 401
