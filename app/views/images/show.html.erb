@@ -6,7 +6,8 @@
 <% if @image.comments.size > 1 %>
   [<a href="" id="show_comments">Show all Comments</a>]
 <% end %>
-</h2> 
+</h2>
+<% if @image.comments.last %> 
 <ul class="last_comment" id="last_comment_id">
   <li>
     <h4>Last comment by: <%= User.find_by(id: @image.comments.last.user_id).name %> (<%= @image.comments.last.created_at.to_formatted_s(:short) %>)</h4>
@@ -21,6 +22,7 @@
     <% end %>
   </li>
 </ul>
+<% end %>
 <ul class="comment_list hide" id="comment_list_id">
   <%= render :partial => 'comments/comment', :collection => @image.comments %>
 </ul>
