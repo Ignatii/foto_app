@@ -23,6 +23,7 @@
       <p style="font-size:16px;" id="token_api" class="hide center-block"><%= current_user.api_token%></p>
    </div>  
 </div>
+<% if defined? @insta_images %>
 <% unless @insta_images.empty? %>
 <div class="center jumbotron insta_images" style="margin-top: 10px;">
 <h2>Last 12 images from Your Instagram<sup style="color:blue;cursor: pointer;" title="If you want to add photo from Instagram just click on chosen picture" target="_blank" onmouseover="">¿</sup>
@@ -39,6 +40,7 @@
     <% end %>
 </div>
 </div>
+<% end %>
 <% end %>
 <div class="row">
 <div class="col-md-4">

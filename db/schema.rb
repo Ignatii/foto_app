@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20180322094649) do
     t.datetime "updated_at", null: false
     t.string "api_token"
     t.string "email"
-    t.string "insta_token"
+    t.string "insta_token", default: ""
   end
 
   create_table "votes", force: :cascade do |t|
