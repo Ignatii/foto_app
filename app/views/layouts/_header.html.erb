@@ -14,7 +14,7 @@
               <% if defined? current_user.insta_token %>
               <% if current_user.insta_token.empty? %>
               <li class="divider"></li>
-              <li><%= link_to "Add Your Instagram", "https://api.instagram.com/oauth/authorize/?client_id=#{ENV['INSTA_ID']}&redirect_uri=http://localhost:3000/user/1&response_type=token"%></li>
+              <li><%= link_to "Add Your Instagram", "https://api.instagram.com/oauth/authorize/?client_id=#{ENV['INSTA_ID']}&redirect_uri=#{ENV['REDIRECT_INSTA']}/user/1&response_type=token"%></li>
               <% end %>
               <% end %>
             </ul>
