@@ -7,7 +7,7 @@
         <%= current_user.name %></h1>
         <% if current_user.insta_token.empty? %>  
           <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
-          <%= link_to "https://api.instagram.com/oauth/authorize/?client_id=#{INSTA_ID}&redirect_uri=http://localhost:3000/user/1&response_type=token", class: "btn btn-block btn-social btn-instagram", style: "margin-top:10px;color:white;text-decoration:none;" do%>
+          <%= link_to "https://api.instagram.com/oauth/authorize/?client_id=#{ENV['INSTA_ID']}&redirect_uri=http://localhost:3000/user/1&response_type=token", class: "btn btn-block btn-social btn-instagram", style: "margin-top:10px;color:white;text-decoration:none;" do%>
           <span class='fa fa-instagram'></span>
           Add Your Instagram
           <% end %>
