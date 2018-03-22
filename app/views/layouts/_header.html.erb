@@ -11,8 +11,10 @@
             <ul class="dropdown-menu">
               <li><%= link_to "Manage your gallery", current_user %></li>
               <li><%= link_to "Log out", signout_path, id: "sign_out" %></li>
+              <% if current_user.insta_token.empty? %>
               <li class="divider"></li>
-              
+              <li><%= link_to "Add Your Instagram", "https://api.instagram.com/oauth/authorize/?client_id=#{INSTA_ID}&redirect_uri=http://localhost:3000/user/1&response_type=token"%></li>
+              <% end %>
             </ul>
           </li>
         <% else %>

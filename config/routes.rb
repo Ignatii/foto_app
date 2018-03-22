@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
-
+  get 'users/create_remote', to: 'images#create_remote'
   # api
   # namespace :api do
   #  namespace :v1 do

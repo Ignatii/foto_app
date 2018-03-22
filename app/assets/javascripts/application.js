@@ -24,7 +24,7 @@
   });
 });
 
-$(document).on('turbolinks:load', function() {
+$(document).ready(function(){
   $(function(){ $(document).foundation(); });
 });*/
 
@@ -93,6 +93,15 @@ document.addEventListener("turbolinks:load", function() {
     $('#show_api').on('click', function(event) {
         event.preventDefault();
         $('#token_api').toggleClass('hide',!$('#token_api').hasClass('hide'));
+    });
+    $('#show_hide_insta').on('click', function(event) {
+        event.preventDefault();
+        $('#insta_images').toggleClass('hide',!$('#insta_images').hasClass('hide'));
+        if($('#insta_images').hasClass('hide')){
+            $('#show_hide_insta').text('Show');
+        }else{
+            $('#show_hide_insta').text('Hide');
+        }
     });
 });
 /*$(document).on('turbolinks:load', function() {

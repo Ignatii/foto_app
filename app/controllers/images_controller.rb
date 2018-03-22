@@ -21,6 +21,21 @@ class ImagesController < ProxyController
       redirect_to current_user
     end
   end
+  
+  def create_remote
+    debugger
+    if params.key?(:url_image)
+      @images = current_user.images.build(remote_image_url: params["url_image"]["url"])
+      if @images.save
+        flash[:success] = 'Image uploaded from Instagram!Wait moderation :)'
+        # IMAGE_VOTES_COUNT.rank_member(@images.id.to_s, 0)
+        redirect_to current_user
+      else
+        flash[:warning] = 'Image do not uploaded!'
+        redirect_to current_user
+      end
+    end
+  end
 
   def destroy
     @image.destroy

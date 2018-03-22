@@ -315,3 +315,13 @@ span.picture {
 .hide{
   display: none;
 }
+
+body div .thumbnail{
+  display: inline-block;
+}
+
+img .resize_img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
