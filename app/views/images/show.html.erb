@@ -4,12 +4,22 @@
 <%= link_to "https://www.facebook.com/sharer/sharer.php?u=#{@image.image.thumb_lg.url}",  title: 'Share Me!', class:"btn btn-social-icon btn-xs btn-facebook",target:"_blank", style:"color:white;" do %>
   <i class="fa fa-facebook" data-content="Share Me!"></i>
 <% end %>
+<%= link_to "https://www.facebook.com/dialog/feed?
+                                  link=https://developers.facebook.com/docs/reference/dialogs/&
+                                  picture=http://fbrell.com/f8.jpg&
+                                  name=Facebook%20Dialogs&
+                                  caption=Reference%20Documentation&
+                                  description=Using%20Dialogs%20to%20interact%20with%20users.&
+                                  redirect_uri=#{ENV['REDIRECT_INSTA']}",  title: 'Share Me!', class:"btn btn-social-icon btn-xs btn-facebook",target:"_blank", style:"color:white;" do %>
+  <i class="fa fa-facebook" data-content="Share Me!"></i>
+<% end %>
+<%#= social_share_button_tag('Share to Facebook', :url => "#{ENV['REDIRECT_INSTA']}#{url_for(@image)}", desc: @image.user.name) %>
 </sup>
  provided by <%= "#{@image.user.name}" %>
   
 
 </h1>
-<%#= social_share_button_tag('Share to Facebook', :url => "#{ENV['REDIRECT_INSTA']}#{url_for(@image)}", desc: @image.user.name) %>
+
 
 <%= image_tag(@image.image.thumb_lg.url, :alt => @image[:id], class:"img-responsive center-block") %>
 
