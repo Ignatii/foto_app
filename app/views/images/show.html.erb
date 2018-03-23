@@ -2,7 +2,7 @@
 
 <h1><%= "Photo provided by #{@image.user.name}" %></h1>
 <%= social_share_button_tag('Share to Facebook', :url => "#{ENV['REDIRECT_INSTA']}#{url_for(@image)}", desc: @image.user.name) %>
-<%= link_to "https://www.facebook.com/sharer/sharer.php?u=#{ENV['REDIRECT_INSTA']}#{url_for(@image)}",  title: 'Share Me!' do %>
+<%= link_to "https://www.facebook.com/sharer/sharer.php?u=#{@image.image.thumb_lg.url}",  title: 'Share Me!' do %>
 <i class="huge facebook icon" data-content="Share Me!">fgfgfg</i>
 <% end %>
 <%= image_tag(@image.image.thumb_lg.url, :alt => @image[:id], class:"img-responsive center-block") %>
