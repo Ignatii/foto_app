@@ -345,7 +345,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.2.0)
+    loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.12)
@@ -577,6 +577,7 @@ DEPENDENCIES
   kaminari
   leaderboard
   listen (= 3.1.5)
+  loofah (~> 2.2.1)
   mini_magick
   minitest-reporters (= 1.1.14)
   omniauth
