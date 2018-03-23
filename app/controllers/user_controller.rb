@@ -3,7 +3,7 @@ require 'open-uri'
 # users controller for app
 class UserController < ProxyController
   def show
-    @user = User.find(params[:id])
+    @user = User.find(current_user.id)
     if !current_user.insta_token.empty?
       begin
       response = open("https://api.instagram.com/v1/users/self/media/recent/?access_token=#{current_user.insta_token}&count=12").read
@@ -16,6 +16,9 @@ class UserController < ProxyController
         redirect_to current_user
       end
     end
+    #if params[:id] != current_user.id
+    #	redirect_to current_user
+    #end
   end
 
   def index
