@@ -5,6 +5,7 @@ class StaticPagesController < ProxyController
 
   def home
     @images = ListImages.run!.page(params[:page]).per(12)
+    @str = "https://www.facebook.com/dialog/feed?app_id=#{ENV['FB_ID']}&link=#{ENV['REDIRECT_INSTA']}&name=Foto gallery!&description=Cool Foto Gallery!&redirect_uri=#{ENV['REDIRECT_INSTA']}"
   end
 
   def help
