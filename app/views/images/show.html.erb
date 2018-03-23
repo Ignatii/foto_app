@@ -1,5 +1,7 @@
 <% provide(:title, "Photo provided by #{@image.user.name}") %>
 <h1><%= "Photo provided by #{@image.user.name}" %></h1>
+
+<%= social_share_button_tag('Share to Facebook', :url => url_for(@image), desc: @image.user.name) %>
 <%= image_tag(@image.image.thumb_lg.url, :alt => @image[:id], class:"img-responsive center-block") %>
 
 <h2>Comments 

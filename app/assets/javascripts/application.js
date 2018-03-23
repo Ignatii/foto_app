@@ -15,6 +15,7 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_self
+//= require social-share-button
 //= require_tree
 //= require bootstrap-sprockets
 
