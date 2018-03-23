@@ -1,6 +1,6 @@
 # model for users in app
 class User < ApplicationRecord
-  before_commit :generate_authentication_token, only: [:create_user]
+  before_create :generate_authentication_token
   has_many :images, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :identities, dependent: :destroy

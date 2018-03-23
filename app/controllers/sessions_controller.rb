@@ -32,6 +32,7 @@ class SessionsController < ApplicationController
           expires_at: expires_at,
           user_id: user.id
         )
+        flash[:success] = "Open point via #{auth_hash.provider} added"
       end
       session[:user_id] = user.id unless signed_in?
     end

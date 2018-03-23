@@ -9,16 +9,34 @@
           <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
           <%= link_to "https://api.instagram.com/oauth/authorize/?client_id=#{ENV['INSTA_ID']}&redirect_uri=#{ENV['REDIRECT_INSTA']}/user/1&response_type=token", class: "btn btn-block btn-social btn-instagram", style: "margin-top:10px;color:white;text-decoration:none;" do%>
           <span class='fa fa-instagram'></span>
-          Add Your Instagram
+          Add Photos from Instagram
           <% end %>
          </div>
          <% end %>
-         <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
-          <%= link_to "/auth/github", class: "btn btn-block btn-social btn-facebook", style: "margin-top:10px;color:white;text-decoration:none;" do%>
-          <span class='fa fa-facebook'></span>
-          Add Your Facebook
-          <% end %>
-         </div>
+         <% unless Identity.where(user_id: current_user.id, provider: 'facebook').first %>
+           <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
+            <%= link_to "/auth/facebook", class: "btn btn-block btn-social btn-facebook", style: "margin-top:10px;color:white;text-decoration:none;" do%>
+            <span class='fa fa-facebook'></span>
+            Add Your Facebook
+            <% end %>
+           </div>
+         <% end %>  
+         <% unless Identity.where(user_id: current_user.id, provider: 'vkontakte').first %>
+           <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
+            <%= link_to "/auth/vkontakte", class: "btn btn-block btn-social btn-vk", style: "margin-top:10px;color:white;text-decoration:none;" do%>
+            <span class='fa fa-vk'></span>
+            Add Your Vkontakte
+            <% end %>
+           </div>
+         <% end %>
+         <% unless Identity.where(user_id: current_user.id, provider: 'github').first %>
+           <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
+            <%= link_to "/auth/github", class: "btn btn-block btn-social btn-github", style: "margin-top:10px;color:white;text-decoration:none;" do%>
+            <span class='fa fa-github'></span>
+            Add Your Github
+            <% end %>
+           </div>
+         <% end %>  
       </div>
     </section> 
    </aside>         

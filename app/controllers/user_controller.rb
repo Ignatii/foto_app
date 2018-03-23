@@ -13,7 +13,6 @@ class UserController < ProxyController
       rescue OpenURI::HTTPError
       	current_user.update_attributes(insta_token: '')
       	flash[:warning] = 'Your authentification for Instagram was denied! Please sign in again'
-        redirect_to current_user
       end
     end
     #if params[:id] != current_user.id
