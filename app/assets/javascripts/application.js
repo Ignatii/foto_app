@@ -25,7 +25,7 @@
   });
 });
 */
-  $('.share_fb').on('click', function(event) {
+ /* $('.share_fb').on('click', function(event) {
         alert(1);
         event.preventDefault();
         alert(1);
@@ -42,7 +42,7 @@
                 })
           })
     });
-});
+});*/
 
 /*$(document).ready(function(){
 	//$('#comment_list_id').addClass('hide')
