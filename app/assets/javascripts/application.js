@@ -25,7 +25,6 @@
   });
 });
 */
-$(document).on('click', '.share_fb', ( -> alert('test')))
   $('.share_fb').on('click', function(event) {
         alert(1);
         event.preventDefault();
