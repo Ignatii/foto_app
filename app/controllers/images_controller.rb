@@ -3,7 +3,7 @@ class ImagesController < ProxyController
   skip_before_action :verify_authenticity_token
   def show
     @image = Image.find(params[:id])
-    @str = "https://www.facebook.com/dialog/feed?app_id=#{ENV['FB_ID']}&link=#{ENV['REDIRECT_INSTA']}#{url_for(@image)}&name=Foto gallery!&picture=#{ENV['REDIRECT_INSTA']}#{url_for(@image)}&redirect_uri=#{ENV['REDIRECT_INSTA']}"
+    @str = "https://www.facebook.com/dialog/feed?app_id=#{ENV['FB_ID']}&link=#{ENV['REDIRECT_INSTA']}#{url_for(@image)}&name=Foto gallery!&picture=#{@image.image.thumb_lg.url}&redirect_uri=#{ENV['REDIRECT_INSTA']}"
   end
 
   def create
