@@ -26,5 +26,10 @@ class ProxyController < ApplicationController
       session[:user_id] = nil
     end
   end
-  helper_method :current_user
+
+  def signed_in?
+    !!current_user
+  end
+
+  helper_method :current_user, :signed_in?
 end

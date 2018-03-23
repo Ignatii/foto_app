@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180322094649) do
+ActiveRecord::Schema.define(version: 20180323084848) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -54,6 +54,18 @@ ActiveRecord::Schema.define(version: 20180322094649) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "identities", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "provider"
+    t.string "uid"
+    t.string "token"
+    t.string "secret"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
   create_table "images", force: :cascade do |t|
     t.string "image"
     t.integer "user_id"
@@ -71,11 +83,7 @@ ActiveRecord::Schema.define(version: 20180322094649) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "provider"
-    t.string "uid"
     t.string "name"
-    t.string "oauth_token"
-    t.datetime "oauth_expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "api_token"
