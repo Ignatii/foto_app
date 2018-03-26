@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180323084848) do
+ActiveRecord::Schema.define(version: 20180326091648) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -79,6 +79,8 @@ ActiveRecord::Schema.define(version: 20180323084848) do
     t.integer "cached_weighted_score", default: 0
     t.integer "cached_weighted_total", default: 0
     t.float "cached_weighted_average", default: 0.0
+    t.string "title_img"
+    t.string "tags"
     t.index ["user_id"], name: "index_images_on_user_id"
   end
 
