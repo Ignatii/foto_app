@@ -15,7 +15,6 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_self
-//= require social-share-button
 //= require_tree
 //= require bootstrap-sprockets
 
@@ -24,24 +23,9 @@
     $(document).foundation();
   });
 });
-*/
- /* $('.share_fb').on('click', function(event) {
-        alert(1);
-        event.preventDefault();
-        alert(1);
-        FB.ui({
-          method: 'share_open_graph',
-          action_type: 'og.shares',
-        action_properties: JSON.stringify({
-                    object: {
-                        'og:url': <%= ENV['REDIRECT_INSTA']%>,
-                        'og:title': "I liked this picture!",
-                        'og:description': "I liked this picture!",
-                        'og:image': <%= Image.first.image.thumb_lg.url%>
-                    }
-                })
-          })
-    });
+
+$(document).ready(function(){
+  $(function(){ $(document).foundation(); });
 });*/
 
 /*$(document).ready(function(){
@@ -118,23 +102,6 @@ document.addEventListener("turbolinks:load", function() {
         }else{
             $('#show_hide_insta').text('Hide');
         }
-    });
-    $('.share_fb').on('click', function(event) {
-        alert(1);
-        event.preventDefault();
-        alert(1);
-        FB.ui({
-          method: 'share_open_graph',
-          action_type: 'og.shares',
-        action_properties: JSON.stringify({
-                    object: {
-                        'og:url': <%= ENV['REDIRECT_INSTA']%>,
-                        'og:title': "I liked this picture!",
-                        'og:description': "I liked this picture!",
-                        'og:image': <%= Image.first.image.thumb_lg.url%>
-                    }
-                })
-          })
     });
 });
 /*$(document).on('turbolinks:load', function() {

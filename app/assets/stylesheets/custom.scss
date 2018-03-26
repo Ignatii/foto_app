@@ -325,12 +325,3 @@ img .resize_img {
   width: 100%;
   object-fit: contain;
 }
-
-$size: 24px;
-.social-share-button {
-  .ssb-icon {
-    background-size: $size $size;
-    height: $size;
-    width: $size;
-  }
-}
