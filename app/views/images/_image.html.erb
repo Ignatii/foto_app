@@ -5,7 +5,7 @@
       <h3>Votes:<%= image.score%>
       <% if current_user %>
       <% if Identity.where(user_id: current_user.id, provider: 'facebook').first %>
-        <%= link_to "https://www.facebook.com/dialog/feed?app_id=#{ENV['FB_ID']}&link=#{ENV['REDIRECT_INSTA']}/share/#{image.id}&name=Foto gallery!&description=Cool Foto Gallery!&redirect_uri=#{ENV['REDIRECT_INSTA']}",  title: 'Share Me!', class:"btn btn-social-icon btn-xs btn-facebook share_fb" ,target:"_blank", style:"color:white;", id: "share_fb#{image.id}" do %>
+        <%= link_to "https://www.facebook.com/dialog/feed?app_id=#{ENV['FB_ID']}&link=#{ENV['REDIRECT_INSTA']}/images/share/#{image.id}&name=Foto gallery!&description=Cool Foto Gallery!&redirect_uri=#{ENV['REDIRECT_INSTA']}",  title: 'Share Me!', class:"btn btn-social-icon btn-xs btn-facebook share_fb" ,target:"_blank", style:"color:white;", id: "share_fb#{image.id}" do %>
   <i class="fa fa-facebook" data-content="Share Me!"></i>
         <% end %>
       <% end %>
