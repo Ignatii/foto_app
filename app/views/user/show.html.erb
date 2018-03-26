@@ -5,7 +5,7 @@
      <div style="display: inline-block;">
       <h1 style="font-size: 24px;">        
         <%= current_user.name %></h1>
-        <% if current_user.insta_token.empty? %>  
+        <% if current_user.insta_token.nil? %>  
           <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
           <%= link_to "https://api.instagram.com/oauth/authorize/?client_id=#{ENV['INSTA_ID']}&redirect_uri=#{ENV['REDIRECT_INSTA']}/user/1&response_type=token", class: "btn btn-block btn-social btn-instagram", style: "margin-top:10px;color:white;text-decoration:none;" do%>
           <span class='fa fa-instagram'></span>

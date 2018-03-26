@@ -4,7 +4,7 @@ require 'open-uri'
 class UserController < ProxyController
   def show
     @user = User.find(current_user.id)
-    if !current_user.insta_token.empty?
+    if !current_user.insta_token.nil?
       begin
       response = open("https://api.instagram.com/v1/users/self/media/recent/?access_token=#{current_user.insta_token}&count=12").read
       #res = open("https://api.instagram.com/v1/users/self/media/recent/?access_token=4088921481.a999fd0.64eec4699bd1882946ec2d8762e1&count=12").read
