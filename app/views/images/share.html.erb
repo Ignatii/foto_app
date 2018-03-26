@@ -12,7 +12,8 @@
    <link rel=“image_src” href="<%= @shareimg.image.thumb_lg.url %>">
  </head>
  <body>
-   <img src="<%= @shareimg.image.thumb_lg.url %>">
+   
+   <%= link_to image_tag(@shareimg.image.thumb_lg.url), {:controller => 'images', :action => 'show', :id => @shareimg.id}%>
    <script type=“text/javascript”>
      //$(document).ready(function(){
        window.location.href =  "<%= image_url(@shareimg)%>";
