@@ -1,6 +1,11 @@
 class ImagesController < ProxyController
   # include RevealBannedUser
   skip_before_action :verify_authenticity_token
+  skip_before_action :check_current_user, only: [:share]
+  skip_before_action :check_banned_user, only: [:share]
+  layout false, only: [:share]
+  #layout 'application', :except => :share
+  #layout :false, only: [:share]
   def show
     @image = Image.find(params[:id])
   end
@@ -24,7 +29,7 @@ class ImagesController < ProxyController
 
   def share
     @shareimg = Image.find(params[:id])
-    redirect_to "images/share/#{params[:id]}"
+    render :layout => false
   end
   
   def create_remote

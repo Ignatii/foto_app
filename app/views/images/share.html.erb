@@ -5,16 +5,16 @@
    <meta http-equiv=“X-UA-Compatible” content=“IE=edge”>
    <meta property=“og:title” content="Foto gallery">
    <meta property=“og:description” content=<%= "I liked this foto added by #{@shareimg.user.name}" %>>
-   <meta property=“og:image” content=“<%= image_url(@shareimg) %>“>
+   <meta property=“og:image” content=“<%= @shareimg.image.thumb_lg.url %>“>
    <meta property=“og:type” content=“article”>
    <meta property=“og:url” content="<%= ENV['REDIRECT_INSTA']%>">
    <title>Foto gallery</title>
-   <link rel=“image_src” href=“<%= image_url(@shareimg) %>“>
+   <link rel=“image_src” href="<%= @shareimg.image.thumb_lg.url %>">
  </head>
  <body>
-   <img src=“<%= image_url(@shareimg) %>“>
+   <img src="<%= @shareimg.image.thumb_lg.url %>">
    <script type=“text/javascript”>
-     window.location.href =  window.location.origin //+ ‘/pronerf’
+     window.location.href =  <%= ENV['REDIRECT_INSTA']%>//window.location.origin //+ ‘/pronerf’*/
    </script>
  </body>
 </html>
