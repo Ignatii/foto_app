@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'users/create_remote', to: 'images#create_remote'
+  get 'images/share/:id', to: 'images#share'
   # api
   # namespace :api do
   #  namespace :v1 do

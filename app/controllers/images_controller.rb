@@ -21,6 +21,11 @@ class ImagesController < ProxyController
       redirect_to current_user
     end
   end
+
+  def share
+    @shareimg = Image.find(params[:id])
+    redirect_to "images/share/#{params[:id]}"
+  end
   
   def create_remote
     if params.key?(:url_image)

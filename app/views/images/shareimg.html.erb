@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset=“utf-8”>
+   <meta http-equiv=“X-UA-Compatible” content=“IE=edge”>
+   <meta property=“og:title” content="Foto gallery">
+   <meta property=“og:description” content=<%= "I liked this foto added by #{@shareimg.user.name}" %>>
+   <meta property=“og:image” content=“<%= image_url(@shareimg) %>“>
+   <meta property=“og:type” content=“article”>
+   <meta property=“og:url” content="<%= ENV['REDIRECT_INSTA']%>">
+   <title>Foto gallery</title>
+   <link rel=“image_src” href=“<%= image_url(@shareimg) %>“>
+ </head>
+ <body>
+   <img src=“<%= image_url(@shareimg) %>“>
+   <script type=“text/javascript”>
+     window.location.href =  window.location.origin //+ ‘/pronerf’
+   </script>
+ </body>
+</html>
