@@ -3,9 +3,9 @@
  <head>
    <meta charset=“utf-8”>
    <meta http-equiv=“X-UA-Compatible” content=“IE=edge”>
-   <meta property=“og:title” content="Foto gallery">
-   <meta property=“og:description” content="<%= "I liked this foto added by #{@shareimg.user.name}" %>">
-   <meta property=“og:image” content=“<%= @shareimg.image.thumb_lg.url %>“>
+   <meta property=“og:title” content="Photo added by <%= @shareimg.user.name %>">
+   <meta property=“og:description” content="I liked this photo at <%= image_url(@shareimg)%>">
+   <meta property=“og:image” content="<%= @shareimg.image.thumb_lg.url %>">
    <meta property=“og:type” content=“article”>
    <meta property=“og:url” content="<%= image_url(@shareimg)%>">
    <title>Foto gallery</title>
@@ -14,7 +14,11 @@
  <body>
    <img src="<%= @shareimg.image.thumb_lg.url %>">
    <script type=“text/javascript”>
-     window.location.href =  <%= image_url(@shareimg)%>
+     //$(document).ready(function(){
+       window.location.href =  "<%= image_url(@shareimg)%>";
+       window.location.replace("<%= image_url(@shareimg)%>");
+     //}); 
+     $(location).attr('href', 'http://stackoverflow.com') 
    </script>
  </body>
 </html>
