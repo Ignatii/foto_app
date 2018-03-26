@@ -11,7 +11,7 @@ class UserController < ProxyController
       response_parsed = JSON.parse response
       @insta_images = response_parsed["data"]
       rescue OpenURI::HTTPError
-      	current_user.update_attributes(insta_token: '')
+      	current_user.update_attributes(insta_token: nil)
       	flash[:warning] = 'Your authentification for Instagram was denied! Please sign in again'
       end
     end
