@@ -13,7 +13,7 @@
    <link rel=“image_src” href="<%= @shareimg.image.thumb_lg.url %>">
  </head>
  <body>
-   <%= link_to image_tag(@shareimg.image.thumb.url), {:controller => 'images', :action => 'show', :id => @shareimg.id}%>
+   <%= link_to image_tag(@shareimg.image.thumb_lg.url), {:controller => 'images', :action => 'show', :id => @shareimg.id}%>
    <script type=“text/javascript”>
      window.location.href =  window.location.origin 
    </script>
