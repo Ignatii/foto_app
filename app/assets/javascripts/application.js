@@ -125,16 +125,21 @@ document.addEventListener("turbolinks:load", function() {
             $('#button_show_search').text('Hide search panel');
         }*/
     });
-    $(":radio").on('click', function(event) {
-        //alert($(this).val());
+    $('input:checkbox').on('click', function(event) {        
+        //$(this).prop('checked');
+        //alert($(this).is(':checked'));
         $.ajax({
         url: "/static_pages/home",
            type: "GET",
-           data: {"sort" : $(this).val()},
+           data: {"sort_data" : $('#chech_sort_data').is(':checked'),
+            'sort_upvote' : $('#chech_sort_upvote').is(':checked'),
+            'sort_comment' : $('#chech_sort_comment').is(':checked'),
+           },
            dataType: "html",
            success: function(data) {
-               //alert(111);
-               $('body').html(data);
+               alert(111);
+               $('.gallery_images').empty();
+               $('.gallery_images').append(data);
              }
            });
     });

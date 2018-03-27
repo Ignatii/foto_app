@@ -15,6 +15,6 @@ class ListImages < ActiveInteraction::Base
     @images = Image.find_ordered(@ids)
     @images
     rescue Redis::CannotConnectError
-      Image.verified_image.order(cached_votes_up: :desc)
+      Image.verified_image.order(cached_votes_up: :asc)
   end
 end
