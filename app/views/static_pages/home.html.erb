@@ -1,7 +1,14 @@
-  
-<div class="center jumbotron">  
+<div class="right-block" style="width: 300px;height:40px;">
+<%= link_to "Show search panel", '', class: "btn btn-xs btn-info center-block", id:"button_show_search", data: { turbolinks: false }%>
+</div>
+<div id="render_search" style="margin-bottom: 10px;width:50%;" class="center-block">
+  <%= render :partial => 'shared/search_form' %>
+</div>
+<div class="center jumbotron" style="margin-top: 10px">  
 <div class="row">
-  <%= render @images %>
+  <div class="gallery_images">
+  <%= render partial: @images %>
+  </div>
   <%= paginate @images %>
 </div>
 <%= page_entries_info @images %>    

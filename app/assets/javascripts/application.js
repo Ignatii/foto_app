@@ -60,6 +60,7 @@ $(document).ready(function(){
 
 document.addEventListener("turbolinks:load", function() {
   //alert(1);
+    $('#render_search').addClass('hide');
     $('#show_comments').on('click', function(event) {
     	event.preventDefault();
     	$('#last_comment_id').toggle();
@@ -103,22 +104,55 @@ document.addEventListener("turbolinks:load", function() {
             $('#show_hide_insta').text('Hide');
         }
     });
-    $('.share_fb').on('click', function(event) {
-        alert(1);
+    $('#button_show_search').on('click', function(event) {
         event.preventDefault();
-        alert(1);
-        FB.ui({
-          method: 'share_open_graph',
-          action_type: 'og.shares',
-        action_properties: JSON.stringify({
-                    object: {
-                        'og:url': <%= ENV['REDIRECT_INSTA']%>,
-                        'og:title': "I liked this picture!",
-                        'og:description': "I liked this picture!",
-                        'og:image': <%= Image.first.image.thumb_lg.url%>
-                    }
-                })
-          })
+        var $link = $(event.target);
+        event.preventDefault();
+        if(!$link.data('lockedAt') || +new Date() - $link.data('lockedAt') > 1000) {
+            $('#render_search').toggleClass('hide',!$('#render_search').hasClass('hide'));
+            if($('#render_search').hasClass('hide')){
+                $('#button_show_search').text('Show search panel');
+            }else{
+                $('#button_show_search').text('Hide search panel');
+            }
+        }
+        $link.data('lockedAt', +new Date());
+        //alert(!$('#render_search').hasClass('hide'));
+        /*$('#render_search').toggleClass('hide',!$('#render_search').hasClass('hide'));
+        if($('#render_search').hasClass('hide')){
+            $('#button_show_search').text('Show search panel');
+        }else{
+            $('#button_show_search').text('Hide search panel');
+        }*/
+    });
+    $(":radio").on('click', function(event) {
+        //alert($(this).val());
+        $.ajax({
+        url: "/static_pages/home",
+           type: "GET",
+           data: {"sort" : $(this).val()},
+           dataType: "html",
+           success: function(data) {
+               //alert(111);
+               $('body').html(data);
+             }
+           });
+    });
+    $('#clear_order').on('click', function(event) {
+        $(":radio").prop('checked', false);
+        $.ajax({
+        url: "/static_pages/home",
+           type: "GET",
+           data: {"unsort" : 'unsort'},
+           dataType: "html",
+           success: function(data) {
+               //$('body').html(data);
+               //alert(1);
+               $('.gallery_images').empty();
+               $('.gallery_images').append(data);
+             }
+           });
+        $('#render_search').addClass('hide');
     });
 });
 /*$(document).on('turbolinks:load', function() {

@@ -26,4 +26,8 @@ class Image < ApplicationRecord
   def score
     get_upvotes.size
   end
+  
+  def comments_count
+    comments.count
+  end
 end

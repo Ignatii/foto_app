@@ -1,0 +1,37 @@
+<div>
+<div class="row">
+	<%= form_tag({controller: "static_pages", action: "home"}, method: :get) do %>
+  <%= text_field_tag :condition_search, params[:condition_search], style:"display:block",placeholder:"Title or Tag" %>
+</div>
+<fieldset id="group1">
+<div class="row" style="margin-top: 10px;">
+  <div class="col-xs-6 col-md-4">
+  	<label style="display: flex;align-items: center;cursor: pointer;">
+  	<%= check_button_tag :sort, 'sort_data', params[:sort]=='sort_data' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort" %><span>New Images</span>
+  	</label>
+  </div>
+ </div>
+ <div class="row">
+  <div class="col-xs-6 col-md-4">
+  <label style="display: flex;align-items: center;cursor: pointer;">
+  	<%= check_button_tag :sort, 'sort_upvote',  params[:sort]=='sort_upvote' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort" %><span>Fewer upvoted</span>
+  	</label>
+  </div>
+  </div>
+<div class="row">  
+  <div class="col-xs-6 col-md-4">
+  <label style="display: flex;align-items: center;cursor: pointer;">
+  	<%= check_button_tag :sort, 'sort_comment',  params[:sort]=='sort_comment' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort" %><span>Mostly commented</span>
+  	</label>
+  </div>
+</div>
+</fieldset>
+<div class="row">  
+  <div class="col-xs-6 col-md-4">
+    <div class="right-block" style="width: 100px;height:20px;">
+      <%= link_to "Clear ordering", '', class: "btn btn-xs btn-info center-block", id:"clear_order", style: "color:white;text-decoration:none;"%>
+    </div>
+  </div>
+</div>
+<% end %>
+</div>

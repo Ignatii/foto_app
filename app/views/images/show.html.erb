@@ -5,9 +5,19 @@
 
 </h1>
 
-
+<h3 style="text-align: center;"><span style="font-weight: bold;">Title:</span> <%= @image.title_img %></h3>
 <%= image_tag(@image.image.thumb_lg.url, :alt => @image[:id], class:"img-responsive center-block") %>
+<div style="display: inline;text-align: center;align-self: center;" class="center-block">
+<h4 style="color: black;font-weight: bold;text-align: center">Tags: </h4>
 
+<% if @image.tags %>
+<h4 style="text-align: center;">
+<% @image.tags.split(' ').each do |tag| %>
+<span style="color: darkgrey;background-color: lightblue;text-align: center;">#<%= tag %></span>
+<% end %>
+</h4>
+<% end %>
+</div>
 <h2>Comments 
 <%# if @image.comments.size > 1 %>
   [<a href="" id="show_comments">Show all Comments</a>]

@@ -1,5 +1,6 @@
 <%= form_for([@user, @user.images.build], html: { multipart: true }) do |f| %>
-  
+  <%= f.text_field :title_img, placeholder: 'Add Image Title'%>
+  <%= f.text_field :tags, placeholder: 'Add image tags via space' %>
   <div>
     <%= f.file_field :image, class: "btn btn-default btn-file"%>
   </div>

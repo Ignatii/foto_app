@@ -57,7 +57,7 @@
     <% @insta_images.each do |insta_image| %>
       <div class="col-sm-6 col-md-4">
           <div class="thumbnail" style="width:200px;height:200px;overflow: hidden;">
-            <%= link_to image_tag(insta_image["images"]["low_resolution"]["url"], :alt => insta_image["caption"]["text"], :class => "resize_img"), {:controller => 'images', :action => 'create_remote', :url_image => insta_image["images"]["standard_resolution"]}%>
+            <%= link_to image_tag(insta_image["images"]["low_resolution"]["url"], :alt => insta_image["caption"]["text"], :class => "resize_img"), {:controller => 'images', :action => 'create_remote', :url_image => insta_image["images"]["standard_resolution"], :text => insta_image["caption"]["text"], :insta_tags => insta_image["tags"] }%>
           </div>
          </div>     
       

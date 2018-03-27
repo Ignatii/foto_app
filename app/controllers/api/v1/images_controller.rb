@@ -11,7 +11,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
   def index
     render(
       json: ActiveModel::ArraySerializer.new(
-        Image.all.verified_image,
+        Image.all.verified_image.page(params[:page]).per(12),
         each_serializer: Api::V1::ImageSerializer,
         root: 'images',
         # meta: meta_attributes(Image.all.verified_image)

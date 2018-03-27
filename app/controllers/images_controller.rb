@@ -11,8 +11,11 @@ class ImagesController < ProxyController
   end
 
   def create
+    debugger
     if params.key?(:image)
       @images = current_user.images.build(image: params[:image][:image])
+      @images.title_img = params[:image][:title_img]
+      @images.tags = params[:image][:tags]
       if @images.save
         flash[:success] = 'Image uploaded!Wait moderation :)'
         # IMAGE_VOTES_COUNT.rank_member(@images.id.to_s, 0)
@@ -35,6 +38,8 @@ class ImagesController < ProxyController
   def create_remote
     if params.key?(:url_image)
       @images = current_user.images.build(remote_image_url: params["url_image"]["url"])
+      @images.tags = params["insta_tags"].join(' ') if params["insta_tags"]
+      @images.title_img = params[:text].split('#')[0] if params[:text]
       if @images.save
         flash[:success] = 'Image uploaded from Instagram!Wait moderation :)'
         # IMAGE_VOTES_COUNT.rank_member(@images.id.to_s, 0)
