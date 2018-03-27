@@ -5,12 +5,12 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta property=“og:title” content="Photo added by <%= @shareimg.user.name %>">
    <meta property=“og:description” content="I liked this photo at <%= image_url(@shareimg)%>">
-   <meta property=“og:image” content="<%= @shareimg.image.thumb.url %>">
+   <meta property=“og:image” content="<%= @shareimg.image.thumb_lg.url %>">
    <meta property=“og:type” content="article">
    <meta property=“og:url” content="<%= image_url(@shareimg)%>">
    
    <title>Photo added by <%= @shareimg.user.name %></title>
-   <link rel=“image_src” href="<%= @shareimg.image.thumb.url %>">
+   <link rel=“image_src” href="<%= @shareimg.image.thumb_lg.url %>">
  </head>
  <body>
    <%= link_to image_tag(@shareimg.image.thumb.url), {:controller => 'images', :action => 'show', :id => @shareimg.id}%>
