@@ -65,7 +65,7 @@ ActiveAdmin.register Image do
     def verify
       image = Image.find_by(id: params[:id])
       Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.cached_votes_up)
+      IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
       if image.rejected?
         scheduled = Sidekiq::ScheduledSet.new.select
         scheduled.map do |job|

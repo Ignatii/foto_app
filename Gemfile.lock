@@ -59,7 +59,6 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    acts_as_votable (0.11.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     ansi (1.5.0)
@@ -560,7 +559,6 @@ DEPENDENCIES
   active_interaction (~> 3.6)
   active_model_serializers (= 0.9.3)
   activeadmin
-  acts_as_votable
   bootstrap-sass
   bootstrap-social-rails
   byebug (= 9.0.6)

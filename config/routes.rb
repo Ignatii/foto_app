@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   resources :images do
     member do
-      put 'like', to: 'images#upvote'
-      put 'dislike', to: 'images#downvote'
+      put 'like', to: 'images#upvote_like'
+      put 'dislike', to: 'images#downvote_like'
     end
   end
 

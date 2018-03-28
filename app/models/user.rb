@@ -2,9 +2,10 @@
 class User < ApplicationRecord
   before_create :generate_authentication_token
   has_many :images, dependent: :destroy
+  has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :identities, dependent: :destroy
-  acts_as_voter
+  #acts_as_voter
 
   def self.create_user(info)
     # where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326091648) do
+ActiveRecord::Schema.define(version: 20180328102831) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -81,7 +81,18 @@ ActiveRecord::Schema.define(version: 20180326091648) do
     t.float "cached_weighted_average", default: 0.0
     t.string "title_img"
     t.string "tags"
+    t.integer "likes_img", default: 0
     t.index ["user_id"], name: "index_images_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "image_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["image_id"], name: "index_likes_on_image_id"
+    t.index ["user_id", "image_id"], name: "index_likes_on_user_id_and_image_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -90,7 +101,7 @@ ActiveRecord::Schema.define(version: 20180326091648) do
     t.datetime "updated_at", null: false
     t.string "api_token"
     t.string "email"
-    t.string "insta_token", default: ""
+    t.string "insta_token"
   end
 
   create_table "votes", force: :cascade do |t|
