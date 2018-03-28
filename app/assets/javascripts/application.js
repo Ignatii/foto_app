@@ -142,34 +142,18 @@ document.addEventListener("turbolinks:load", function() {
                $('.gallery_images').append(data);
              }
            });*/
-        $.ajax({
-        url: "/static_pages/home",
-           type: "GET",
-           data: $("#search_form").serialize(),
-           dataType: "html",
-           success: function(data) {
-               //alert(111);
-               $('.gallery_images').empty();
-               $('.gallery_images').append(data);
-             }
-           });
-        //$("#search_form").AJAXsubmit();   
-    });
-    $('#clear_order').on('click', function(event) {
-        $(":radio").prop('checked', false);
-        $.ajax({
-        url: "/static_pages/home",
-           type: "GET",
-           data: {"unsort" : 'unsort'},
-           dataType: "html",
-           success: function(data) {
-               //$('body').html(data);
-               //alert(1);
-               $('.gallery_images').empty();
-               $('.gallery_images').append(data);
-             }
-           });
-        $('#render_search').addClass('hide');
+        // $.ajax({
+        // url: "/static_pages/home",
+        //    type: "GET",
+        //    data: $("#search_form").serialize(),
+        //    // dataType: "html",
+        //    success: function(data) {
+        //        //alert(111);
+        //        $('.gallery_images').empty();
+        //        $('.gallery_images').append(data);
+        //      }
+        //    });
+        $("#search_form").submit();   
     });
 });
 /*$(document).on('turbolinks:load', function() {

@@ -17,10 +17,9 @@ class StaticPagesController < ProxyController
                     sort_comments: params['sort_comments'] ? true : false}
       @result = FindImages.run(params: hash_params)
       @images = @result.result
-      debugger
       respond_to do |format|
-          format.html { render @images }
-          #format.html
+          #format.html { render @images }
+          format.js {}
           #format.html { respond_with @images }
       end
     end
