@@ -91,7 +91,7 @@ class ImagesController < ProxyController
         IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)
       rescue Redis::CannotConnectError
         @image.likes.create(user_id: current_user.id)
-        @image.likes_img += 1
+        @image.update_attributes(likes_img: @image[:likes_img] + 1)
       end
     else
       flash[:warning] = 'You already voted for this image!'
