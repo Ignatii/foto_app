@@ -80,7 +80,7 @@ class ImagesController < ProxyController
 
   def upvote_like
     @image = Image.find(params[:id])
-    unless @image.likes.where(user_id: current_user.id).count > 0
+    if @image.likes.where(user_id: current_user.id).count == 0
       # @image.upvote_by current_user
       # $redis.set(params[:id].to_s,@image.score)
       begin
@@ -124,11 +124,11 @@ class ImagesController < ProxyController
       begin
         Redis.new.set('getstatus', 1)
         Like.delete(Like.where(user_id: current_user.id,image_id: @image.id))
-        @image.update_attributes(likes_img: @image[:likes_img] - 1)
+        @image.update_attributes(likes_img: @image[:likes_img] - 1) if @image[:likes_img] > 0
         IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score_like)
       rescue Redis::CannotConnectError
         Like.delete(Like.where(user_id: current_user.id,image_id: @image.id))
-        @image.likes_img -= 1
+        @image.update_attributes(likes_img: @image[:likes_img] - 1) if @image[:likes_img] > 0
       end
     end
     redirect_to root_url

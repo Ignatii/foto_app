@@ -18,8 +18,11 @@
       </h3>
       <% if current_user %>
        <p>
+         <% if image.likes.where(user_id: current_user.id).count == 0 %>
          <%= link_to "Upvote", like_image_path(image), method: :put , class: "btn btn-xs btn-success center-block" %>
+         <% elsif image.likes.where(user_id: current_user.id) %>
          <%= link_to "Downvote", dislike_image_path(image), method: :put , class: "btn btn-xs btn-danger center-block" %>
+         <% end %>
        </p>
      <% end %>
      </div>
