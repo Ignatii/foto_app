@@ -2,3 +2,4 @@
 public/uploads
 tmp/
 db/seeds.rb
+test/
