@@ -1,27 +1,27 @@
 <div>
 <div class="row">
-	<%= form_tag({controller: "static_pages", action: "home"}, method: :get) do %>
+	<%= form_tag({controller: "static_pages", action: "home"}, method: :get,remote: true, id:"search_form") do %>
   <%= text_field_tag :condition_search, params[:condition_search], style:"display:block",placeholder:"Title or Tag" %>
 </div>
 <fieldset id="group1">
 <div class="row" style="margin-top: 10px;">
   <div class="col-xs-6 col-md-4">
   	<label style="display: flex;align-items: center;cursor: pointer;">
-  	<%= check_box_tag :sort, 'sort_data', params[:sort]=='sort_data' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort_data" %><span>New Images</span>
+  	<%= check_box_tag :sort_data, true, params[:sort]=='sort_data' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort_data" %><span>New Images</span>
   	</label>
   </div>
  </div>
  <div class="row">
   <div class="col-xs-6 col-md-4">
   <label style="display: flex;align-items: center;cursor: pointer;">
-  	<%= check_box_tag :sort, 'sort_upvote',  params[:sort]=='sort_upvote' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort_upvote" %><span>Fewer upvoted</span>
+  	<%= check_box_tag :sort_upvote, true,  params[:sort]=='sort_upvote' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort_upvote" %><span>Fewer upvoted</span>
   	</label>
   </div>
   </div>
 <div class="row">  
   <div class="col-xs-6 col-md-4">
   <label style="display: flex;align-items: center;cursor: pointer;">
-  	<%= check_box_tag :sort, 'sort_comment',  params[:sort]=='sort_comment' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort_comment" %><span>Mostly commented</span>
+  	<%= check_box_tag :sort_comment, true,  params[:sort]=='sort_comment' || false,style:"width:auto;margin-top:0px;margin-right:15px;", id: "chech_sort_comment" %><span>Mostly commented</span>
   	</label>
   </div>
 </div>

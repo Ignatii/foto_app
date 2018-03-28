@@ -6,28 +6,22 @@ class StaticPagesController < ProxyController
   layout 'layouts/application', only: [:home]
 
   def home
+    # sort_data = params['sort_data'] ? params['sort_data'] : false
+    # sort_upvote = params['sort_upvote'] ? params['sort_upvote'] : false
+    # sort_comments = params['sort_comments'] ? params['sort_comments'] : false
     @images = ListImages.run!.page(params[:page]).per(12)
-    if params[:condition_search]
-      @images_all = ListImages.run!.page(params[:page]).per(12)
-      @images = @images_all.where("title_img LIKE ? or tags LIKE ?" , "%#{params[:condition_search]}%","%#{params[:condition_search]}%").page(params[:page]).per(12)
-    end
-    @str = "https://www.facebook.com/dialog/feed?app_id=#{ENV['FB_ID']}&link=#{ENV['REDIRECT_INSTA']}&name=Foto gallery!&description=Cool Foto Gallery!&redirect_uri=#{ENV['REDIRECT_INSTA']}"
-    if params['sort_data'] == 'true' || params['sort_upvote'] == 'true' || params['sort_upvote'] == 'sort_comments'
-      # @images = @images.where(id: '18').page(params[:page]).per(12) if params['sort'] == 'sort_data'
-      @images = @images.reorder(created_at: :DESC) if params['sort_data'] == 'true'
-      if params['sort_data'] == 'false'
-        @images = @images.reorder(cached_votes_up: :DESC) if params['sort_upvote'] == 'true'
-      elsif params['sort_data'] == 'true'
-        @images = @images.order(cached_votes_up: :DESC) if params['sort_upvote'] == 'true'
-      end
-      if params['sort_comments'] == 'true'
-        @images.sort_by(&:comments_count).map do |image|
-        end
-      end
+    if request.xhr? == 0
+      hash_params = {condition_search: params[:condition_search],
+                    sort_data: params['sort_data'] ? true : false,
+                    sort_upvote: params['sort_upvote'] ? true : false,
+                    sort_comments: params['sort_comments'] ? true : false}
+      @result = FindImages.run(params: hash_params)
+      @images = @result.result
+      debugger
       respond_to do |format|
-        format.html { render @images }
-        #format.html
-        #format.html { respond_with @images }
+          format.html { render @images }
+          #format.html
+          #format.html { respond_with @images }
       end
     end
   end
