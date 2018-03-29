@@ -36,7 +36,7 @@ class SessionsController < ApplicationController
       end
       session[:user_id] = user.id unless signed_in?
     end
-    redirect_to current_user_session
+    redirect_to user_path(user)
   end
 
   def destroy
@@ -47,9 +47,11 @@ class SessionsController < ApplicationController
   def current_user_session
     return false if session[:user_id].nil?
     begin
-      User.find(session[:user_id])
+      #user_path(User.find_by(id: session[:user_id]))
+      User.find_by(id: session[:user_id])
     rescue ActiveRecord::RecordNotFound
       session[:user_id] = nil
+      #root_path
     end
   end
 
@@ -60,7 +62,7 @@ class SessionsController < ApplicationController
   private
 
   def auth_hash
-    request.env["omniauth.auth"]
+    request.env['omniauth.auth']
   end
 
   def expires_at

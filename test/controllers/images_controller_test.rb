@@ -1,9 +1,12 @@
 require 'test_helper'
 
-class ImagesControllerTest < ActionDispatch::IntegrationTest
+class ImagesControllerTest < ActionController::TestCase
+  test "should show image with param" do
+    #get :show, params: {id: Image.first.id}
+    assert get :show, params: {id: Image.first.id}
+  end
+
   test "should not save image without image" do
-  	user = User.first
-    # image = Image.new
-    assert_not user.image.build()
+    
   end
 end

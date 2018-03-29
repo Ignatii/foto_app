@@ -24,10 +24,6 @@ class Image < ApplicationRecord
     end
   end
 
-  def score
-    get_upvotes.size
-  end
-
   def score_like
     self.likes.count
   end

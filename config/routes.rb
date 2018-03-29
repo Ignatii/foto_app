@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   get  'static_pages/help',    to: 'static_pages#help'
   get  'static_pages/about',   to: 'static_pages#about'
   get  'static_pages/contacts', to: 'static_pages#contacts'
-  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/:provider/callback', to: 'sessions#create', as: :create_sesion
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'users/create_remote', to: 'images#create_remote'
@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   #    end
   #  end
   # end
+
   namespace :api do
     namespace :v1 do
       put 'images/like/', to: 'images#upvote'

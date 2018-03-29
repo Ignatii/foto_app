@@ -6,7 +6,7 @@
 #
 one:
   id: 1
-  user: ignat
+  user_id: 1
   provider: vkontakte
   uid: 11685678
   token: FJjnjdfjn545njbebfnm4k5=45knfdHHB

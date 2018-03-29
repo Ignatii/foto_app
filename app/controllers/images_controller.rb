@@ -12,16 +12,17 @@ class ImagesController < ProxyController
 
   def create
     if params.key?(:image)
-      @images = current_user.images.build(image: params[:image][:image])
-      @images.title_img = params[:image][:title_img]
-      @images.tags = params[:image][:tags]
-      if @images.save
+      hash_params = {img: params[:image][:image],
+                    user: current_user,
+                    title: params[:image][:title_img],
+                    tags: params[:image][:tags]}
+      result = CreateImages.run(params_img: hash_params)
+      if result.result
         flash[:success] = 'Image uploaded!Wait moderation :)'
-        # IMAGE_VOTES_COUNT.rank_member(@images.id.to_s, 0)
-        redirect_to current_user
+         redirect_to current_user
       else
-        flash[:warning] = 'Image do not uploaded!'
-        redirect_to root_url
+       flash[:warning] = 'Image do not uploaded!'
+       redirect_to root_url
       end
     else
       flash[:warning] = 'Choose image!'
@@ -36,12 +37,13 @@ class ImagesController < ProxyController
   
   def create_remote
     if params.key?(:url_image)
-      @images = current_user.images.build(remote_image_url: params["url_image"]["url"])
-      @images.tags = params["insta_tags"].join(' ') if params["insta_tags"]
-      @images.title_img = params[:text].split('#')[0] if params[:text]
-      if @images.save
+      hash_params = {img_url: params["url_image"]["url"],
+                    user: current_user,
+                    title: params[:text],
+                    tags: params["insta_tags"]}
+      result = CreateRemoteImages.run(params_img: hash_params)
+      if result.result
         flash[:success] = 'Image uploaded from Instagram!Wait moderation :)'
-        # IMAGE_VOTES_COUNT.rank_member(@images.id.to_s, 0)
         redirect_to current_user
       else
         flash[:warning] = 'Image do not uploaded!'
@@ -80,25 +82,10 @@ class ImagesController < ProxyController
 
   def upvote_like
     @image = Image.find(params[:id])
-    if @image.likes.where(user_id: current_user.id).count == 0
-      # @image.upvote_by current_user
-      # $redis.set(params[:id].to_s,@image.score)
-      begin
-        Redis.new.set('getstatus', 1)
-        #@image.upvote_by current_user
-        @image.update_attributes(likes_img: @image[:likes_img] + 1)
-        @image.likes.create(user_id: current_user.id)        
-        IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)
-      rescue Redis::CannotConnectError
-        @image.likes.create(user_id: current_user.id)
-        @image.update_attributes(likes_img: @image[:likes_img] + 1)
-      end
-    else
-      flash[:warning] = 'You already voted for this image!'
-    end
-    # inputs = {:id_image => params[:id], :id_user => current_user.id}
-    # @upvote = UpvoteImage.run(inputs)
-    # flash[:warning] = @upvote
+    hash_params = {image: @image,user: current_user}
+    result = LikeImages.run(params_img: hash_params)
+    flash[:warning] = 'You already voted for this image!' unless result.result
+
     redirect_to root_url
   end
 

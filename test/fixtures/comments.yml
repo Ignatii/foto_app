@@ -1,11 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
-  body: MyText
-  image: one
-
-two:
-  user: two
-  body: MyText
-  image: two
+  id: 1
+  user_id: 1
+  body: 'test comment to test'
+  commentable_id: 1
+  commentable_type: 'Image'
