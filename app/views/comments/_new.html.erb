@@ -6,7 +6,8 @@
   <div class="form-group">
     <%= f.label :body %>
     <%= f.text_area :body, class: 'form-control', required: true, maxlength:'200' %>
-    <%#= f.hidden_field :image_id, :value => @image.id %>
+    <%= f.hidden_field :image_id, :value => @image.id %>
+    <%= f.hidden_field :comment_id, :value => 0 %>
   </div>
 
   <%= f.submit class: 'btn btn-primary' %>

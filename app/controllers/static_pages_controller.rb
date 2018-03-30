@@ -6,16 +6,12 @@ class StaticPagesController < ProxyController
   layout 'layouts/application', only: [:home]
 
   def home
-    # sort_data = params['sort_data'] ? params['sort_data'] : false
-    # sort_upvote = params['sort_upvote'] ? params['sort_upvote'] : false
-    # sort_comments = params['sort_comments'] ? params['sort_comments'] : false
     @images = ListImages.run!.page(params[:page]).per(12)
     if request.xhr? == 0
-      hash_params = {condition_search: params[:condition_search],
-                    sort_data: params['sort_data'] ? true : false,
-                    sort_upvote: params['sort_upvote'] ? true : false,
-                    sort_comments: params['sort_comments'] ? true : false}
-      @result = FindImages.run(params: hash_params)
+      @result = FindImages.run(params: params.permit(:condition_search,
+                              :sort_data,
+                              :sort_upvote,
+                              :sort_comments).to_unsafe_h)
       @images = @result.result
       respond_to do |format|
           #format.html { render @images }

@@ -4,20 +4,10 @@ require 'open-uri'
 class UserController < ProxyController
   def show
     @user = User.find(current_user.id)
-    if !current_user.insta_token.nil?
-      begin
-      response = open("https://api.instagram.com/v1/users/self/media/recent/?access_token=#{current_user.insta_token}&count=12").read
-      #res = open("https://api.instagram.com/v1/users/self/media/recent/?access_token=4088921481.a999fd0.64eec4699bd1882946ec2d8762e1&count=12").read
-      response_parsed = JSON.parse response
-      @insta_images = response_parsed["data"]
-      rescue OpenURI::HTTPError
-      	current_user.update_attributes(insta_token: nil)
-      	flash[:warning] = 'Your authentification for Instagram was denied! Please sign in again'
-      end
-    end
-    #if params[:id] != current_user.id
-    #	redirect_to current_user
-    #end
+    return if current_user.insta_token.nil?
+    # hash_user = {user: current_user}
+    result = ShowUsersInsta.run(user: current_user)
+    @insta_images = result.result if result.result
   end
 
   def index
@@ -29,11 +19,13 @@ class UserController < ProxyController
   end
 
   def update
-  	if !params['token_insta'].empty?
-      @token = params['token_insta'].split('en=')
-      @user = User.find_by(id: current_user.id)
-      @user.update_attributes(insta_token: @token[1])
-      redirect_to current_user
+  	redirect_to current_user and return if params['token_insta'].empty?
+    result = UpdateUsersInsta.run(user: current_user, token_insta: params['token_insta'])
+    if result.result
+      flash[:success] = 'Your photos from instagram successfully added'
+    else
+      flash[:warning] = 'Problem with adding your instagram photos. Try later or contact admin'
     end
+    redirect_to current_user
   end
 end

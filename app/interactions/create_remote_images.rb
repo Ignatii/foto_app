@@ -1,20 +1,27 @@
 require 'active_interaction'
 # add functionality to show sorted images
 class CreateRemoteImages < ActiveInteraction::Base
-  hash :params_img do 
-    string :img_url
-    object :user, class: '::User'
-    string :title
-    array :tags
+   hash :params, strip: false do
+  #   string :img_url
+  #   object :user, class: '::User'
+  #   string :title
+  #   array :tags
   end
 
-  validates :params_img, presence: true
+  validates :params, presence: true
 
   def execute
-    debugger
-    @images = params_img[:user].images.build(remote_image_url: params_img[:img_url])
-    @images.tags = params_img[:tags].join(' ') unless params_img[:tags].nil?
-    @images.title_img = params_img[:title].split('#')[0] unless params_img[:title].nil?
+    save_image
+  end
+
+  def user
+    @user ||= User.find_by(id: params[:user_id])
+  end
+
+  def save_image
+    @images = user.images.build(remote_image_url: params[:url_image][:url])
+    @images.tags = params[:insta_tags].join(' ') unless params[:insta_tags].nil?
+    @images.title_img = params[:text].split('#')[0] unless params[:text].nil?
     if @images.save
       true
     else

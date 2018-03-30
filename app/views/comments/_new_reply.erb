@@ -3,6 +3,7 @@
     <%= f.label :body %>
     <%= f.text_area :body, class: 'form-control', required: true %>
     <%= f.hidden_field :image_id, :value => @image.id %>
+    <%= f.hidden_field :comment_id, :value => comment.id %>
   </div>
 
   <%= f.submit class: 'btn btn-primary', style:"width: 300px;" %>

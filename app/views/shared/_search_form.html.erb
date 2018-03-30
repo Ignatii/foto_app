@@ -1,9 +1,6 @@
-<div>
 <div class="row">
-	<%= form_tag({controller: "static_pages", action: "home"}, method: :get,remote: true, id:"search_form") do %>
+	<%= form_tag({controller: "static_pages", action: "home"}, method: :get, remote: true, id:"search_form") do %>
   <%= text_field_tag :condition_search, params[:condition_search], style:"display:block",placeholder:"Title or Tag" %>
-</div>
-<fieldset id="group1">
 <div class="row" style="margin-top: 10px;">
   <div class="col-xs-6 col-md-4">
   	<label style="display: flex;align-items: center;cursor: pointer;">
@@ -25,7 +22,6 @@
   	</label>
   </div>
 </div>
-</fieldset>
 
 <% end %>
 </div>

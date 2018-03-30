@@ -4,7 +4,7 @@ class ListImages < ActiveInteraction::Base
   def execute
     Redis.new.set('getstatus', 1)
     if IMAGE_VOTES_COUNT.leaders(IMAGE_VOTES_COUNT.total_pages).count.zero?
-      Images.all.verified_image.each do |image|
+      Image.all.verified_image.each do |image|
         # IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.score)
         IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.score_like)
       end
