@@ -8,7 +8,7 @@ class DislikeImages < ActiveInteraction::Base
   validates :user, presence: true
 
   def execute
-    return false unless image.likes.where(user_id: user.id)
+    return false if image.likes.where(user_id: user.id).count < 1
     update_image
     begin
       update_leaderboard
