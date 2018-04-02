@@ -8,6 +8,7 @@ class UpdateUsersInsta < ActiveInteraction::Base
   validates :token_insta, presence: true
 
   def execute
+    return false if token_insta.split('en=')[1].nil?
     if user.update_attributes(insta_token: token_insta.split('en=')[1])
       true
     else

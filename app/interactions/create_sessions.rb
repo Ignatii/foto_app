@@ -5,6 +5,7 @@ class CreateSessions < ActiveInteraction::Base
   object :session, class: 'ActionDispatch::Request::Session'
 
   validates :auth_hash, presence: true
+  validates :session, presence: true
 
   def execute
     identity = Identity.where(provider: auth_hash[:provider], uid: auth_hash[:uid]).first

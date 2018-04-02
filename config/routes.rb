@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get 'users/create_remote', to: 'images#create_remote'
   get 'images/share/:id', to: 'images#share'
   get '/static_pages/home', to: 'static_pages#home'
+  #put '/user/:id/update', to: 'user#update'
   # api
   # namespace :api do
   #  namespace :v1 do
@@ -54,9 +55,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      put 'images/like/', to: 'images#upvote'
-      put 'images/dislike/', to: 'images#downvote'
-      resources :users, only: [:index, :create, :show, :update, :destroy]
+      put 'images/like/', to: 'images#upvote_like'
+      put 'images/dislike/', to: 'images#downvote_like'
+      resources :users, only: [:index, :show]
       resources :images do
         # member do
           # put 'like', to: 'images#upvote'

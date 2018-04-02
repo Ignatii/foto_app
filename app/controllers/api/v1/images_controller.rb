@@ -11,7 +11,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
   def index
     render(
       json: ActiveModel::ArraySerializer.new(
-        Image.all.verified_image.page(params[:page]).per(12),
+        ListImages.run!.page(params[:page]).per(12),
         each_serializer: Api::V1::ImageSerializer,
         root: 'images',
         # meta: meta_attributes(Image.all.verified_image)
@@ -35,37 +35,29 @@ class Api::V1::ImagesController < Api::V1::BaseController
     end
   end
 
-  def upvote
+  def upvote_like
     @image = Image.find(params['id'])
-    if !current_user.voted_up_on?(@image)
-      begin
-        Redis.new.set('getstatus', 1)
-        @image.upvote_by current_user
-        IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score)
-      rescue Redis::CannotConnectError
-        @image.upvote_by @user
-        render(json: Api::V1::ImageSerializer.new(@image).to_json)
-      end
-    else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: 'Current user already upvoted for this picture' }, status: 401
+    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user already upvoted for this picture' }, status: 401) unless @image.likes.where(user_id: current_user.id).count == 0
+    @image.likes.create(user_id: current_user.id)
+    @image.update_attributes(likes_img: @image[:likes_img] + 1)
+    begin
+      Redis.new.set('getstatus', 1)   
+      IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)
+    ensure
+      render(json: Api::V1::ImageSerializer.new(@image).to_json)
     end
   end
 
-  def downvote
+  def downvote_like
     @image = Image.find(params['id'])
-    if !current_user.voted_down_on?(@image)
-      begin
-        Redis.new.set('getstatus', 1)
-        @image.downvote_by current_user
-        IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, @image.score)
-      rescue Redis::CannotConnectError
-        @image.downvote_by current_user
-      end
+    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user didnt voted for this picture' }, status: 401) unless @image.likes.where(user_id: current_user.id)
+    Like.delete(Like.where(user_id: current_user.id,image_id: @image.id))
+    @image.update_attributes(likes_img: @image[:likes_img] - 1) if @image[:likes_img] > 0
+    begin
+      Redis.new.set('getstatus', 1)
+      IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)
+    ensure
       render(json: Api::V1::ImageSerializer.new(@image).to_json)
-    else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: 'Current user already downvoted for this picture' }, status: 401
     end
   end
 end

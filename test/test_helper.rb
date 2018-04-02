@@ -13,7 +13,12 @@ class ActiveSupport::TestCase
   def sign_in
     session[:user_id] = User.first.id
   end
+
+  def sign_in_api
+    current_user = User.find_by(api_token: request.headers['TOKEN_USER'])
+  end
+
   def current_user
-    User.find_by(id: session[:user_id])
+    User.find_by(id: session[:user_id]) if session[:user_id]
   end
 end
