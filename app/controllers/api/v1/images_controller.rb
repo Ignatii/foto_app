@@ -31,7 +31,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
       end
     else
       response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: 'Image not uploaded' }, status: 401
+      render json: { error: 'Pass image!' }, status: 401
     end
   end
 
@@ -50,7 +50,8 @@ class Api::V1::ImagesController < Api::V1::BaseController
 
   def downvote_like
     @image = Image.find(params['id'])
-    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user didnt voted for this picture' }, status: 401) unless @image.likes.where(user_id: current_user.id)
+    debugger
+    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user didnt voted for this picture' }, status: 401) if @image.likes.where(user_id: current_user.id).count < 1
     Like.delete(Like.where(user_id: current_user.id,image_id: @image.id))
     @image.update_attributes(likes_img: @image[:likes_img] - 1) if @image[:likes_img] > 0
     begin

@@ -39,8 +39,7 @@ class Api::V1::CommentsController < Api::V1::BaseController
     if @comment
       if @comment.user_id == current_user.id
         @comment.destroy
-        response.headers['WWW-COMMENTS'] = 'Token realm=Application'
-        render json: { error: 'Comment deleted' }, status: 200
+        render json: { success: 'Comment deleted' }, status: 200
       else
         response.headers['WWW-COMMENTS'] = 'Token realm=Application'
         render json: { error: 'You have no permission to delete this object' },

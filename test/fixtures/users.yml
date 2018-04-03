@@ -1,0 +1,8 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+ignat:
+  id: 1
+  name: Ignatiy,
+  email: 'test@mail.ru'
+  insta_token: 'sf4sdsf44ffd32e='
+  api_token: "5FB23t5kK8g1RfSMkyzua3YA624="

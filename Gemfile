@@ -40,6 +40,9 @@ group :development, :test do
   gem 'byebug',  '9.0.6', platform: :mri
   gem 'sqlite3', '1.3.13'
   gem 'rspec-rails', '~> 3.7'
+  gem 'factory_bot_rails'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
@@ -56,6 +59,8 @@ group :test do
   gem 'rails-controller-testing', '1.0.2'
   gem 'guard',                    '2.13.0'
   gem 'guard-minitest',           '2.4.4'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :production do
