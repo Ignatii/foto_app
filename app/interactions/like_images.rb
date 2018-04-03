@@ -8,13 +8,10 @@ class LikeImages < ActiveInteraction::Base
   validates :user, presence: true
 
   def execute
-    return false unless image.likes.where(user_id: user[:id]).count == 0
+    return errors.add(:like_error, "ALready voted for this picture!") unless image.likes.where(user_id: user[:id]).count == 0
     update_image
-    begin
-      update_leaderboard
-    ensure
-      return true
-    end
+    update_leaderboard
+    image
   end
 
   private

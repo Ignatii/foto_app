@@ -10,13 +10,13 @@ describe LikeImages do
 
   describe "when liked by user who didnt like" do
     it "must respond true" do
-      @result_true.result.must_equal true
+      @result_false.result.valid?.must_equal true
     end
   end
 
   describe "when liked by user who already liked" do
     it "must respond false" do
-      @result_false.result.must_equal false
+      @result_false.valid?.must_equal false
     end
   end
 end

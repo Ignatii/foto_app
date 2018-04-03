@@ -8,14 +8,10 @@ class DislikeImages < ActiveInteraction::Base
   validates :user, presence: true
 
   def execute
-    return false if image.likes.where(user_id: user.id).count < 1
-    update_image
-    begin
-      update_leaderboard
-    ensure
-      #update_image
-      return true
-    end
+    return errors.add(:base, "Can't downvote for not voted image") if image.likes.where(user_id: user.id).count < 1
+    update_image || return 
+    update_leaderboard
+    image
   end
 
   private
@@ -24,8 +20,12 @@ class DislikeImages < ActiveInteraction::Base
     @image ||= Image.find_by(id: image_id)
   end
 
+  def like
+    @like ||= Like.find_by(user_id: user.id,image_id: image.id)
+  end
+
   def update_image
-    Like.delete(Like.where(user_id: user.id,image_id: image.id))
+    like.delete
     image.update_attributes(likes_img: image[:likes_img] - 1) if image[:likes_img] > 0
   end
 
