@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   def create
     if auth_hash
       result = CreateSessions.run(session: session, auth_hash: request.env['omniauth.auth'])
-      flash[:success] = "Open point via #{auth_hash.provider} added"
+      #flash[:success] = "Open point via #{auth_hash.provider} added"
       user = result.result
     end
     redirect_to user_path(user)
