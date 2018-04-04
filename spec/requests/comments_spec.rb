@@ -12,7 +12,7 @@ RSpec.describe 'Comments', type: :request do
 
   describe 'POST /comments/' do
     it 'returns to images page if comment body is empty' do
-      post "/comments/", params: {image_id: image.id, comment: {body: ''} }
+      post "/comments/", params: {image_id: image.id, comment: {body: '', image_id: image.id} }
       expect(flash[:warning]).to be_present
       expect(flash[:warning]).to match(/Comment must not be empty!*/)
       expect(response).to redirect_to("/images/#{image.id}")
@@ -33,14 +33,6 @@ RSpec.describe 'Comments', type: :request do
                                                         comment_id: comment.id} }
       expect(flash[:success]).to be_present
       expect(flash[:success]).to match(/Comment added*/)
-      expect(response).to redirect_to("/images/#{image.id}")
-    end
-
-    it 'returns to images page but didnt save comment because of invalid data' do
-      post "/comments/", params: {image_id: image.id, comment: { body: 'test',
-                                                        image_id: image.id} }
-      expect(flash[:warning]).to be_present
-      expect(flash[:warning]).to match(/Comment didnt save*/)
       expect(response).to redirect_to("/images/#{image.id}")
     end
   end

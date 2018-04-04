@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+require "test_helper"
 
 Comment.transaction do
 describe CreateComments do
@@ -9,7 +9,7 @@ describe CreateComments do
                                            image_id: Image.first.id,
                                            comment_id: 0 },
                                            user: User.first)
-      @result_with_image.result.must_equal true
+      @result_with_image.result.must_equal 'Comment added'
       Comment.last.commentable_type.must_equal 'Image'
     end
   end
@@ -21,7 +21,7 @@ describe CreateComments do
                                              image_id: Image.first.id,
                                              comment_id: Comment.first.id },
                                              user: User.first)
-      @result_with_comment.result.must_equal true
+      @result_with_comment.result.must_equal 'Comment added'
       Comment.last.commentable_type.must_equal 'Comment'
       #raise ActiveRecord::Rollback
       #end

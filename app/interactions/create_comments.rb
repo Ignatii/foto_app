@@ -4,13 +4,14 @@ class CreateComments < ActiveInteraction::Base
   hash :params do 
     string :body
     integer :image_id
-    integer :comment_id
+    integer :comment_id, default: 0
   end 
   object :user, class: '::User'
 
   validates :params, presence: true
   validates :user, presence: true
   def execute
+    return errors.add(:base, 'Comment must not be empty!') if params[:body].empty?
     return errors.merge!(@comment.errors) unless @comment = parent.comments.build(body: params[:body], user_id: user.id)
     # if @comment.save
     #   true
