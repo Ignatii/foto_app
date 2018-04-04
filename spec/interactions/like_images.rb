@@ -10,13 +10,9 @@ RSpec.describe LikeImages do
   let!(:params_false) { { user: user, image_id: image2.id } }
   let!(:outcome_false) { LikeImages.run(params_false) }
 
-  it 'should be present' do
-   expect(outcome_true.result.valid?).to be(true)
-   expect(outcome_false.result.valid?).to be(false)
-  end
-  
   it 'should be valid' do
    expect(outcome_true.valid?).to be(true)
+   expect(outcome_false.valid?).to be(false)
   end
 
   it 'should return true' do
@@ -24,6 +20,6 @@ RSpec.describe LikeImages do
   end
 
   it 'should return false' do
-   expect(outcome_false.result.valid?).to be(false)
+   expect(outcome_false.valid?).to be(false)
   end
 end

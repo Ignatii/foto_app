@@ -11,13 +11,13 @@ describe DislikeImages do
 
   describe "dislike if liked by user" do
     it "must respond true" do
-      @result_true.result.must_equal true
+      @result_true.valid?.must_equal true
     end
   end
 
   describe "dont dislike if user didnt liked it" do
     it "must respond false" do
-      @result_false.result.must_equal false
+      @result_false.valid?.must_equal false
     end
   end
 end

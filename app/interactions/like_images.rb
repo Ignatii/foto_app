@@ -8,7 +8,7 @@ class LikeImages < ActiveInteraction::Base
   validates :user, presence: true
 
   def execute
-    return errors.add(:like_error, "ALready voted for this picture!") unless image.likes.where(user_id: user[:id]).count == 0
+    errors.add(:base, 'You already voted for this photo!') unless image.likes.where(user_id: user[:id]).count == 0
     update_image
     update_leaderboard
     image
@@ -21,7 +21,7 @@ class LikeImages < ActiveInteraction::Base
   end
 
   def update_image
-    image.likes.create(user_id: user[:id])
+    errors.merge!(image.errors) unless image.likes.create(user_id: user[:id])
     image.update_attributes(likes_img: image[:likes_img] + 1)
   end
 

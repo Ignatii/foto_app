@@ -82,7 +82,7 @@ RSpec.describe 'Users', type: :request do
       @like = create(:like, image_id: 4)
       put "/images/#{@image.id}/like"
       expect(flash[:warning]).to be_present
-      expect(flash[:warning]).to match(/You already voted for this image!*/)
+      expect(flash[:warning]).to match(/You already voted for this photo!*/)
       expect(response).to redirect_to(root_url)
     end
   end

@@ -49,13 +49,13 @@ class ImagesController < ProxyController
 
   def upvote_like
     result = LikeImages.run image_id: params[:id], user: current_user
-    flash[:warning] = result.result unless result.valid?
+    flash[:warning] = result.errors.full_messages.to_sentence unless result.valid?
     redirect_to root_url
   end
 
   def downvote_like
     result = DislikeImages.run image_id: params[:id], user: current_user
-    flash[:warning] = result.result unless result.valid?
+    flash[:warning] = result.errors.full_messages.to_sentence unless result.valid?
     redirect_to root_url
   end
 
