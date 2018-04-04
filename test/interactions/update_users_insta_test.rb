@@ -8,14 +8,16 @@ describe FindImages do
   end
 
   describe "when valid params passed" do
-    it "must respond true" do
-      @result_true.result.must_equal true
+    it "must respond string" do
+      @result_true.valid?.must_equal true
+      @result_true.result.must_equal 'Your photos from instagram successfully added'
     end
   end
 
   describe "when invalid params passed" do
-    it "must respond false" do
-      @result_false.result.must_equal false
+    it "must respond error" do
+      @result_false.valid?.must_equal false
+      @result_false.errors.full_messages.to_sentence.must_equal 'Problem with adding your instagram photos. Try later or contact admin'
     end
   end
 

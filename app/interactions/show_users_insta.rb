@@ -3,7 +3,6 @@ require 'active_interaction'
 class ShowUsersInsta < ActiveInteraction::Base
   object :user, class: '::User'
 
-
   validates :user, presence: true
 
   def execute

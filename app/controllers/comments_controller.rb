@@ -11,8 +11,8 @@ class CommentsController < ProxyController
     return (flash[:warning] = 'Comment must not be empty!') && redirect_to(image_path(Image.find_by(id: params[:image_id]))) if params[:comment][:body].empty?
     result = CreateComments.run(params: params.require(:comment).permit(:body,:image_id, :comment_id).to_unsafe_h,
                                 user: current_user)
-    flash[:success] = 'Comment added' if result.result
-    flash[:warning] = 'Comment didnt save' unless result.result
+    flash[:success] = result.result if result.valid?
+    flash[:warning] = result.errors.full_messages.to_sentence unless result.valid?
     #redirect_to image_path(Image.find_by(id: params[:image_id])) if params[:image_id]
     redirect_to Image.find_by(id: params[:comment][:image_id]) if params[:comment][:image_id]
   end

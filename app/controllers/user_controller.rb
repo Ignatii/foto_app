@@ -21,11 +21,8 @@ class UserController < ProxyController
   def update
   	redirect_to current_user and return if params['token_insta'].empty?
     result = UpdateUsersInsta.run(user: current_user, token_insta: params['token_insta'])
-    if result.result
-      flash[:success] = 'Your photos from instagram successfully added'
-    else
-      flash[:warning] = 'Problem with adding your instagram photos. Try later or contact admin'
-    end
+    flash[:warning] = result.errors.full_messages.to_sentence unless result.valid?
+    flash[:success] = result.result if result.valid?
     redirect_to current_user
   end
 end

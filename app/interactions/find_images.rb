@@ -15,6 +15,7 @@ class FindImages < ActiveInteraction::Base
       images.sort_by(&:comments_count).map do |image|
       end
     end
+    # errors.add(:base, 'No photos in database!') if images.empty?
     images
   end
 end

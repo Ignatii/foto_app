@@ -11,12 +11,14 @@ class CreateComments < ActiveInteraction::Base
   validates :params, presence: true
   validates :user, presence: true
   def execute
-    @comment = parent.comments.build(body: params[:body], user_id: user.id)
-    if @comment.save
-      true
-    else
-      false
-    end
+    return errors.merge!(@comment.errors) unless @comment = parent.comments.build(body: params[:body], user_id: user.id)
+    # if @comment.save
+    #   true
+    # else
+    #   false
+    # end
+    return errors.merge!(@comment.errors) unless @comment.save
+    return 'Comment added' if @comment.save
   end
 
   def parent
