@@ -3,7 +3,7 @@ FactoryBot.define do
   
   factory :user do
     id 1
-    insta_token 'sf4sdsf44ffd32e='
+    insta_token '4088921481.a999fd0.64eec4699b2946d1882946ec2d8762e1'
     api_token "5FB23t5kK8g1RfSMkyzua3YA624="
     name "RspecUser"
     email "rspec@test.com"

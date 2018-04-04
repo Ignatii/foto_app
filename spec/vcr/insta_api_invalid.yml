@@ -1,0 +1,49 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.instagram.com/v1/users/self/media/recent/?access_token=3454545&count=12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Vary:
+      - Cookie, Accept-Language
+      Content-Language:
+      - en
+      Date:
+      - Wed, 04 Apr 2018 14:51:59 GMT
+      Set-Cookie:
+      - csrftoken=kD581NEReVud2Nu8qg33CHrLVvmEcOWj; expires=Wed, 03-Apr-2019 14:51:59
+        GMT; Max-Age=31449600; Path=/; Secure
+      - rur=ASH; Path=/
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '124'
+    body:
+      encoding: UTF-8
+      string: '{"meta": {"code": 400, "error_type": "OAuthAccessTokenException", "error_message":
+        "The access_token provided is invalid."}}'
+    http_version: 
+  recorded_at: Wed, 04 Apr 2018 14:51:59 GMT
+recorded_with: VCR 4.0.0

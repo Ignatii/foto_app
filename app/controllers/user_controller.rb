@@ -7,7 +7,8 @@ class UserController < ProxyController
     return if current_user.insta_token.nil?
     # hash_user = {user: current_user}
     result = ShowUsersInsta.run(user: current_user)
-    @insta_images = result.result if result.result
+    @insta_images = result.result if result.valid?
+    flash[:warning] = result.errors.full_messages.to_sentence unless result.valid?
   end
 
   def index

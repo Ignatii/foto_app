@@ -53,8 +53,9 @@ group :development do
 end
 
 group :test do
-  #gem 'minitest-rails'
-  gem "minitest"
+  gem 'minitest-rails'
+  #gem "minitest"
+  gem 'minitest-spec-rails'
   gem 'test-unit'
   gem 'minitest-reporters',       '1.1.14'
   gem 'rails-controller-testing', '1.0.2'

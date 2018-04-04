@@ -22,10 +22,7 @@ class CreateRemoteImages < ActiveInteraction::Base
     @images = user.images.build(remote_image_url: params[:url_image][:url])
     @images.tags = params[:insta_tags].join(' ') unless params[:insta_tags].nil?
     @images.title_img = params[:text].split('#')[0] unless params[:text].nil?
-    if @images.save
-      true
-    else
-      false
-    end
+    return errors.merge!(@images.errors) unless @images.save
+    @images
   end
 end

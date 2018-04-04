@@ -11,15 +11,17 @@ class ImagesController < ProxyController
   end
 
   def create
-    return (flash[:warning] = 'Choose image!') && redirect_to(current_user) unless params.key?(:image)
+    return (flash[:warning] = 'Choose image!') && redirect_to(current_user) if params[:image][:image].nil?
     # (flash[:warning] = 'Choose image!') && redirect_to(current_user) && return unless params.key?(:image)
     result = CreateImages.run(params: params.require(:image).permit(:image, :title_img, :tags, :user_id).to_unsafe_h)
-    case result.result
-    when true
-      flash[:success] = 'Image uploaded!Wait moderation :)'
-    else
-      flash[:warning] = 'Image do not uploaded!'
-    end
+    flash[:warning] = result.errors.full_messages.to_sentence unless result.valid?
+    flash[:success] = 'Image uploaded!Wait moderation :)' if result.valid?
+    # case result.result
+    # when true
+    #   flash[:success] = 'Image uploaded!Wait moderation :)'
+    # else
+    #   flash[:warning] = 'Image do not uploaded!'
+    # end
     redirect_to current_user
   end
 
@@ -31,12 +33,14 @@ class ImagesController < ProxyController
   def create_remote
     return (flash[:warning] = 'Somethimg wrong! Talk with moderator') && redirect_to(current_user) unless params.key?(:url_image)
     result = CreateRemoteImages.run(params: params.to_unsafe_h)
-    case result.result
-    when true
-      flash[:success] = 'Image uploaded from Instagram!Wait moderation :)'
-    else
-      flash[:warning] = 'Image do not uploaded!'
-    end
+    flash[:warning] = result.errors.full_messages.to_sentence unless result.valid?
+    flash[:success] = 'Image uploaded!Wait moderation :)' if result.valid?
+    # case result.result
+    # when true
+    #   flash[:success] = 'Image uploaded from Instagram!Wait moderation :)'
+    # else
+    #   flash[:warning] = 'Image do not uploaded!'
+    # end
     redirect_to current_user
   end
 

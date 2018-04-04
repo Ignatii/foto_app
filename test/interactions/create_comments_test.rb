@@ -1,6 +1,6 @@
 require "test_helper"
 
-Comment.transaction do
+#Comment.transaction do
 describe CreateComments do
 
   describe "create comment with parent-image and body" do
@@ -29,5 +29,5 @@ describe CreateComments do
   end
 end
 
-raise ActiveRecord::Rollback
-end
+#raise ActiveRecord::Rollback
+#end

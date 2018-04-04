@@ -1,7 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
-require "minitest/spec"
+require "minitest/rails"
 
 # Load fixtures from the engine
 # if ActiveSupport::TestCase.respond_to?(:fixture_path=)
@@ -28,10 +28,10 @@ class ActiveSupport::TestCase
   # parallelize(workers: 4)
   # Setup all fixtures in test/fixtures/*.yml for tests in alphabetical order.
   fixtures :all
-  extend MiniTest::Spec::DSL
-  register_spec_type self do |desc|
-    desc < ActiveRecord::Base if desc.is_a? Class
-  end
+  # extend MiniTest::Spec::DSL
+  # register_spec_type self do |desc|
+  #   desc < ActiveRecord::Base if desc.is_a? Class
+  # end
   # current_user = users(:Ignatiy)
   # Add more helper methods to be used by all tests here...
   def sign_in

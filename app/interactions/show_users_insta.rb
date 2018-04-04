@@ -14,7 +14,7 @@ class ShowUsersInsta < ActiveInteraction::Base
       return @insta_images = response_parsed["data"]
       rescue OpenURI::HTTPError
         user.update_attributes(insta_token: nil)
-        return false
+        return errors.add(:base, 'Something went wrong with Instagramm or your key to it,please re-add it.')
       end
   end
 end

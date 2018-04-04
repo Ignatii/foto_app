@@ -24,10 +24,12 @@ class CreateImages < ActiveInteraction::Base
     image = user.images.build(image: params[:image])
     image.title_img = params[:title]
     image.tags = params[:tags]
-    if image.save
-      true
-    else
-      false
-    end
+    return errors.merge!(image.errors) unless image.save
+    image
+    # if image.save
+    #   true
+    # else
+    #   false
+    # end
   end
 end
