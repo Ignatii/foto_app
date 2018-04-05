@@ -9,14 +9,19 @@ class Api::V1::ImagesController < Api::V1::BaseController
   end
 
   def index
-    render(
-      json: ActiveModel::ArraySerializer.new(
-        ListImages.run!.page(params[:page]).per(12),
-        each_serializer: Api::V1::ImageSerializer,
-        root: 'images',
-        # meta: meta_attributes(Image.all.verified_image)
+    @images = ListImages.run!.page(params[:page]).per(12)
+    if @images.valid?
+      render(
+        json: ActiveModel::ArraySerializer.new(
+          ListImages.run!.page(params[:page]).per(12),
+          each_serializer: Api::V1::ImageSerializer,
+          root: 'images',
+          # meta: meta_attributes(Image.all.verified_image)
+        )
       )
-    )
+    else
+      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
+      render json: { error: @images.errors.full_messages.to_sentence }, status: 401
   end
 
   def create

@@ -1,6 +1,28 @@
 ActiveAdmin.register Image do
   permit_params :aasm_state
 
+  # config.filters = false
+  # preserve_default_filters!
+  remove_filter :comments, :likes, :image, :created_at
+  # filter :user, label: 'User'
+  #filter :user_name_contains, :as => :string
+  filter :title_img, label: 'Title'
+  filter :tags, label: 'Tags'
+  filter :created_at, label: 'Created At', as: :date_time_picker
+  # filter :user, as: :search_select_filter, url: proc { user_path(:user) },
+  #        fields: [:name], display_name: 'name', minimum_input_length: 2,
+  #        order_by: 'name_asc'
+  # filter :by_user_name_in, label: "User name", as: :string
+  # filter :search_name_in,
+  #         label: 'User name',
+  #         as: :string
+  filter :user_name_cont, label: 'User name', as: :string
+  filter :comments_body_cont, label: 'Comment contains', as: :string
+  # filter :comments_id, label: 'Comment_id', as: :numeric
+  # filter :search_comment_in,
+  #         label: 'Search by comment',
+  #         as: :string
+
   member_action :reject, method: :post, only: :index do
   end
 
@@ -8,16 +30,35 @@ ActiveAdmin.register Image do
   end
 
   index do
-    column :id
+    selectable_column
+    # column :id
     column 'Image' do |image|
       image_tag image.image.thumb.url # , class: 'my_image_size'
     end
-    column 'User ID', :user_id
-    column 'State', :aasm_state
+    # column 'User ID and name', "#{image.user_id} - #{image.user.name}"
+    column 'User ID and name' do |image|
+      "#{image.user_id} - #{image.user.name}"
+    end
+    state_column 'State', :aasm_state
+    #state_column(:aasm_state, states: { destroyed: "rejected" , created: 'verified'})
     actions defaults: true do |image|
       item 'Reject',  reject_admin_image_path(image), method: :post unless image.rejected?
       item 'Verify', verify_admin_image_path(image), method: :post unless image.verified?
     end
+  end
+  
+  batch_action :verify do |ids|
+    batch_action_collection.find(ids).each do |image|
+      image.verify! unless image.verified?
+    end
+    redirect_to collection_path, notice: "Selected images has been verified"
+  end
+
+  batch_action :reject do |ids|
+    batch_action_collection.find(ids).each do |image|
+      image.reject! unless image.rejected?
+    end
+    redirect_to collection_path, notice: "Selected images has been rejected"
   end
 
   show do

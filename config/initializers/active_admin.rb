@@ -7,6 +7,13 @@ ActiveAdmin.setup do |config|
   # for each of the active admin pages.
   #
   config.site_title = 'Foto App'
+  
+  # config.datetime_picker_default_options = {
+  #   format: "d-m-Y H:i",
+  #   step: 10 # minutes
+  # }
+
+  # config.datetime_picker_input_format = "%d-%m-%Y %H:%M"
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.

@@ -9,7 +9,8 @@ class Api::V1::SessionsController < Api::V1::BaseController
         status: 201
       )
     else
-      return api_error(status: 401)
+      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
+      render json: { error: 'Cant find user with this token!' }, status: 401
     end
   end
   # private

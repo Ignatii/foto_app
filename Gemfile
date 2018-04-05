@@ -35,6 +35,8 @@ gem 'active_model_serializers', '0.9.3'
 gem 'active_hash_relation', '~> 1.4.0'
 gem 'loofah', '~> 2.2.1'
 gem 'social-share-button'
+gem 'ransack'
+gem 'activeadmin_addons'
 
 group :development, :test do
   gem 'byebug',  '9.0.6', platform: :mri
