@@ -1,5 +1,8 @@
 
 FactoryBot.define do
+  factory :joins_images_users_comment do
+    
+  end
   
   factory :user do
     id 1

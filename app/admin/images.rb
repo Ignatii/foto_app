@@ -138,7 +138,7 @@ ActiveAdmin.register Image do
   end
 
   collection_action :csvimage, :method => :post do
-    @images_csv = Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
+    @images_csv = Her.all # Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
     path = Rails.root.join('public', 'import', 'images.csv')
     CSV.open(path, "wb") do |csv|
       csv << @images_csv.attribute_names
@@ -154,15 +154,16 @@ ActiveAdmin.register Image do
   end
 
   collection_action :xlsimage, :method => :post do
-    @images_xls = Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
+    @images_xls = Her.all # Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
     path = Rails.root.join('public', 'import', 'images.xls')
     File.open(path, "w+") do |f|
-      f.write(@images_xls.to_a.to_xls(:only => [:id, :image, :created_at,
-                                           :aasm_state, :title_img,
-                                           :tags, :likes_img,
-                                           :id_u, :name,
-                                           :email, :id_c,
-                                           :c_id_u, :body]).force_encoding('utf-8').encode)
+      f.write(@images_xls.to_a.to_xls(:only => [:idd, :image,
+                                           :i_u_id, :i_created_at,
+                                           :state, :title,
+                                           :tags, :likes,
+                                           :u_id, :name,
+                                           :email, :c_id,
+                                           :comment_text, :c_created_at]).force_encoding('utf-8').encode)
     end
     redirect_to request.referer, notice: 'XLS created!'
   end

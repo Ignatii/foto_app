@@ -39,6 +39,8 @@ gem 'ransack'
 gem 'activeadmin_addons'
 gem 'activeadmin-sortable'
 gem 'to_xls-rails'
+# gem 'scenic'
+
 
 group :development, :test do
   gem 'byebug',  '9.0.6', platform: :mri
@@ -47,6 +49,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'vcr'
   gem 'webmock'
+  # gem 'scenic_mysql'
 end
 
 group :development do
