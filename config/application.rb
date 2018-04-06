@@ -23,6 +23,7 @@ module FotoApp
     config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
     config.assets.initialize_on_precompile = false
     config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")
+    config.encoding = "utf-8"
     # Settings in config/environments/*
     # take precedence over those specified here.
     # Application configuration should go into files in config/initializers

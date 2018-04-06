@@ -22,7 +22,7 @@ class User < ApplicationRecord
     # end
     create(name: info[:name], email: info[:email],)
   end
-
+  
   def generate_authentication_token
     loop do
       self.api_token = SecureRandom.base64(20)

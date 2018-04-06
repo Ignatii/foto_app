@@ -37,6 +37,8 @@ gem 'loofah', '~> 2.2.1'
 gem 'social-share-button'
 gem 'ransack'
 gem 'activeadmin_addons'
+gem 'activeadmin-sortable'
+gem 'to_xls-rails'
 
 group :development, :test do
   gem 'byebug',  '9.0.6', platform: :mri

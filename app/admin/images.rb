@@ -1,11 +1,15 @@
+require 'nokogiri'
+require 'csv'
+
 ActiveAdmin.register Image do
   permit_params :aasm_state
-
+  config.sort_order = 'position_asc'
+  config.per_page = 20
   # config.filters = false
   # preserve_default_filters!
   remove_filter :comments, :likes, :image, :created_at
   # filter :user, label: 'User'
-  #filter :user_name_contains, :as => :string
+  # filter :user_name_contains, :as => :string
   filter :title_img, label: 'Title'
   filter :tags, label: 'Tags'
   filter :created_at, label: 'Created At', as: :date_time_picker
@@ -30,6 +34,7 @@ ActiveAdmin.register Image do
   end
 
   index do
+    sortable_handle_column
     selectable_column
     # column :id
     column 'Image' do |image|
@@ -79,8 +84,91 @@ ActiveAdmin.register Image do
                        if: proc { image.rejected? || image.unverified? } do
     link_to('Verify', verify_admin_image_path(image), method: :post)
   end
+  
+  action_item do
+    link_to('Import XML', 'images/xmlimage', :method => :post) 
+  end
+
+  collection_action :xmlimage, :method => :post do
+    @images_xml = Image.all.order(:likes_img)
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.images {
+          @images_xml.each do |image|
+            user = image.user
+            xml.image {
+              xml.id image.id
+              xml.image_name image.image
+              xml.created_at image.created_at
+              xml.state image.aasm_state
+              xml.title image.title_img
+              xml.tags image.tags
+              xml.likes image.likes_img
+              xml.user{
+                xml.user_id user.id
+                xml.name_user user.name
+                xml.email user.email
+              }
+              xml.comments{
+                comments = image.comments
+                if comments.count > 0
+                  comments.each do |comment|
+                    xml.comment_xml{
+                      xml.comment_id comment.id
+                      xml.user_id comment.user_id
+                      xml.body comment.body
+                      xml.created_at comment.created_at
+                    }
+                  end
+                end
+              }
+            }
+          end
+        }
+      end
+      path = Rails.root.join('public', 'import', 'images.xml')
+      content = builder.to_xml
+      File.open(path, "w+") do |f|
+        f.write(content)
+      end
+      redirect_to request.referer, notice: 'XML created!'
+  end
+
+  action_item do
+    link_to('Import CXV', 'images/csvimage', :method => :post) 
+  end
+
+  collection_action :csvimage, :method => :post do
+    @images_csv = Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
+    path = Rails.root.join('public', 'import', 'images.csv')
+    CSV.open(path, "wb") do |csv|
+      csv << @images_csv.attribute_names
+      @images_csv.each do |image|
+        csv << image.attributes.values
+      end
+    end
+    redirect_to request.referer, notice: 'CSV created!'
+  end
+
+  action_item do
+    link_to('Import Excel', 'images/xlsimage', :method => :post) 
+  end
+
+  collection_action :xlsimage, :method => :post do
+    @images_xls = Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
+    path = Rails.root.join('public', 'import', 'images.xls')
+    File.open(path, "w+") do |f|
+      f.write(@images_xls.to_a.to_xls(:only => [:id, :image, :created_at,
+                                           :aasm_state, :title_img,
+                                           :tags, :likes_img,
+                                           :id_u, :name,
+                                           :email, :id_c,
+                                           :c_id_u, :body]).force_encoding('utf-8').encode)
+    end
+    redirect_to request.referer, notice: 'XLS created!'
+  end
 
   controller do
+
     def update
       @image = Image.find(params[:id])
       Image.update(@image.id, params[:image][:aasm_state])

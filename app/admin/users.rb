@@ -23,13 +23,13 @@ ActiveAdmin.register User do
       #       column defaults: true do |image|
 		    #   item 'Reject',  reject_admin_image_path(image), method: :post unless image.rejected?
 		    #   item 'Verify', verify_admin_image_path(image), method: :post unless image.verified?
-		    # end
+		    # e
             column 'Verify' do |image|
-              link_to "Verify", verify_admin_image_path(image)
+              link_to "Verify", verify_admin_image_path(image) unless image.verified?
             end
             column 'Reject' do |image|
 
-              link_to "Reject", reject_admin_image_path(image)
+              link_to "Reject", reject_admin_image_path(image) unless image.rejected?
             end
           # end
         # end
