@@ -21,7 +21,9 @@ class Api::V1::ImagesController < Api::V1::BaseController
       )
     else
       response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: @images.errors.full_messages.to_sentence }, status: 401
+      render json: { error: @images.errors.full_messages.to_sentence },
+             status: :unauthorized
+    end
   end
 
   def create
@@ -32,21 +34,21 @@ class Api::V1::ImagesController < Api::V1::BaseController
         render(json: Api::V1::ImageSerializer.new(@images).to_json)
       else
         response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-        render json: { error: 'Image not uploaded' }, status: 401
+        render json: { error: 'Image not uploaded' }, status: :unauthorized
       end
     else
       response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: 'Pass image!' }, status: 401
+      render json: { error: 'Pass image!' }, status: :unauthorized
     end
   end
 
   def upvote_like
     @image = Image.find(params['id'])
-    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user already upvoted for this picture' }, status: 401) unless @image.likes.where(user_id: current_user.id).count == 0
+    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user already upvoted for this picture' }, status: :unauthorized) unless @image.likes.where(user_id: current_user.id).count.zero?
     @image.likes.create(user_id: current_user.id)
-    @image.update_attributes(likes_img: @image[:likes_img] + 1)
+    @image.update(likes_img: @image[:likes_img] + 1)
     begin
-      Redis.new.set('getstatus', 1)   
+      Redis.new.set('getstatus', 1)
       IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)
     ensure
       render(json: Api::V1::ImageSerializer.new(@image).to_json)
@@ -55,10 +57,9 @@ class Api::V1::ImagesController < Api::V1::BaseController
 
   def downvote_like
     @image = Image.find(params['id'])
-    debugger
-    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user didnt voted for this picture' }, status: 401) if @image.likes.where(user_id: current_user.id).count < 1
-    Like.delete(Like.where(user_id: current_user.id,image_id: @image.id))
-    @image.update_attributes(likes_img: @image[:likes_img] - 1) if @image[:likes_img] > 0
+    return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user didnt voted for this picture' }, status: :unauthorized) if @image.likes.where(user_id: current_user.id).count < 1
+    Like.delete(Like.where(user_id: current_user.id, image_id: @image.id))
+    @image.update(likes_img: @image[:likes_img] - 1) if @image[:likes_img].positive?
     begin
       Redis.new.set('getstatus', 1)
       IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)

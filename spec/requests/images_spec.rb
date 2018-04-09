@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   let(:image) { create(:image) }
-  
+
   before do
-  	Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
-    get "/auth/facebook/callback"
+    Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:facebook]
+    get '/auth/facebook/callback'
   end
 
   describe 'GET /images/:id' do
@@ -24,27 +24,27 @@ RSpec.describe 'Users', type: :request do
 
   describe 'POST /images' do
     it 'shouldnt save without image' do
-      post "/images"
+      post '/images'
       expect(flash[:warning]).to be_present
       expect(flash[:warning]).to match(/Choose image!*/)
       expect(response).to redirect_to("/user/#{session[:user_id]}")
     end
 
-    it 'should not save image with params invalid(image), title, tags and user_id' do
-      post "/images", params: {image: { image: 'dfdfdfdfdf',
-                              title_img: 'testing',
-                              tags: 'test tag',
-                              user_id: session[:user_id] }}
+    it 'should not save image with params invalid(image), title, tags' do
+      post '/images', params: { image: { image: 'dfdfdfdfdf',
+                                         title_img: 'testing',
+                                         tags: 'test tag',
+                                         user_id: session[:user_id] } }
       expect(flash[:warning]).to be_present
       expect(flash[:warning]).to match(/Image do not uploaded!*/)
       expect(response).to redirect_to("/user/#{session[:user_id]}")
     end
 
     it 'should save image with params valid(image), title, tags and user_id' do
-      post "/images", params: {image: { image: File.open("/home/ignatiy/Загрузки/index.jpeg",'r'),
-                              title_img: 'testing',
-                              tags: 'test tag',
-                              user_id: session[:user_id] }}
+      post '/images', params: {image: { image: File.open('/home/ignatiy/Загрузки/index.jpeg','r'),
+                                        title_img: 'testing',
+                                        tags: 'test tag',
+                                        user_id: session[:user_id] } }
       expect(flash[:success]).to be_present
       # expect(flash[:success]).to match(/Image uploaded!Wait moderation*/)
       expect(response).to redirect_to("/user/#{session[:user_id]}")
@@ -60,12 +60,11 @@ RSpec.describe 'Users', type: :request do
     end
 
     it 'should save remote with valid params image' do
-      get '/users/create_remote/', params: {url_image: { url: 'https://scontent.cdninstagram.com/vp/9225dda2a4739d20fe2a452b6c8491a1/5B6B6405/t51.2885-15/s320x320/e35/21689930_2017148641838602_4835430415567159296_n.jpg'},
-                                           text: 'testing remote',
-                                           inta_tags: 'test remote',
-                                           user_id: session[:user_id] }
+      get '/users/create_remote/', params: { url_image: { url: 'https://scontent.cdninstagram.com/vp/9225dda2a4739d20fe2a452b6c8491a1/5B6B6405/t51.2885-15/s320x320/e35/21689930_2017148641838602_4835430415567159296_n.jpg' },
+                                             text: 'testing remote',
+                                             inta_tags: 'test remote',
+                                             user_id: session[:user_id] }
       expect(flash[:success]).to be_present
-      # expect(flash[:success]).to match(/Image uploaded from Instagram!Wait moderation*/)
       expect(response).to redirect_to("/user/#{session[:user_id]}")
     end
   end

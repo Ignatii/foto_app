@@ -1,0 +1,4 @@
+<div style="background-color: lightblue">
+<h3>Hiiiiii! <%= @user.name%>!</h3>
+<p>Yo, man, its Foto app team!We want to say, that foto uploaded to you was shitty!and we removed it from dashboard!So, if you want to unshit it check your profile on <a href='<%= "#{ENV['REDIRECT_INSTA']}/user/#{@user.id}"%>'>Your profile</a></p>
+</div>

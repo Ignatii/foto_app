@@ -30,7 +30,7 @@ class Api::V1::CommentsController < Api::V1::BaseController
     else
       response.headers['WWW-COMMENTS'] = 'Token realm=Application'
       render json: { error: 'Cant save comment.Check all required parametres' },
-             status: 401
+             status: :unauthorized
     end
   end
 
@@ -39,15 +39,15 @@ class Api::V1::CommentsController < Api::V1::BaseController
     if @comment
       if @comment.user_id == current_user.id
         @comment.destroy
-        render json: { success: 'Comment deleted' }, status: 200
+        render json: { success: 'Comment deleted' }, status: :ok
       else
         response.headers['WWW-COMMENTS'] = 'Token realm=Application'
         render json: { error: 'You have no permission to delete this object' },
-               status: 401
+               status: :unauthorized
       end
     else
       response.headers['WWW-COMMENTS'] = 'Token realm=Application'
-      render json: { error: 'Comment not found' }, status: 404
+      render json: { error: 'Comment not found' }, status: :not_found
     end
   end
 end

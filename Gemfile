@@ -40,6 +40,8 @@ gem 'activeadmin_addons'
 gem 'activeadmin-sortable'
 gem 'to_xls-rails'
 # gem 'scenic'
+gem 'whenever', require: false
+gem 'country_select'
 
 
 group :development, :test do
@@ -57,6 +59,7 @@ group :development do
   gem 'web-console',           '3.5.1'
   gem 'spring',                '2.0.2'
   gem 'spring-watcher-listen', '2.0.1'
+  gem 'rubocop'
 end
 
 group :test do

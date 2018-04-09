@@ -1,8 +1,8 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe ShowUsersInsta, vcr: true do
   let!(:user) { create(:user) }
-  let!(:user2) { create(:user,id:2, insta_token: '3454545') }
+  let!(:user2) { create(:user, id: 2, insta_token: '3454545') }
   let(:params_true) { { user: user } }
   let(:outcome_true) do
     VCR.use_cassette('insta_api') do
@@ -22,7 +22,7 @@ RSpec.describe ShowUsersInsta, vcr: true do
   end
 
   it 'should return true' do
-   expect(outcome_true.result.class).to match([a:1].class)
+    expect(outcome_true.result.class).to match([a: 1].class)
   end
 
   it 'should return false' do

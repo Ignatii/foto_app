@@ -1,11 +1,10 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
-require "minitest/rails"
+require 'minitest/rails'
 
 # Load fixtures from the engine
 # if ActiveSupport::TestCase.respond_to?(:fixture_path=)
-#   ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 # end
 
 # class ActiveSupport::TestCase
@@ -39,7 +38,7 @@ class ActiveSupport::TestCase
   end
 
   def sign_in_api
-    current_user = User.find_by(api_token: request.headers['TOKEN_USER'])
+    User.find_by(api_token: request.headers['TOKEN_USER'])
   end
 
   def current_user

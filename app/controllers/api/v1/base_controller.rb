@@ -16,24 +16,17 @@ class Api::V1::BaseController < ActionController::API
 
   def unauthenticated!
     response.headers['WWW-Authenticate'] = 'Token realm=Application'
-    render json: { error: 'Bad credentials' }, status: 401
+    render json: { error: 'Bad credentials' }, status: :unauthorized
   end
 
   def authenticate_user!
     user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
-    if user
-      # @current_user = user
-      current_user
-    else
-      return unauthenticated!
-    end
+    return user if current_user
+    return unauthenticated! unless current_user
   end
 
   def current_user
-    if request.headers['HTTP_TOKEN_USER']
-      User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
-    else
-      nil
-    end
+    @user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
+    return @user if @user
   end
 end

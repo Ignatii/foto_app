@@ -6,11 +6,12 @@ class Api::V1::SessionsController < Api::V1::BaseController
       self.current_user = user
       render(
         json: Api::V1::SessionSerializer.new(user, root: false).to_json,
-        status: 201
+        status: :created
       )
     else
       response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: 'Cant find user with this token!' }, status: 401
+      render json: { error: 'Cant find user with this token!' },
+             status: :unauthorized
     end
   end
   # private

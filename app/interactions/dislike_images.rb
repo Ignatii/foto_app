@@ -1,6 +1,6 @@
 require 'active_interaction'
 # add functionality to show sorted images
-class DislikeImages < ActiveInteraction::Base 
+class DislikeImages < ActiveInteraction::Base
   integer :image_id
   object :user, class: '::User'
 
@@ -8,8 +8,9 @@ class DislikeImages < ActiveInteraction::Base
   validates :user, presence: true
 
   def execute
-    return errors.add(:base, "Can't downvote for not voted image") if image.likes.where(user_id: user.id).count < 1
-    update_image 
+    lks_ct = image.likes.where(user_id: user.id).count
+    return errors.add(:base, "Can't downvote for not voted image") if lks_ct < 1
+    update_image
     update_leaderboard
     image
   end
@@ -21,12 +22,12 @@ class DislikeImages < ActiveInteraction::Base
   end
 
   def like
-    @like ||= Like.find_by(user_id: user.id,image_id: image.id)
+    @like ||= Like.find_by(user_id: user.id, image_id: image.id)
   end
 
   def update_image
-    return errors.merge!(Like.errors) unless Like.delete(Like.find_by(user_id: user.id,image_id: image.id))
-    return errors.merge!(image.errors) unless image.update(likes_img: image[:likes_img] - 1) if image[:likes_img] > 0
+    return errors.merge!(Like.errors) unless Like.delete(Like.find_by(user_id: user.id, image_id: image.id))
+    return errors.merge!(image.errors) unless image.update(likes_img: image[:likes_img] - 1) if image[:likes_img].positive?
   end
 
   def update_leaderboard
@@ -34,6 +35,6 @@ class DislikeImages < ActiveInteraction::Base
       Redis.new.set('getstatus', 1)
       IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.score_like)
     rescue Redis::CannotConnectError
-    end 
+    end
   end
 end

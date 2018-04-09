@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     member do
       put 'like', to: 'images#upvote_like'
       put 'dislike', to: 'images#downvote_like'
+      put 'unshit', to: 'images#unshit'
     end
   end
 

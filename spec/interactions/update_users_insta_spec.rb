@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe UpdateUsersInsta, vcr: true do
   let!(:user) { create(:user) }
@@ -16,11 +16,13 @@ RSpec.describe UpdateUsersInsta, vcr: true do
   end
 
   it 'should return string' do
-   expect(outcome_true.result).to match('Your photos from instagram successfully added')
+    message = 'Your photos from instagram successfully added'
+    expect(outcome_true.result).to match(message)
   end
 
   it 'should return error' do
-   expect(outcome_false.valid?).to be(false)
-   expect(outcome_false.errors.full_messages.to_sentence).to match('Problem with adding your instagram photos. Try later or contact admin')
+    expect(outcome_false.valid?).to be(false)
+    m = 'Problem with adding your instagram photos. Try later or contact admin'
+    expect(outcome_false.errors.full_messages.to_sentence).to match(m)
   end
 end

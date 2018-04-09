@@ -1,11 +1,7 @@
 require 'active_interaction'
 # add functionality to show sorted images
 class CreateRemoteImages < ActiveInteraction::Base
-   hash :params, strip: false do
-  #   string :img_url
-  #   object :user, class: '::User'
-  #   string :title
-  #   array :tags
+  hash :params, strip: false do
   end
 
   validates :params, presence: true

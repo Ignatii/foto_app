@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
 
   # def check_banned_user
   #  unless current_user[:banned_until].nil?
-  #    redirect_to static_pages_help_path unless current_user[:banned_until] < Time.now
   #  end
   # end
 

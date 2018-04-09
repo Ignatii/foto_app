@@ -1,7 +1,7 @@
 require 'active_interaction'
 # add functionality to show sorted images
 class CreateImages < ActiveInteraction::Base
-  hash :params do 
+  hash :params do
     file :image
     string :title_img
     string :tags

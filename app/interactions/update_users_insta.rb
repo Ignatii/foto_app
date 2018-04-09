@@ -1,6 +1,6 @@
 require 'active_interaction'
 # add functionality to show needed images
-class UpdateUsersInsta < ActiveInteraction::Base 
+class UpdateUsersInsta < ActiveInteraction::Base
   object :user, class: '::User'
   string :token_insta
 

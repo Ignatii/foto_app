@@ -10,14 +10,13 @@ class ListImages < ActiveInteraction::Base
       end
     end
     @ids ||= []
-    IMAGE_VOTES_COUNT.leaders(IMAGE_VOTES_COUNT.total_pages).each do |image_rank|
-      @ids << image_rank[:member].to_i
+    IMAGE_VOTES_COUNT.leaders(IMAGE_VOTES_COUNT.total_pages).each do |imag_rank|
+      @ids << imag_rank[:member].to_i
     end
     @images = Image.find_ordered(@ids)
     # errors.add(:base, 'No photos in database!')
     @images
     rescue Redis::CannotConnectError
-      #Image.verified_image.order(cached_votes_up: :asc)
       Image.verified_image.order(likes_img: :desc)
   end
 end

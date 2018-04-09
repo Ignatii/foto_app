@@ -8,10 +8,11 @@ class CreateSessions < ActiveInteraction::Base
   validates :session, presence: true
 
   def execute
-    identity = Identity.where(provider: auth_hash[:provider], uid: auth_hash[:uid]).first
+    identity = Identity.where(provider: auth_hash[:provider],
+                              uid: auth_hash[:uid]).first
     if identity
       user = User.find_by(id: identity.user_id)
-      identity.update_attributes!(
+      identity.update!(
         token: auth_hash[:credentials][:token],
         secret: auth_hash[:credentials][:secret],
         expires_at: expires_at
@@ -29,17 +30,17 @@ class CreateSessions < ActiveInteraction::Base
       )
     end
     session[:user_id] = user.id unless signed_in?
-    return user
+    user
   end
 
   def current_user_session
     return false if session[:user_id].nil?
     begin
-      #user_path(User.find_by(id: session[:user_id]))
+      # user_path(User.find_by(id: session[:user_id]))
       User.find_by(id: session[:user_id])
     rescue ActiveRecord::RecordNotFound
       session[:user_id] = nil
-      #root_path
+      # root_path
     end
   end
 
@@ -49,9 +50,9 @@ class CreateSessions < ActiveInteraction::Base
 
   def expires_at
     if auth_hash[:credentials][:expires_at].present?
-      Time.at(auth_hash[:credentials][:expires_at]).to_datetime
+      Time.zone.at(auth_hash[:credentials][:expires_at]).to_datetime
     elsif auth_hash[:credentials][:expires_in].present?
-      DateTime.now + auth_hash[:credentials][:expires_in].to_i.seconds
+      Time.zone.now + auth_hash[:credentials][:expires_in].to_i.seconds
     end
   end
 end

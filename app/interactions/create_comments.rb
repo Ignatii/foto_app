@@ -1,18 +1,19 @@
 require 'active_interaction'
 # add functionality to show needed images
 class CreateComments < ActiveInteraction::Base
-  hash :params do 
+  hash :params do
     string :body
     integer :image_id
     integer :comment_id, default: 0
-  end 
+  end
   object :user, class: '::User'
 
   validates :params, presence: true
   validates :user, presence: true
   def execute
-    return errors.add(:base, 'Comment must not be empty!') if params[:body].empty?
-    return errors.merge!(@comment.errors) unless @comment = parent.comments.build(body: params[:body], user_id: user.id)
+    return errors.add(:base, 'Comment is empty!') if params[:body].empty?
+    @comment = parent.comments.build(body: params[:body], user_id: user.id)
+    return errors.merge!(@comment.errors) unless @comment
     # if @comment.save
     #   true
     # else

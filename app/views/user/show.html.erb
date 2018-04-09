@@ -78,7 +78,11 @@
 	  	<div class="col-sm-6 col-md-4">
 	    	  <div class="thumbnail">
 		    <%= link_to image_tag(image.image.thumb.url, :alt => image[:id]), {:controller => 'images', :action => 'show', :id => image[:id]} %>
+
 		 </div>
+     <% if image.shited? %>
+        <%= link_to "Unshit", unshit_image_path(image), method: :put , class: "btn btn-xs btn-info center-block" %>
+        <% end %>
 	       </div>     
 	    
 	  <% end %>

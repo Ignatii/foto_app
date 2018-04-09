@@ -7,8 +7,9 @@ class User < ApplicationRecord
   has_many :identities, dependent: :destroy
   validates :name, presence: true
   validates :email, presence: true
-  #validates :api_token, presence: true
-  #acts_as_voter
+  has_many :visits, dependent: :destroy
+  has_many :countries, through: :visits
+  accepts_nested_attributes_for :visits, allow_destroy: true
 
   def self.create_user(info)
     # where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -17,12 +18,13 @@ class User < ApplicationRecord
     #  user.name = auth.info.name
     #  user.email = auth.info.email
     #  user.oauth_token = auth.credentials.token
-    #  user.oauth_expires_at = Time.zone.at(auth.credentials.expires_at) if auth.provider == 'facebook'
+    #  user.oauth_expires_at = Time.zone.at(auth.credentials.expires_at)
+    # if auth.provider == 'facebook'
     #  user.save!
     # end
-    create(name: info[:name], email: info[:email],)
+    create(name: info[:name], email: info[:email])
   end
-  
+
   def generate_authentication_token
     loop do
       self.api_token = SecureRandom.base64(20)

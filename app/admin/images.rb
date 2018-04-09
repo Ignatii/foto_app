@@ -10,8 +10,8 @@ ActiveAdmin.register Image do
   remove_filter :comments, :likes, :image, :created_at
   # filter :user, label: 'User'
   # filter :user_name_contains, :as => :string
-  filter :title_img, label: 'Title'
-  filter :tags, label: 'Tags'
+  filter :title_img_cont, label: 'Title'
+  filter :tags_cont, label: 'Tags'
   filter :created_at, label: 'Created At', as: :date_time_picker
   # filter :user, as: :search_select_filter, url: proc { user_path(:user) },
   #        fields: [:name], display_name: 'name', minimum_input_length: 2,
@@ -45,25 +45,26 @@ ActiveAdmin.register Image do
       "#{image.user_id} - #{image.user.name}"
     end
     state_column 'State', :aasm_state
-    #state_column(:aasm_state, states: { destroyed: "rejected" , created: 'verified'})
     actions defaults: true do |image|
-      item 'Reject',  reject_admin_image_path(image), method: :post unless image.rejected?
-      item 'Verify', verify_admin_image_path(image), method: :post unless image.verified?
+      r = image.rejected?
+      v = image.verified?
+      item 'Reject', reject_admin_image_path(image), method: :post unless r
+      item 'Verify', verify_admin_image_path(image), method: :post unless v
     end
   end
-  
+
   batch_action :verify do |ids|
     batch_action_collection.find(ids).each do |image|
       image.verify! unless image.verified?
     end
-    redirect_to collection_path, notice: "Selected images has been verified"
+    redirect_to collection_path, notice: 'Selected images has been verified'
   end
 
   batch_action :reject do |ids|
     batch_action_collection.find(ids).each do |image|
       image.reject! unless image.rejected?
     end
-    redirect_to collection_path, notice: "Selected images has been rejected"
+    redirect_to collection_path, notice: 'Selected images has been rejected'
   end
 
   show do
@@ -84,18 +85,18 @@ ActiveAdmin.register Image do
                        if: proc { image.rejected? || image.unverified? } do
     link_to('Verify', verify_admin_image_path(image), method: :post)
   end
-  
-  action_item do
-    link_to('Import XML', 'images/xmlimage', :method => :post) 
+
+  action_item :i_xml do
+    link_to('Import XML', 'images/xmlimage', method: :post)
   end
 
-  collection_action :xmlimage, :method => :post do
+  collection_action :xmlimage, method: :post do
     @images_xml = Image.all.order(:likes_img)
       builder = Nokogiri::XML::Builder.new do |xml|
-        xml.images {
+        xml.images do
           @images_xml.each do |image|
             user = image.user
-            xml.image {
+            xml.image do
               xml.id image.id
               xml.image_name image.image
               xml.created_at image.created_at
@@ -103,44 +104,44 @@ ActiveAdmin.register Image do
               xml.title image.title_img
               xml.tags image.tags
               xml.likes image.likes_img
-              xml.user{
+              xml.user do
                 xml.user_id user.id
                 xml.name_user user.name
                 xml.email user.email
-              }
-              xml.comments{
+              end
+              xml.comments do
                 comments = image.comments
-                if comments.count > 0
+                if comments.count.positive?
                   comments.each do |comment|
-                    xml.comment_xml{
+                    xml.comment_xml do
                       xml.comment_id comment.id
                       xml.user_id comment.user_id
                       xml.body comment.body
                       xml.created_at comment.created_at
-                    }
+                    end
                   end
                 end
-              }
-            }
+              end
+            end
           end
-        }
+        end
       end
-      path = Rails.root.join('public', 'import', 'images.xml')
-      content = builder.to_xml
-      File.open(path, "w+") do |f|
-        f.write(content)
+      # path = Rails.root.join('public', 'import', 'images.xml')
+      # content = builder.to_xml
+      File.open(Rails.root.join('public', 'import', 'images.xml'), 'w+') do |f|
+        f.write(builder.to_xml)
       end
       redirect_to request.referer, notice: 'XML created!'
   end
 
-  action_item do
-    link_to('Import CXV', 'images/csvimage', :method => :post) 
+  action_item :i_cxv do
+    link_to('Import CXV', 'images/csvimage', method: :post)
   end
 
-  collection_action :csvimage, :method => :post do
-    @images_csv = Her.all # Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
+  collection_action :csvimage, method: :post do
+    @images_csv = Her.all
     path = Rails.root.join('public', 'import', 'images.csv')
-    CSV.open(path, "wb") do |csv|
+    CSV.open(path, 'wb') do |csv|
       csv << @images_csv.attribute_names
       @images_csv.each do |image|
         csv << image.attributes.values
@@ -149,15 +150,15 @@ ActiveAdmin.register Image do
     redirect_to request.referer, notice: 'CSV created!'
   end
 
-  action_item do
-    link_to('Import Excel', 'images/xlsimage', :method => :post) 
+  action_item :i_xls do
+    link_to('Import Excel', 'images/xlsimage', method: :post)
   end
 
-  collection_action :xlsimage, :method => :post do
-    @images_xls = Her.all # Image.joins(:user, :comments).order(:likes_img).select ('images.*,users.*, users.id as id_u, comments.*, comments.id as id_c, comments.user_id as c_id_u')
+  collection_action :xlsimage, method: :post do
+    @images_xls = Her.all
     path = Rails.root.join('public', 'import', 'images.xls')
-    File.open(path, "w+") do |f|
-      f.write(@images_xls.to_a.to_xls(:only => [:idd, :image,
+    File.open(path, 'w+') do |f|
+      f.write(@images_xls.to_a.to_xls(only: [:idd, :image,
                                            :i_u_id, :i_created_at,
                                            :state, :title,
                                            :tags, :likes,
@@ -169,7 +170,6 @@ ActiveAdmin.register Image do
   end
 
   controller do
-
     def update
       @image = Image.find(params[:id])
       Image.update(@image.id, params[:image][:aasm_state])
@@ -189,7 +189,8 @@ ActiveAdmin.register Image do
         redirect_to request.referer, alert: 'Action didnt work!'
       end
       rescue Redis::CannotConnectError
-        redirect_to request.referer, alert: 'Image Rejected! Without Redis! Talk with administrator right now!' if image.reject!
+        mes = 'Image Rejected!Without Redis!Talk with administrator right now!'
+        redirect_to request.referer, alert: mes if image.reject!
     end
 
     def verify
@@ -199,9 +200,7 @@ ActiveAdmin.register Image do
       if image.rejected?
         scheduled = Sidekiq::ScheduledSet.new.select
         scheduled.map do |job|
-          if job.args == Array(params[:id].to_i)
-            job.delete
-          end
+          job.delete if job.args == Array(params[:id].to_i)
         end.compact
       end
       if image.verify!
@@ -210,7 +209,8 @@ ActiveAdmin.register Image do
         redirect_to request.referer, alert: 'Action didnt work!'
       end
       rescue Redis::CannotConnectError
-        redirect_to request.referer, alert: 'Image verified but cant work because Redis is down now' if image.verify!
+        mes = 'Image verified but cant work because Redis is down now'
+        redirect_to request.referer, alert: mes if image.verify!
     end
   end
 end

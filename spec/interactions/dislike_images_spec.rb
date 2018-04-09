@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe LikeImages do
   let!(:user) { create(:user) }
@@ -11,16 +11,17 @@ RSpec.describe LikeImages do
   let!(:outcome_true) { DislikeImages.run(params_false) }
 
   it 'should be valid' do
-   expect(outcome_true.valid?).to be(true)
-   expect(outcome_false.valid?).to be(false)
+    expect(outcome_true.valid?).to be(true)
+    expect(outcome_false.valid?).to be(false)
   end
 
   it 'should return true' do
-   expect(outcome_true.result.class).to match(image.class)
+    expect(outcome_true.result.class).to match(image.class)
   end
 
   it 'should return false' do
-   expect(outcome_false.valid?).to be(false)
-   expect(outcome_false.errors.full_messages.to_sentence).to match("Can't downvote for not voted image")
+    expect(outcome_false.valid?).to be(false)
+    message = "Can't downvote for not voted image"
+    expect(outcome_false.errors.full_messages.to_sentence).to match(message)
   end
 end

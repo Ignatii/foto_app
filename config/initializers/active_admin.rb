@@ -7,7 +7,7 @@ ActiveAdmin.setup do |config|
   # for each of the active admin pages.
   #
   config.site_title = 'Foto App'
-  
+
   # config.datetime_picker_default_options = {
   #   format: "d-m-Y H:i",
   #   step: 10 # minutes
@@ -240,7 +240,8 @@ ActiveAdmin.setup do |config|
   #
   #   config.namespace :admin do |admin|
   #     admin.build_menu :default do |menu|
-  #       menu.add label: "My Great Website", url: "http://www.mygreatwebsite.com",
+  #       menu.add label: "My Great Website",
+  #       url: "http://www.mygreatwebsite.com",
   # html_options: { target: :blank }
   #     end
   #   end
