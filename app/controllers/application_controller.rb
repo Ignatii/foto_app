@@ -1,6 +1,15 @@
 # application controller
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_action :set_locale
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def default_url_options(options={})
+    { :locale => I18n.locale }
+  end
   # before_action :check_current_user, :except => [:controller => :admin]
   # before_action :check_banned_user
 

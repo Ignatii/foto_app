@@ -19,6 +19,11 @@ module FotoApp
   # config for app
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
+    config.before_configuration do
+      I18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+      I18n.default_locale = :ru
+      I18n.reload!
+    end
     config.load_defaults 5.1
     config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
     config.assets.initialize_on_precompile = false

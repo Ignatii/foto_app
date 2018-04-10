@@ -14,6 +14,10 @@ ActiveAdmin.register Country do
     end
   end
 
+  # action_item :destroy_visit, only: %i[edit] do
+  #   link_to 'Delete', "/admin/visits/#{object.id}", method: :delete
+  # end
+
   form do |f|
     f.inputs 'Details' do
       f.input :name_country
@@ -29,13 +33,19 @@ ActiveAdmin.register Country do
         a.input :user_id,
                 as: :select,
                 collection: User.all.map { |u| [u.name, u.id] }
-        unless a.object.new_record?
-          a.button do
-            link_to 'Delete',
-                    delete_admin_visit_path(:id),
-                    method: :destroy
-          end
-        end
+        a.input :destroy, as: :radio
+       # unless a.object.new_record?
+       a.actions do
+         link_to 'Delete', "/admin/visits/#{object.id}", method: :delete
+       end
+        # a.actions do
+        #     # link_to 'Delete',
+        #     #         "/admin/visits/#{object.id}",
+        #     #         method: :delete
+        #     a.action :submit , label: "Delete", url: "/admin/visits/#{object.id}",
+        #               method: :delete
+        # end
+        #end
       end
     end
     f.submit

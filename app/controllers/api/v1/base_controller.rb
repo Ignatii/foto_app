@@ -19,14 +19,26 @@ class Api::V1::BaseController < ActionController::API
     render json: { error: 'Bad credentials' }, status: :unauthorized
   end
 
+  def disabled!
+    response.headers['WWW-Authenticate'] = 'Token realm=Application'
+    render json: { error: 'Api is disabled now!' }, status: :not_found
+  end
+
   def authenticate_user!
     user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
-    return user if current_user
+    return user if current_user && (redis_status == 'true' || redis_status.nil?)
     return unauthenticated! unless current_user
+    return disabled! if redis_status == 'false' || redis_status.nil?
   end
 
   def current_user
     @user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
     return @user if @user
+  end
+
+  private
+
+  def redis_status
+    $redis_api.get('api')
   end
 end

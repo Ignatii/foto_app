@@ -24,3 +24,10 @@
   &.unverified { background: yellow; }
   &.shited { background: brown; }
 }
+
+body #wrapper #header {
+  background-color: lightblue;
+  color: white;
+  font-color: white;
+  background-image: none;
+}
