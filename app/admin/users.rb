@@ -1,4 +1,5 @@
 ActiveAdmin.register User do
+  permit_params visits_attributes: %i[user_id enable]
   remove_filter :images,
                 :comments,
                 :likes,
@@ -14,6 +15,10 @@ ActiveAdmin.register User do
     selectable_column
     column 'User Name', :name
     column 'User Email', :email
+    column 'Amount of images' do |user|
+      link_to user.images.count.to_s,
+              admin_images_path(q: { user_id_eq: user.id })
+    end
     actions defaults: true
   end
 
@@ -57,23 +62,23 @@ ActiveAdmin.register User do
   controller do
     def reject
       image = Image.find_by(id: params[:id])
-      Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.remove_member(params[:id])
       if image.reject!
         CleanImages.perform_at(1.hour.from_now, image.id)
         redirect_to request.referer, notice: 'Image Rejected!'
       else
         redirect_to request.referer, alert: 'Action didnt work!'
       end
+      begin
+        Redis.new.set('getstatus', 1)
+        IMAGE_VOTES_COUNT.remove_member(params[:id])
       rescue Redis::CannotConnectError
         mes = 'Image Rejected!Without REDIS!Talk with administrator right now!'
         redirect_to request.referer, alert: mes if image.reject!
+      end
     end
 
     def verify
       image = Image.find_by(id: params[:id])
-      Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
       if image.rejected?
         scheduled = Sidekiq::ScheduledSet.new.select
         scheduled.map do |job|
@@ -85,9 +90,13 @@ ActiveAdmin.register User do
       else
         redirect_to request.referer, alert: 'Action didnt work!'
       end
+      begin
+        Redis.new.set('getstatus', 1)
+        IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
       rescue Redis::CannotConnectError
         mes = 'Image verified but cant work because Redis is down now'
         redirect_to request.referer, alert: mes if image.verify!
+      end
     end
   end
 end

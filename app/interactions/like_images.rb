@@ -22,8 +22,10 @@ class LikeImages < ActiveInteraction::Base
   end
 
   def update_image
-    return errors.merge!(Like.errors) unless image.likes.create(user_id: user[:id])
-    return errors.merge!(image.errors) unless image.update(likes_img: image[:likes_img] + 1)
+    img_lks_create = image.likes.create(user_id: user[:id])
+    img_upd = image.update(likes_img: image[:likes_img] + 1)
+    return errors.merge!(Like.errors) unless img_lks_create
+    return errors.merge!(image.errors) unless img_upd
   end
 
   def update_leaderboard

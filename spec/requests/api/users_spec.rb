@@ -5,8 +5,9 @@ RSpec.describe 'UsersAPI', type: :request do
 
   describe 'GET /users/:id' do
     it 'show users info' do
-      get '/api/v1/users/', params: {},
-                            headers: { 'HTTP_TOKEN_USER' => user.api_token.to_s }
+      get '/api/v1/users/',
+          params: {},
+          headers: { 'HTTP_TOKEN_USER' => user.api_token.to_s }
       expect(response).to have_http_status(200)
     end
 

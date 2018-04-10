@@ -8,7 +8,7 @@ class UserController < ProxyController
     # hash_user = {user: current_user}
     result = ShowUsersInsta.run(user: current_user)
     res = result.valid?
-    @insta_images = result.result ifres
+    @insta_images = result.result if res
     flash[:warning] = result.errors.full_messages.to_sentence unless res
   end
 

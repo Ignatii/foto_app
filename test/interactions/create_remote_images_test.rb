@@ -7,7 +7,7 @@ describe CreateRemoteImages do
   before do
     url_in = 'https://imagejournal.org/wp-content/uploads/bb-plugin/'\
              'cache/23466317216_b99485ba14_o-panorama.jpg'
-    t = ['testing', 'insta', 'teg']
+    t = %w[testing insta teg]
     te = 'Testing text #ffff'
     id = User.first.id
     @result_true = CreateRemoteImages.run(params: { url_image: { url: url_in },
@@ -15,7 +15,7 @@ describe CreateRemoteImages do
                                                     text: te,
                                                     user_id: id })
     url_in = 'in/cache/23466317216_b99485ba14_o-panorama.jpg'
-    t = ['testing', 'insta', 'teg']
+    t = %w[testing insta teg]
     te = 'Testing text #ffff'
     id = User.first.id
     @result_false = CreateRemoteImages.run(params: { url_image: { url: url_in },

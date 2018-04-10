@@ -35,6 +35,7 @@ class DislikeImages < ActiveInteraction::Base
       Redis.new.set('getstatus', 1)
       IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.score_like)
     rescue Redis::CannotConnectError
+      # nothing to do here
     end
   end
 end

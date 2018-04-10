@@ -158,13 +158,20 @@ ActiveAdmin.register Image do
     @images_xls = Her.all
     path = Rails.root.join('public', 'import', 'images.xls')
     File.open(path, 'w+') do |f|
-      f.write(@images_xls.to_a.to_xls(only: [:idd, :image,
-                                           :i_u_id, :i_created_at,
-                                           :state, :title,
-                                           :tags, :likes,
-                                           :u_id, :name,
-                                           :email, :c_id,
-                                           :comment_text, :c_created_at]).force_encoding('utf-8').encode)
+      f.write(@images_xls.to_a.to_xls(only: [:idd,
+                                             :image,
+                                             :i_u_id,
+                                             :i_created_at,
+                                             :state,
+                                             :title,
+                                             :tags,
+                                             :likes,
+                                             :u_id,
+                                             :name,
+                                             :email,
+                                             :c_id,
+                                             :comment_text,
+                                             :c_created_at]).force_encoding('utf-8').encode)
     end
     redirect_to request.referer, notice: 'XLS created!'
   end
@@ -180,23 +187,23 @@ ActiveAdmin.register Image do
 
     def reject
       image = Image.find_by(id: params[:id])
-      Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.remove_member(params[:id])
       if image.reject!
         CleanImages.perform_at(1.hour.from_now, image.id)
         redirect_to request.referer, notice: 'Image Rejected!'
       else
         redirect_to request.referer, alert: 'Action didnt work!'
       end
+      begin
+        Redis.new.set('getstatus', 1)
+        IMAGE_VOTES_COUNT.remove_member(params[:id])
       rescue Redis::CannotConnectError
         mes = 'Image Rejected!Without Redis!Talk with administrator right now!'
         redirect_to request.referer, alert: mes if image.reject!
+      end
     end
 
     def verify
       image = Image.find_by(id: params[:id])
-      Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
       if image.rejected?
         scheduled = Sidekiq::ScheduledSet.new.select
         scheduled.map do |job|
@@ -208,9 +215,13 @@ ActiveAdmin.register Image do
       else
         redirect_to request.referer, alert: 'Action didnt work!'
       end
+      begin
+        Redis.new.set('getstatus', 1)
+        IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
       rescue Redis::CannotConnectError
         mes = 'Image verified but cant work because Redis is down now'
         redirect_to request.referer, alert: mes if image.verify!
+      end
     end
   end
 end

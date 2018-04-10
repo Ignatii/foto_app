@@ -20,10 +20,12 @@ class ImagesControllerTest < ActionController::TestCase
 
   test 'should not save image with params invalid' do
     user = User.first
-    post :create, params: { image: { image: File.open('/home/ignatiy/Загрузки/index.jpeg', 'r'),
-                                     title_img: 'testing',
-                                     tags: 'test tag',
-                                     user_id: user.id } }
+    file = File.open('/home/ignatiy/Загрузки/index.jpeg', 'r')
+    post :create,
+         params: { image: { image: file,
+                            title_img: 'testing',
+                            tags: 'test tag',
+                            user_id: user.id } }
     assert_equal('Image do not uploaded!', flash[:warning])
     assert_redirected_to "/user/#{user.id}"
   end

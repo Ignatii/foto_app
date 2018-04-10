@@ -7,16 +7,16 @@ class StaticPagesController < ProxyController
 
   def home
     @images = ListImages.run!.page(params[:page]).per(12)
-    if request.xhr?.zero?
-      @result = FindImages.run(params: params.permit(:condition_search,
-                                                     :sort_data,
-                                                     :sort_upvote,
-                                                     :sort_comments).to_unsafe_h)
-      @images = @result.result
-      respond_to do |format|
-        format.js {}
-      end
+    return @images unless request.xhr?
+    @result = FindImages.run(params: params.permit(:condition_search,
+                                                   :sort_data,
+                                                   :sort_upvote,
+                                                   :sort_comments).to_unsafe_h)
+    @images = @result.result
+    respond_to do |format|
+      format.js {}
     end
+    # end
   end
 
   def help

@@ -11,8 +11,13 @@ class ImagesController < ProxyController
   end
 
   def create
-    return (flash[:warning] = 'Choose image!') && redirect_to(current_user) if params[:image][:image].nil?
-    result = CreateImages.run(params: params.require(:image).permit(:image, :title_img, :tags, :user_id).to_unsafe_h)
+    con = params[:image][:image].nil?
+    return (flash[:warning] = 'Empty img!') && redirect_to(current_user) if con
+    par_f_img = params.require(:image).permit(:image,
+                                              :title_img,
+                                              :tags,
+                                              :user_id).to_unsafe_h
+    result = CreateImages.run(params: par_f_img)
     res = result.valid?
     flash[:warning] = result.errors.full_messages.to_sentence unless res
     flash[:success] = 'Image uploaded!Wait moderation :)' if res

@@ -9,7 +9,7 @@ RSpec.describe CreateRemoteImages, vcr: true do
       user_id: user.id }
   end
   let(:params_false) do
-    { url_image: { url: 'https://scontent.cdninstagram.com/vp/9225dda2a4739d20fe2a452b6c8491a1/5B6B6405/t51.2885-15/s320x320/e35/21689930_2017148641838602_4835430415567159296_n.jpg'},
+    { url_image: { url: 'https://scontent.cdninstagram.com/vp/9225dda2a4739d20fe2a452b6c8491a1/5B6B6405/t51.2885-15/s320x320/e35/21689930_2017148641838602_4835430415567159296_n.jpg' },
       text: 'title #tag',
       insta_tags: %w[tag1,tag2],
       user_id: user.id }

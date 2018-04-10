@@ -8,12 +8,16 @@ class CommentsController < ProxyController
   end
 
   def create
-    result = CreateComments.run(params: params.require(:comment).permit(:body, :image_id, :comment_id).to_unsafe_h,
-                                user: current_user)
+    par_f_com = params.require(:comment).permit(:body, :image_id, :comment_id)
+    par_f_com = par_f_com.to_unsafe_h
+    result = CreateComments.run(params: par_f_com, user: current_user)
     res = result.valid?
     flash[:success] = result.result if res
     flash[:warning] = result.errors.full_messages.to_sentence unless res
-    redirect_to Image.find_by(id: params[:comment][:image_id]) if params[:comment][:image_id] if Image.find_by(id: params[:comment][:image_id])
+    red_img = Image.find_by(id: params[:comment][:image_id])
+    red_img_c = Image.find_by(id: params[:comment][:image_id])
+    redirect_to red_img if red_img
+    redirect_to red_img_c if red_img_c
   end
 
   def destroy

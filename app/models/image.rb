@@ -18,11 +18,11 @@ class Image < ApplicationRecord
     state :shited
 
     event :verify do
-      transitions from: [:unverified, :rejected, :shited], to: :verified
+      transitions from: %i[unverified rejected shited], to: :verified
     end
 
     event :reject do
-      transitions from: [:unverified, :verified], to: :rejected
+      transitions from: %i[unverified verified], to: :rejected
     end
 
     event :shit do
@@ -44,7 +44,7 @@ class Image < ApplicationRecord
     likes.count
   end
 
-  def comments_count
+  def self.comments_count
     comments.count
   end
 end

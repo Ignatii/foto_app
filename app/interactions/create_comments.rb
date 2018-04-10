@@ -24,7 +24,8 @@ class CreateComments < ActiveInteraction::Base
   end
 
   def parent
-    return Image.find_by(id: params[:image_id]) if params[:image_id] && params[:comment_id].zero?
-    return Comment.find_by(id: params[:comment_id]) unless params[:comment_id].zero?
+    zero_chk = params[:comment_id].zero?
+    return Image.find_by(id: params[:image_id]) if params[:image_id] && zero_chk
+    return Comment.find_by(id: params[:comment_id]) unless zero_chk
   end
 end

@@ -11,7 +11,9 @@ module GeoService
 
     def take_country
       begin
-        uri = URI("http://ws.geonames.org/countryCodeJSON?lat=#{@coord[:lat]}&lng=#{@coord[:lon]}&username=ignat")
+        str = 'http://ws.geonames.org/countryCodeJSON?lat='\
+              "#{@coord[:lat]}&lng=#{@coord[:lon]}&username=ignat"
+        uri = URI(str)
         result = Net::HTTP.get_response(uri)
         response_parsed = JSON.parse(result.body)
         bool_res = response_parsed['countryName'].nil?
@@ -19,11 +21,12 @@ module GeoService
         return response_parsed['countryName'] unless bool_res
         return 'Invalid coordinates' unless bool_inv
       rescue Exception => e
-        if e.class.to_s == 'SocketError'
-          return 'Something with HTTP connection. Try later.'
-        elsif e.class.to_s == 'ParserError'
-          return 'Cant parse response, talk with administrator'
-        end
+        ex_cl = e.class.to_s
+        # if e.class.to_s == 'SocketError'
+        return 'Something with HTTP connection/' if ex_cl == 'SocketError'
+        # elsif e.class.to_s == 'ParserError'
+        return 'Cant read response,contact admin' if ex_cl == 'ParserError'
+        # end
       end
     end
   end

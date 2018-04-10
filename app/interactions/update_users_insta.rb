@@ -8,7 +8,9 @@ class UpdateUsersInsta < ActiveInteraction::Base
   validates :token_insta, presence: true
 
   def execute
-    return errors.add(:base, 'Problem with adding your instagram photos. Try later or contact admin') if token_insta.split('en=')[1].nil?
-    return 'Your photos from instagram successfully added' if user.update(insta_token: token_insta.split('en=')[1])
+    mes = 'Problem with adding your instagram photos.Try later or contact admin'
+    return errors.add(:base, mes) if token_insta.split('en=')[1].nil?
+    upd_insta_tok = user.update(insta_token: token_insta.split('en=')[1])
+    return 'Your photos from instagram successfully added' if upd_insta_tok
   end
 end

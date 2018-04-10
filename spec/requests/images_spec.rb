@@ -41,10 +41,12 @@ RSpec.describe 'Users', type: :request do
     end
 
     it 'should save image with params valid(image), title, tags and user_id' do
-      post '/images', params: {image: { image: File.open('/home/ignatiy/Загрузки/index.jpeg','r'),
-                                        title_img: 'testing',
-                                        tags: 'test tag',
-                                        user_id: session[:user_id] } }
+      file = File.open('/home/ignatiy/Загрузки/index.jpeg', 'r')
+      post '/images',
+           params: { image: { image: file,
+                              title_img: 'testing',
+                              tags: 'test tag',
+                              user_id: session[:user_id] } }
       expect(flash[:success]).to be_present
       # expect(flash[:success]).to match(/Image uploaded!Wait moderation*/)
       expect(response).to redirect_to("/user/#{session[:user_id]}")

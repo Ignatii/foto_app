@@ -59,7 +59,8 @@ class Api::V1::ImagesController < Api::V1::BaseController
     @image = Image.find(params['id'])
     return (response.headers['WWW-UPLOAD'] = 'Token realm=Application') && (render json: { error: 'Current user didnt voted for this picture' }, status: :unauthorized) if @image.likes.where(user_id: current_user.id).count < 1
     Like.delete(Like.where(user_id: current_user.id, image_id: @image.id))
-    @image.update(likes_img: @image[:likes_img] - 1) if @image[:likes_img].positive?
+    condition = @image[:likes_img].positive?
+    @image.update(likes_img: @image[:likes_img] - 1) if condition
     begin
       Redis.new.set('getstatus', 1)
       IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)

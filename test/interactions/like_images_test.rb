@@ -3,7 +3,8 @@ require 'minitest/autorun'
 # Image.transaction do
 describe LikeImages do
   before do
-    Like.where(image_id: Image.second.id).first.delete if Like.where(image_id: Image.second.id).first
+    like = Like.where(image_id: Image.second.id).first
+    Like.where(image_id: Image.second.id).first.delete if like
     @result_true = LikeImages.run(image_id: Image.second.id, user: User.first)
     @result_false = LikeImages.run(image_id: Image.first.id, user: User.first)
   end

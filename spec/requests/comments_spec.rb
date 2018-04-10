@@ -45,8 +45,9 @@ RSpec.describe 'Comments', type: :request do
       create(:image, id: 4)
       create(:comment, id: 2, commentable_id: image.id)
       id_image = comment.commentable_id
-      delete "/comments/#{comment.id}", params: {},
-                                        headers: { 'HTTP_REFERER' => image_path(image).to_s }
+      delete "/comments/#{comment.id}",
+             params: {},
+             headers: { 'HTTP_REFERER' => image_path(image).to_s }
       expect(response).to redirect_to("/images/#{id_image}")
     end
   end
