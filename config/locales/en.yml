@@ -31,3 +31,93 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    models:
+      user:
+        one: User
+        other: Users
+        few: Users
+      country:
+        one: Country
+        other: Countries
+        few: Country
+      image:
+        one: Image
+        other: Images
+        few: Images
+      admin_user:
+        one: Admin
+        other: Admins
+        few: Admins
+      visit:
+        one: Visit
+        other: Visits
+        few: Visits
+        many: Visits
+    attributes:
+      user:
+        name: name
+        email: email
+        created_at: created at
+        updated_at: updated at
+        api_token: api token
+        insta_token: instagramm token
+      visit:
+        user: user
+        country: country
+        enable: enable
+        created_at: created at
+        updated_at: updated at
+      country:
+        name_country: name country
+        created_at: created at
+        updated_at: updated at
+      admin_user:
+        email: email
+        encrypted_password: encrypted password
+        reset_password_token: reset_password_token
+        reset_password_sent_at: reset_password_sent_at
+        remember_created_at: created at
+        sign_in_count: sign_in_count
+        current_sign_in_at: current_sign_in_at
+        last_sign_in_at: last_sign_in_at
+        current_sign_in_ip: current IP
+        last_sign_in_ip: last IP
+        created_at: created at
+        updated_at: updated at
+      image:
+        image: image
+        user_id: user
+        created_at: created at
+        updated_at: updated at
+        aasm_state: state
+        title_img: title
+        tags: tags
+        likes_img: likes count
+  active_admin:
+    logout: Logout
+    models_db:
+      user:
+        amount: photo amount
+        reject: reject
+        verify: verify
+        users_image: users image
+      visit: visit
+      country:
+        users: users
+        details: details
+        table_visit: table of visits
+        visits: visits
+      image:
+        title_img_cont: title
+        tags: tags
+        user_name: user name
+        comment_contains: comment contains
+        image_column: image
+        user_id_name: user ID and name
+        reject_img: reject
+        vetify_img: verify
+        i_xml: Import XML
+        i_xls: Import XLS
+        i_csv: Import CSV
+    languages: Languages

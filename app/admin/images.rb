@@ -26,6 +26,7 @@ ActiveAdmin.register Image do
   # filter :search_name_in,
   #         label: 'User name',
   #         as: :string
+  debugger
   filter :user_name_cont,
          label: I18n.t(:user_name,
                        scope: %i[active_admin models_db image])
