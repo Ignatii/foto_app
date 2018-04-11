@@ -2,12 +2,14 @@ ActiveAdmin.register Country do
   permit_params :name_country, :created_at, :updated_at,
                 visits_attributes: %i[id user_id enable _destroy]
   # accepts_nested_attributes_for :visits, allow_destroy: true
+  remove_filter :visits, :users
   show do
     default_main_content
 
-    panel 'Table of Visits' do
+    panel I18n.t(:table_visit, scope: %i[active_admin models_db country]) do
       table_for country.visits do
-        column 'Users' do |visit|
+        column I18n.t(:users,
+                      scope: %i[active_admin models_db country]) do |visit|
           User.find_by(id: visit.user_id).name
         end
       end
@@ -19,33 +21,36 @@ ActiveAdmin.register Country do
   # end
 
   form do |f|
-    f.inputs 'Details' do
+    f.inputs I18n.t(:details, scope: %i[active_admin models_db country]) do
       f.input :name_country
       f.input :created_at
       f.input :updated_at
     end
     f.inputs do
       f.has_many :visits,
-                 heading: 'Visits',
+                 heading: I18n.t(:visits,
+                                 scope: %i[active_admin models_db country]),
                  allow_destroy: true,
                  new_record: true do |a|
         a.input :enable, type: :checkboxes
         a.input :user_id,
                 as: :select,
                 collection: User.all.map { |u| [u.name, u.id] }
-        a.input :destroy, as: :radio
+        # a.input :delete, as: :radio
        # unless a.object.new_record?
        a.actions do
-         link_to 'Delete', "/admin/visits/#{object.id}", method: :delete
+         link_to I18n.t(:delete,
+                        scope: %i[active_admin]),
+                 "/admin/visits/#{object.id}", method: :delete
        end
         # a.actions do
         #     # link_to 'Delete',
         #     #         "/admin/visits/#{object.id}",
         #     #         method: :delete
-        #     a.action :submit , label: "Delete", url: "/admin/visits/#{object.id}",
+        #     a.action:submit ,label:"Delete",url:"/admin/visits/#{object.id}",
         #               method: :delete
         # end
-        #end
+        # end
       end
     end
     f.submit

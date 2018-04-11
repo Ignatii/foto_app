@@ -10,50 +10,98 @@ ru:
       country:
         one: "Страна"
         other: 'Страны'
+        few: Страны
       image:
         one: "Фото"
         other: 'Фото'
+        few: 'Фото'
       admin_user:
         one: "Администратор"
         other: 'Администраторы'
       visit:
-        one: "Визит"
-        other: 'Визиты'
-      attributtes:
-        user:
-          name: 'Имя'
-          email: 'Емэйл'
-          created_at: 'Создан'
-          updated_at: 'Изменен'
-          api_token: 'Ключ API'
-          insta_token: 'Ключ Инстаграмма'
-        visit:
-          visit_id: 'вававава'
-          enable: 'Используется'
-          user_id: "ID пользователя"
-          country_id: 'ID страны'
-          created_at: 'Создан'
-          updated_at: 'Изменен'
-        country:
-          country_name: "Название страны"
-        admin_user:
-          email: "Имэйл"
+        one: Визит
+        other: Визиты
+        few: Визиты
+        many: Визитов
+    attributes:
+      user:
+        name: 'Имя'
+        email: 'Емэйл'
+        created_at: 'Создан'
+        updated_at: 'Изменен'
+        api_token: 'Ключ API'
+        insta_token: 'Ключ Инстаграмма'
+      visit:
+        user: Пользователь
+        country: Страна
+        enable: Используется
+        created_at: Создан
+        updated_at: Изменён
+      country:
+        name_country: "Название страны"
+        created_at: 'Создан'
+        updated_at: 'Изменен'
+      admin_user:
+        email: "Имэйл"
+        encrypted_password: Зашифрованный пароль
+        reset_password_token: Перешифровать токен пароля
+        reset_password_sent_at: Запрос послан в
+        remember_created_at: Создан
+        sign_in_count: Количество вхождений
+        current_sign_in_at: Находится сейчас
+        last_sign_in_at: Последнее время вхождения
+        current_sign_in_ip: Текущий IP
+        last_sign_in_ip: Последний IP
+        created_at: 'Создан'
+        updated_at: 'Изменен'
+      image:
+        image: Картинка
+        user_id: Пользователь
+        created_at: 'Создан'
+        updated_at: 'Изменен'
+        aasm_state: Состояние
+        title_img: Название
+        tags: Тэги
+        likes_img: Количество голосов
   active_admin:
     dashboard: "Панель управления"
     dashboard_welcome:
       welcome: "Добро пожаловать в Active Admin. Это стандартная страница управления сайтом."
       call_to_action: "Чтобы добавить сюда что-нибудь загляните в 'app/admin/dashboard.rb'"
-    visit:
-      enable: "Используется"
-    attributes:
-      project:
-        titles: "вавава"
+    models_db:
+      user:
+        amount: Фотографии (кол-во)
+        reject: Отклонить
+        verify: Принять
+        users_image: Фото пользователя
+      visit: Визит
+      country:
+        users: Пользователи
+        details: Детали
+        table_visit: Таблица визитов
+        visits: Визиты
+      image:
+        title_img_cont: Название
+        tags: Тэги
+        user_name: Имя пользователя
+        comment_contains: Комментарий содержит
+        image_column: Картинка
+        user_id_name: ID и имя пользователя
+        reject_img: Отклонить
+        vetify_img: Принять
+        i_xml: Импорт XML
+        i_xls: Импорт XLS
+        i_csv: Импорт CSV
     view: "Открыть"
     edit: "Изменить"
+    update: "Обновить"
     delete: "Удалить"
+    languages: Языки
     delete_confirmation: "Вы уверены, что хотите удалить это?"
     new_model: "Создать %{model}"
     edit_model: "Изменить %{model}"
+    update_model: "Обновить %{model}"
+    commit_model: "Обновить %{model}"
     delete_model: "Удалить %{model}"
     details: "%{model} подробнее"
     cancel: "Отмена"
@@ -121,6 +169,8 @@ ru:
       action_label: "%{title} выбранное"
       labels:
         destroy: "Удалить"
+        reject: Отклонить
+        verify: Принять
     comments:
       created_at: "Дата создания"
       resource_type: "Тип ресурса"
@@ -355,9 +405,11 @@ ru:
     select:
       prompt: 'Выберите: '
     submit:
+      edit: Обновить %{model}
       create: Создать %{model}
       submit: Сохранить %{model}
-      update: Сохранить %{model}
+      commit: Сохранить %{model}
+      update: Обновить %{model}
   number:
     currency:
       format:

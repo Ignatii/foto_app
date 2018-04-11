@@ -88,5 +88,5 @@ Rails.application.configure do
     :authentication       => 'plain',
     :enable_starttls_auto => true
   }
-
+  config.i18n.available_locales = [:ru, :en]
 end

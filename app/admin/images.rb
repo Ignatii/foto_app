@@ -10,8 +10,12 @@ ActiveAdmin.register Image do
   remove_filter :comments, :likes, :image, :created_at
   # filter :user, label: 'User'
   # filter :user_name_contains, :as => :string
-  filter :title_img_cont, label: 'Title'
-  filter :tags_cont, label: 'Tags'
+  filter :title_img_cont,
+         label: I18n.t(:title_img_cont,
+                       scope: %i[active_admin models_db image])
+  filter :tags_cont,
+         label: I18n.t(:tags,
+                       scope: %i[active_admin models_db image])
   filter :created_at, label: 'Created At', as: :date_time_picker
   # filter :user, as: :search_select_filter, url: proc { user_path(:user) },
   #        fields: [:name], display_name: 'name', minimum_input_length: 2,
@@ -20,8 +24,12 @@ ActiveAdmin.register Image do
   # filter :search_name_in,
   #         label: 'User name',
   #         as: :string
-  filter :user_name_cont, label: 'User name', as: :string
-  filter :comments_body_cont, label: 'Comment contains', as: :string
+  filter :user_name_cont,
+         label: I18n.t(:user_name,
+                       scope: %i[active_admin models_db image])
+  filter :comments_body_cont,
+         label: I18n.t(:comment_contains,
+                       scope: %i[active_admin models_db image]), as: :string
   # filter :comments_id, label: 'Comment_id', as: :numeric
   # filter :search_comment_in,
   #         label: 'Search by comment',
@@ -37,19 +45,25 @@ ActiveAdmin.register Image do
     sortable_handle_column
     selectable_column
     # column :id
-    column 'Image' do |image|
+    column I18n.t(:image_column,
+                  scope: %i[active_admin models_db image]) do |image|
       image_tag image.image.thumb.url # , class: 'my_image_size'
     end
     # column 'User ID and name', "#{image.user_id} - #{image.user.name}"
-    column 'User ID and name' do |image|
+    column I18n.t(:user_id_name,
+                  scope: %i[active_admin models_db image]) do |image|
       "#{image.user_id} - #{image.user.name}"
     end
-    state_column 'State', :aasm_state
+    state_column :aasm_state
     actions defaults: true do |image|
       r = image.rejected?
       v = image.verified?
-      item 'Reject', reject_admin_image_path(image), method: :post unless r
-      item 'Verify', verify_admin_image_path(image), method: :post unless v
+      item I18n.t(:reject_img,
+                  scope: %i[active_admin models_db image]),
+           reject_admin_image_path(image), method: :post unless r
+      item I18n.t(:vetify_img,
+                  scope: %i[active_admin models_db image]),
+           verify_admin_image_path(image), method: :post unless v
     end
   end
 
@@ -78,16 +92,22 @@ ActiveAdmin.register Image do
 
   action_item :Reject, only: :show,
                        if: proc { image.verified? || image.unverified? } do
-    link_to('Reject', reject_admin_image_path(image), method: :post)
+    link_to(I18n.t(:reject_img,
+                   scope: %i[active_admin models_db image]),
+            reject_admin_image_path(image), method: :post)
   end
 
   action_item :Verify, only: :show,
                        if: proc { image.rejected? || image.unverified? } do
-    link_to('Verify', verify_admin_image_path(image), method: :post)
+    link_to(I18n.t(:verify_img,
+                   scope: %i[active_admin models_db image]),
+            verify_admin_image_path(image), method: :post)
   end
 
-  action_item :i_xml do
-    link_to('Import XML', 'images/xmlimage', method: :post)
+  action_item :i_xml, only: :index do
+    link_to(I18n.t(:i_xml,
+                   scope: %i[active_admin models_db image]),
+            'images/xmlimage', method: :post)
   end
 
   collection_action :xmlimage, method: :post do
@@ -134,8 +154,10 @@ ActiveAdmin.register Image do
       redirect_to request.referer, notice: 'XML created!'
   end
 
-  action_item :i_cxv do
-    link_to('Import CXV', 'images/csvimage', method: :post)
+  action_item :i_cxv, only: :index do
+    link_to(I18n.t(:i_csv,
+                   scope: %i[active_admin models_db image]),
+            'images/csvimage', method: :post)
   end
 
   collection_action :csvimage, method: :post do
@@ -150,8 +172,10 @@ ActiveAdmin.register Image do
     redirect_to request.referer, notice: 'CSV created!'
   end
 
-  action_item :i_xls do
-    link_to('Import Excel', 'images/xlsimage', method: :post)
+  action_item :i_xls, only: :index do
+    link_to(I18n.t(:i_xls,
+                   scope: %i[active_admin models_db image]),
+            'images/xlsimage', method: :post)
   end
 
   collection_action :xlsimage, method: :post do

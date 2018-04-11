@@ -8,14 +8,19 @@ ActiveAdmin.register User do
                 :api_token,
                 :insta_token
 
-  filter :name_cont, label: 'User name', as: :string
-  filter :email_cont, label: 'User email', as: :string
+  filter :name_cont,
+         label: I18n.t(:name, scope: %i[activerecord attributes user]),
+         as: :string
+  filter :email_cont,
+         label: I18n.t(:email, scope: %i[activerecord attributes user]),
+         as: :string
 
   index do
     selectable_column
-    column 'User Name', :name
-    column 'User Email', :email
-    column 'Amount of images' do |user|
+    column :name
+    column :email
+    column I18n.t(:amount,
+                  scope: %i[active_admin models_db user], locale: :ru) do |user|
       link_to user.images.count.to_s,
               admin_images_path(q: { user_id_eq: user.id })
     end
@@ -24,14 +29,21 @@ ActiveAdmin.register User do
 
   show do
     table_for user.images, class: 'index_table', id: 'ingredients' do
-      column 'Users Image' do |image|
+      column I18n.t(:users_image,
+                    scope: %i[active_admin models_db user]) do |image|
         link_to image_tag image.image.thumb.url
       end
-      column 'Verify' do |image|
-        link_to 'Verify', verify_admin_image_path(image) unless image.verified?
+      column I18n.t(:verify,
+                    scope: %i[active_admin models_db user]) do |image|
+        link_to I18n.t(:verify,
+                       scope: %i[active_admin models_db user]),
+                verify_admin_image_path(image) unless image.verified?
       end
-      column 'Reject' do |image|
-        link_to 'Reject', reject_admin_image_path(image) unless image.rejected?
+      column I18n.t(:reject,
+                    scope: %i[active_admin models_db user]) do |image|
+        link_to I18n.t(:reject,
+                       scope: %i[active_admin models_db user]),
+                reject_admin_image_path(image) unless image.rejected?
       end
     end
     default_main_content
