@@ -16,8 +16,10 @@ class CommentsController < ProxyController
     flash[:warning] = result.errors.full_messages.to_sentence unless res
     red_img = Image.find_by(id: params[:comment][:image_id])
     red_img_c = Image.find_by(id: params[:comment][:image_id])
-    redirect_to red_img if red_img
-    redirect_to red_img_c if red_img_c
+    redirect_path = red_img if red_img
+    redirect_path = red_img_c if red_img_c
+    redirect_to redirect_path
+    # redirect_to red_img_c if red_img_c
   end
 
   def destroy
