@@ -8,7 +8,7 @@ ActiveAdmin.setup do |config|
         lang.add :label => "Русский",:url => proc { url_for(:locale => 'ru') }, id: 'i18n-ru', :priority => 2
       end
       menu.add :label => proc { display_name current_active_admin_user },
-                :url => "admin_users",
+                :url => "admin/admin_users",
                 :id => 'current_user',
                 :if => proc { current_active_admin_user? }
       menu.add :label => I18n.t(:logout, scope: [:active_admin]),

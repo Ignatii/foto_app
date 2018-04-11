@@ -24,6 +24,7 @@ ActiveAdmin.register AdminUser do
     end
     f.actions
   end
+  begin
   action_item :disable_api,
               only: :index,
               if: proc { $redis_api.get('api') == 'true' } do
@@ -57,5 +58,7 @@ ActiveAdmin.register AdminUser do
   collection_action :initialize_api, method: :post do
     $redis_api.set('api', true)
     redirect_to request.referer, notice: 'API Initialized'
+  end
+  rescue Redis::CannotConnectError
   end
 end
