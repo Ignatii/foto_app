@@ -24,39 +24,41 @@ ActiveAdmin.register AdminUser do
     end
     f.actions
   end
-  begin
   action_item :disable_api,
               only: :index,
-              if: proc { $redis_api.get('api') == 'true' } do
+              # $redis_api.get('api') == 'true'
+              if: proc {  } do
     link_to('Disable API', 'admin_users/disable', method: :post)
   end
 
   action_item :enable_api,
               only: :index,
-              if: proc { $redis_api.get('api') == 'false' } do
+              # $redis_api.get('api') == 'false'
+              if: proc {  } do
 
     link_to('Enable API', 'admin_users/enable', method: :post)
   end
 
   action_item :enable_api,
               only: :index,
-              if: proc { $redis_api.get('api').nil? } do
+              # $redis_api.get('api').nil?
+              if: proc {  } do
 
     link_to('Initialize API', 'admin_users/initialize_api', method: :post)
   end
 
   collection_action :enable, method: :post do
-    $redis_api.set('api', true)
+    #$redis_api.set('api', true)
     redirect_to request.referer, notice: 'API Enabled'
   end
 
   collection_action :disable, method: :post do
-    $redis_api.set('api', false)
+    #$redis_api.set('api', false)
     redirect_to request.referer, notice: 'API Disnabled'
   end
 
   collection_action :initialize_api, method: :post do
-    $redis_api.set('api', true)
+    #$redis_api.set('api', true)
     redirect_to request.referer, notice: 'API Initialized'
   end
   rescue Redis::CannotConnectError
