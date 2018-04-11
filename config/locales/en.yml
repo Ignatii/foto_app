@@ -98,6 +98,8 @@ en:
     logout: Logout
     models_db:
       user:
+        name_filter: 'name'
+        email_filter: 'email'
         amount: photo amount
         reject: reject
         verify: verify

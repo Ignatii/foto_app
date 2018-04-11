@@ -9,10 +9,10 @@ ActiveAdmin.register User do
                 :insta_token
 
   filter :name_cont,
-         label: I18n.t(:name, scope: %i[activerecord attributes user]),
+         label: I18n.t(:name_filter, scope: %i[active_admin models_db user]),
          as: :string
   filter :email_cont,
-         label: I18n.t(:email, scope: %i[activerecord attributes user]),
+         label: I18n.t(:email_filter, scope: %i[active_admin models_db user]),
          as: :string
 
   index do

@@ -73,6 +73,8 @@ ru:
     logout: Выйти
     models_db:
       user:
+        name_filter: Имя пользователя
+        email_filter: Электронная почта
         amount: Фотографии (кол-во)
         reject: Отклонить
         verify: Принять
