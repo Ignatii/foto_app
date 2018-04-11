@@ -5,6 +5,8 @@ ActiveAdmin.register Image do
   permit_params :aasm_state
   config.sort_order = 'position_asc'
   config.per_page = 20
+  config.sort_order = 'id_asc'
+  config.paginate   = false
   # config.filters = false
   # preserve_default_filters!
   remove_filter :comments, :likes, :image, :created_at

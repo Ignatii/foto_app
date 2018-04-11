@@ -3,6 +3,7 @@ class ProxyController < ApplicationController
   protect_from_forgery with: :exception
   before_action :check_current_user
   before_action :check_banned_user
+  skip_before_action :set_locale
 
   def current_user
     return false if session[:user_id].nil?

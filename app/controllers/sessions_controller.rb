@@ -1,5 +1,6 @@
 # session controller app
 class SessionsController < ApplicationController
+  skip_before_action :set_locale
   def create
     if auth_hash
       result = CreateSessions.run(session: session,
