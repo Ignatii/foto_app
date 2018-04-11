@@ -11,7 +11,9 @@ ActiveAdmin.setup do |config|
                 :url => "admin_users",
                 :id => 'current_user',
                 :if => proc { current_active_admin_user? }
-      admin.add_logout_button_to_menu menu
+      menu.add :label => I18n.t(:logout, scope: [:active_admin]),
+                :url => "logout",
+                :if => proc { current_active_admin_user? }
     end
   end
   # == Site Title
