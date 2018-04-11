@@ -5,8 +5,9 @@ ru:
   activerecord:
     models:
       user:
-        one: "Пользователя"
+        one: "Пользователь"
         other: 'Пользователи'
+        few: Пользователя
       country:
         one: "Страна"
         other: 'Страны'
@@ -18,6 +19,7 @@ ru:
       admin_user:
         one: "Администратор"
         other: 'Администраторы'
+        few: Администратора
       visit:
         one: Визит
         other: Визиты
