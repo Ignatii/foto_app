@@ -24,6 +24,7 @@ module FotoApp
       I18n.default_locale = :ru
       I18n.reload!
     end
+    # config.force_ssl = true
     # config.after_initialize do |app|
     #   if defined?(ActiveAdmin) and ActiveAdmin.application
     #     # Try enforce reloading after app bootup

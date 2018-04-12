@@ -39,6 +39,10 @@ class Api::V1::BaseController < ActionController::API
   private
 
   def redis_status
-    $redis_api.get('api')
+    begin
+      $redis_api.get('api')
+    rescue Redis::CannotConnectError
+      'false'
+    end
   end
 end
