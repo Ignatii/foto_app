@@ -1,7 +1,9 @@
 ActiveAdmin.register Country do
   permit_params :name_country, :created_at, :updated_at,
                 visits_attributes: %i[id user_id enable _destroy]
-  # accepts_nested_attributes_for :visits, allow_destroy: true
+  menu label: proc { I18n.t(:other,
+                            scope: %i[activerecord models country]) },
+       parent: 'tree'
   remove_filter :visits, :users
   show do
     default_main_content
@@ -15,10 +17,15 @@ ActiveAdmin.register Country do
       end
     end
   end
-
-  # action_item :destroy_visit, only: %i[edit] do
-  #   link_to 'Delete', "/admin/visits/#{object.id}", method: :delete
-  # end
+  index do
+    sortable_handle_column
+    selectable_column
+    column :id
+    column :name_country do |country|
+      I18n.t(country.name_country.downcase.to_sym,
+             scope: %i[countries])
+    end
+  end
 
   form do |f|
     f.inputs I18n.t(:details, scope: %i[active_admin models_db country]) do

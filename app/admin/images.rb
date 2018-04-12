@@ -53,7 +53,8 @@ ActiveAdmin.register Image do
     # column 'User ID and name', "#{image.user_id} - #{image.user.name}"
     column I18n.t(:user_id_name,
                   scope: %i[active_admin models_db image]) do |image|
-      "#{image.user_id} - #{image.user.name}"
+      link_to "#{image.user_id} - #{image.user.name}",
+              admin_user_path(image.user_id)
     end
     state_column :aasm_state
     actions defaults: true do |image|
@@ -64,7 +65,8 @@ ActiveAdmin.register Image do
            reject_admin_image_path(image), method: :post unless r
       item I18n.t(:vetify_img,
                   scope: %i[active_admin models_db image]),
-           verify_admin_image_path(image), method: :post unless v
+           verify_admin_image_path(image), style: 'padding-right: 5px',
+                                           method: :post unless v
     end
   end
 

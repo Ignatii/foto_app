@@ -39,6 +39,10 @@ en:
     models:
       user:
         name_filter: Name
+  countries:
+    au: Australia
+    ru: Russia
+  sidekiq: Sidekiq Service
   ransack:
     title:
       name_cont: Name contains
@@ -123,6 +127,7 @@ en:
         tags: tags
         likes_img: likes count
   active_admin:
+    menu_cusotm: Service models
     build_menu:
       languages: Языки
     filters:

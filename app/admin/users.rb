@@ -58,7 +58,8 @@ ActiveAdmin.register User do
     end
     f.inputs do
       f.has_many :visits,
-                 heading: 'Visits',
+                 heading: I18n.t(:other,
+                                 scope: %i[activerecord models visit]),
                  new_record: true do |a|
         a.input :enable, type: :checkboxes
         a.input :country_id,

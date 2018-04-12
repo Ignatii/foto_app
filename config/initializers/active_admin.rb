@@ -3,10 +3,18 @@ require 'activeadmin'
 ActiveAdmin.setup do |config|
   config.namespace :admin do |admin|
     admin.build_menu :utility_navigation do |menu|
-      menu.add label: I18n.t(:languages, scope: [:active_admin]), priority: 1 do |lang|
+
+      menu.add label: proc{ I18n.t(:languages, scope: [:active_admin], locale: I18n.locale) },id: :languages, priority: 1 do |lang|
         lang.add :label => "English",:url => proc { url_for(:locale => 'en') }, id: 'i18n-en', :priority => 1
         lang.add :label => "Русский",:url => proc { url_for(:locale => 'ru') }, id: 'i18n-ru', :priority => 2
       end
+      # menu.add id: 'shit', label: proc{I18n.t(:menu_cusotm, scope: [:active_admin], locale: I18n.locale)}, priority: 0
+      # menu.add label: proc{ I18n.t(:menu_cusotm, scope: [:active_admin], locale: I18n.locale) },id: :menu_cusotm, priority: 2 do |services|
+
+      #   services.add :label => proc{ I18n.t(:other, scope: [:activerecord, :models, :admin_user], locale: I18n.locale) },:url => proc { 'admin_users' }, id: 'admins', :priority => 1
+
+      #   services.add :label => proc{ I18n.t(:other, scope: [:activerecord, :models, :country], locale: I18n.locale) },:url => proc { 'countries' }, id: 'coutry', :priority => 2
+      # end
       admin.add_current_user_to_menu  menu
       admin.add_logout_button_to_menu menu
     end

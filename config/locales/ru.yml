@@ -17,9 +17,13 @@ ru:
       user:
         name_filter: Имя
         email_filter: почта
+  countries:
+    au: Австралия
+    ru: Россия
   devise:
     sessions:
       admin_user.signed_in: Вход выполнен!
+  sidekiq: Служба Sidekiq 
   helpers:
     page_entries_info:
       more_pages:
@@ -113,6 +117,7 @@ ru:
         tags: Тэги
         likes_img: Количество голосов
   active_admin:
+    menu_cusotm: Сервисные модели
     build_menu:
       languages: Языки
     dashboard: "Панель управления"
