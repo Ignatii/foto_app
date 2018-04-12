@@ -7,31 +7,30 @@ ActiveAdmin.register Image do
   config.per_page = 20
   config.sort_order = 'id_asc'
   config.paginate   = false
+
   # config.filters = false
   # preserve_default_filters!
+  # menu label: I18n.t(:other, scope: %i[activerecord models image])
+
   remove_filter :comments, :likes, :image, :created_at
   # filter :user, label: 'User'
   # filter :user_name_contains, :as => :string
-  filter :title_img_cont,
-         label: I18n.t(:title_img_cont,
-                       scope: %i[active_admin models_db image])
-  filter :tags_cont,
-         label: I18n.t(:tags,
-                       scope: %i[active_admin models_db image])
-  filter :created_at, label: 'Created At', as: :date_time_picker
+  filter :title_img_cont
+
+  filter :tags_cont
+
+  filter :created_at
   # filter :user, as: :search_select_filter, url: proc { user_path(:user) },
   #        fields: [:name], display_name: 'name', minimum_input_length: 2,
   #        order_by: 'name_asc'
   # filter :by_user_name_in, label: "User name", as: :string
-  # filter :search_name_in,
-  #         label: 'User name',
+  # filter :search_comment_in,
+  #         label: I18n.t(:title_img_cont,
+  #                       scope: %i[active_admin models_db image]),
   #         as: :string
-  filter :user_name_cont,
-         label: I18n.t(:user_name,
-                       scope: %i[active_admin models_db image])
-  filter :comments_body_cont,
-         label: I18n.t(:comment_contains,
-                       scope: %i[active_admin models_db image]), as: :string
+  filter :user_name_cont
+
+  filter :comments_body_cont
   # filter :comments_id, label: 'Comment_id', as: :numeric
   # filter :search_comment_in,
   #         label: 'Search by comment',

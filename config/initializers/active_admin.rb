@@ -7,13 +7,8 @@ ActiveAdmin.setup do |config|
         lang.add :label => "English",:url => proc { url_for(:locale => 'en') }, id: 'i18n-en', :priority => 1
         lang.add :label => "Русский",:url => proc { url_for(:locale => 'ru') }, id: 'i18n-ru', :priority => 2
       end
-      menu.add :label => proc { display_name current_active_admin_user },
-                :url => "admin/admin_users",
-                :id => 'current_user',
-                :if => proc { current_active_admin_user? }
-      menu.add :label => I18n.t(:logout, scope: [:active_admin]),
-                :url => "logout",
-                :if => proc { current_active_admin_user? }
+      admin.add_current_user_to_menu  menu
+      admin.add_logout_button_to_menu menu
     end
   end
   # == Site Title
@@ -123,7 +118,10 @@ ActiveAdmin.setup do |config|
   #
   # Default:
   config.logout_link_path = :destroy_admin_user_session_path
+  # config.logout_link_path = :logout_path #Put your logout path here
+  # config.logout_link_method = :delete
 
+  # config.current_user_method = :current_admin_user
   # This setting changes the http method used when rendering the
   # link. For example :get, :delete, :put, etc..
   #

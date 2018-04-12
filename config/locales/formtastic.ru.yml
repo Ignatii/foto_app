@@ -1,0 +1,12 @@
+ru:
+  formtastic:
+    :yes: 'Да'
+    :no: 'Нет'
+    :create: 'Создать %{model}'
+    :update: 'Обновить %{model}'
+    :submit: 'Обновить %{model}'
+    :required: 'Необходимо'
+    models:
+      user:
+        name_filter: Имя
+        email_filter: почта

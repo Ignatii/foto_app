@@ -24,6 +24,15 @@ module FotoApp
       I18n.default_locale = :ru
       I18n.reload!
     end
+    # config.after_initialize do |app|
+    #   if defined?(ActiveAdmin) and ActiveAdmin.application
+    #     # Try enforce reloading after app bootup
+    #     Rails.logger.debug("Reloading AA")
+    #     ActiveAdmin.application.unload!
+    #     I18n.reload!
+    #     self.reload_routes!
+    #   end
+    # end
     config.load_defaults 5.1
     config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
     config.assets.initialize_on_precompile = false

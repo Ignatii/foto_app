@@ -7,20 +7,18 @@ ActiveAdmin.register User do
                 :created_at,
                 :api_token,
                 :insta_token
-
-  filter :name_cont,
-         label: I18n.t(:name_filter, scope: %i[active_admin models_db user]),
-         as: :string
-  filter :email_cont,
-         label: I18n.t(:email_filter, scope: %i[active_admin models_db user]),
-         as: :string
-
+  filter :name_cont
+  # label: I18n.t(:name_filter, scope: %i[active_admin models_db user]),
+  # as: :string
+  filter :email_cont
+  # label: I18n.t(:email_filter, scope: %i[active_admin models_db user]),
+  # as: :string
   index do
     selectable_column
     column :name
     column :email
     column I18n.t(:amount,
-                  scope: %i[active_admin models_db user], locale: :ru) do |user|
+                  scope: %i[active_admin models_db user]) do |user|
       link_to user.images.count.to_s,
               admin_images_path(q: { user_id_eq: user.id })
     end

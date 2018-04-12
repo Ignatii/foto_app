@@ -1,0 +1,35 @@
+en:
+  formtastic:
+    titles:
+      post_details: "Post details"
+    labels:
+      post:
+        title: "Your Title"
+        body: "Write something..."
+        edit:
+          title: "Edit title"
+    hints:
+      post:
+        title: "Choose a good title for your post."
+        body: "Write something inspiring here."
+    placeholders:
+      post:
+        title: "Title your post"
+        slug: "Leave blank for an automatically generated slug"
+      user:
+        email: "you@yours.com"
+    actions:
+      create: "Create my %{model}"
+      update: "Save changes"
+      reset: "Reset form"
+      cancel: "Cancel and go back"
+      dummie: "Launch!"
+    :create: 'Create %{model}'
+    :update: 'Update %{model}'
+    :submit: 'Submit %{model}'
+    :cancel: 'Cancel %{model}'
+    :reset: 'Reset %{model}'
+    :required: 'required'
+    models:
+      user:
+        name_filter: Name

@@ -31,7 +31,6 @@ class Image < ApplicationRecord
   end
 
   # Image.ransacker :search_comment, formatter: ->(search) {
-  #   debugger
   #   ids = Comment.distinct.select(:commentable_id).where(
   #   "commentable_type == 'Image' and body like '%#{search}%'")
   #   .pluck(:commentable_id)

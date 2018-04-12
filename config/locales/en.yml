@@ -1,36 +1,64 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  formtastic:
+    titles:
+      post_details: "Post details"
+    labels:
+      post:
+        title: "Your Title"
+        body: "Write something..."
+        edit:
+          title: "Edit title"
+      name_cont: Name contains
+      email_cont: Email contains
+      title_img_cont: Title contains
+      tags_cont: Tags contains
+      user_name_cont: User name contains
+      comments_body_cont: Comment contains
+    hints:
+      post:
+        title: "Choose a good title for your post."
+        body: "Write something inspiring here."
+    placeholders:
+      post:
+        title: "Title your post"
+        slug: "Leave blank for an automatically generated slug"
+      user:
+        email: "you@yours.com"
+    actions:
+      create: "Create my %{model}"
+      update: "Save changes"
+      reset: "Reset form"
+      cancel: "Cancel and go back"
+      dummie: "Launch!"
+    :create: 'Create %{model}'
+    :update: 'Update %{model}'
+    :submit: 'Submit %{model}'
+    :cancel: 'Cancel %{model}'
+    :reset: 'Reset %{model}'
+    :required: 'required'
+    models:
+      user:
+        name_filter: Name
+  ransack:
+    title:
+      name_cont: Name contains
+  helpers:
+    page_entries_info:
+      more_pages:
+        display_entries: Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total
+      one_page:
+        display_entries:
+          one: Displaying <b>%{count}</b> %{entry_name}
+          other: Displaying <b>all %{count}</b> %{entry_name}
+          zero: No %{entry_name} found
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: Last &raquo;
+      next: Next &rsaquo;
+      previous: "&lsaquo; Prev"
+      truncate: "&hellip;"
+  logout: Logout
   activerecord:
     models:
       user:
@@ -95,12 +123,16 @@ en:
         tags: tags
         likes_img: likes count
   active_admin:
-    logout: Logout
+    build_menu:
+      languages: Языки
+    filters:
+      predicates:
+        name_cont: Имя
     models_db:
       user:
         name_filter: 'name'
         email_filter: 'email'
-        amount: photo amount
+        amount: 'photo amount'
         reject: reject
         verify: verify
         users_image: users image

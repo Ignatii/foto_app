@@ -676,6 +676,8 @@ DEPENDENCIES
   factory_bot_rails
   fog
   font-awesome-rails
+  formtastic (~> 3.0)
+  formtastic_i18n
   guard (= 2.13.0)
   guard-minitest (= 2.4.4)
   haml-rails
