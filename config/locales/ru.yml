@@ -22,7 +22,8 @@ ru:
     ru: Россия
   devise:
     sessions:
-      admin_user.signed_in: Вход выполнен!
+      admin_user:
+        signed_in: Вход выполнен!
   sidekiq: Служба Sidekiq 
   helpers:
     page_entries_info:

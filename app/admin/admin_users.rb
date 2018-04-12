@@ -14,7 +14,7 @@ ActiveAdmin.register AdminUser do
   #menu parent: 'shit' , priority: 1, url: ->{ admin_users_path(locale: I18n.locale) }
   menu label: ->{ I18n.t(:other,
                          scope: %i[activerecord models admin_user]) },
-       parent: 'tree'
+       parent: 'tree_1'
   filter :email
   filter :current_sign_in_at
   filter :sign_in_count

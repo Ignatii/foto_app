@@ -3,8 +3,14 @@ ActiveAdmin.register Country do
                 visits_attributes: %i[id user_id enable _destroy]
   menu label: proc { I18n.t(:other,
                             scope: %i[activerecord models country]) },
-       parent: 'tree'
+       parent: 'tree_1'
   remove_filter :visits, :users
+
+
+  # menu parent: 'test',label: 'test', if: proc { I18n.locale == :en }
+
+  # menu parent: 'test_ru',label: 'test', if: proc { I18n.locale == :ru }
+
   show do
     default_main_content
 

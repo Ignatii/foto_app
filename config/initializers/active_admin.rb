@@ -18,6 +18,9 @@ ActiveAdmin.setup do |config|
       admin.add_current_user_to_menu  menu
       admin.add_logout_button_to_menu menu
     end
+    admin.build_menu :default do |menu_d|
+       menu_d.add label: proc{ I18n.t(:menu_cusotm, scope: [:active_admin], locale: I18n.locale) },id: 'tree_1', priority: 1
+    end
   end
   # == Site Title
   #
