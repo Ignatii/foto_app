@@ -39,7 +39,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
                                   :aasm_state,
                                   :likes_count).where(user: user.user))
     end
-    render :json => array, each_serializer: Api::V1::ImageSerializer
+    render json: array, each_serializer: Api::V1::ImageSerializer
     # render(array.to_json)
     # if !array.nil?
     #   render(

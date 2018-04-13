@@ -40,6 +40,7 @@ module FotoApp
     config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")
     config.autoload_paths += Dir[Rails.root.join('app/services/**/*.rb')].each{|rb| require rb}
     config.encoding = "utf-8"
+    config.middleware.insert_before(Rack::Sendfile, StackProf::Middleware, enabled: true, mode: :cpu, interval: 1000, save_every: 5)
     # Settings in config/environments/*
     # take precedence over those specified here.
     # Application configuration should go into files in config/initializers
