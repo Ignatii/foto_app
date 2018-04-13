@@ -114,47 +114,9 @@ ActiveAdmin.register Image do
   end
 
   collection_action :xmlimage, method: :post do
-    @images_xml = Image.all.order(:likes_img)
-      builder = Nokogiri::XML::Builder.new do |xml|
-        xml.images do
-          @images_xml.each do |image|
-            user = image.user
-            xml.image do
-              xml.id image.id
-              xml.image_name image.image
-              xml.created_at image.created_at
-              xml.state image.aasm_state
-              xml.title image.title_img
-              xml.tags image.tags
-              xml.likes image.likes_img
-              xml.user do
-                xml.user_id user.id
-                xml.name_user user.name
-                xml.email user.email
-              end
-              xml.comments do
-                comments = image.comments
-                if comments.count.positive?
-                  comments.each do |comment|
-                    xml.comment_xml do
-                      xml.comment_id comment.id
-                      xml.user_id comment.user_id
-                      xml.body comment.body
-                      xml.created_at comment.created_at
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-      # path = Rails.root.join('public', 'import', 'images.xml')
-      # content = builder.to_xml
-      File.open(Rails.root.join('public', 'import', 'images.xml'), 'w+') do |f|
-        f.write(builder.to_xml)
-      end
-      redirect_to request.referer, notice: 'XML created!'
+    result = AdminImagesImport.run(mode: 'xml')
+    redirect_to request.referer, notice: 'XML created!' if result.valid?
+    redirect_to request.referer, alert: 'Error!' unless result.valid?
   end
 
   action_item :i_cxv, only: :index do
@@ -164,15 +126,9 @@ ActiveAdmin.register Image do
   end
 
   collection_action :csvimage, method: :post do
-    @images_csv = Her.all
-    path = Rails.root.join('public', 'import', 'images.csv')
-    CSV.open(path, 'wb') do |csv|
-      csv << @images_csv.attribute_names
-      @images_csv.each do |image|
-        csv << image.attributes.values
-      end
-    end
-    redirect_to request.referer, notice: 'CSV created!'
+    result = AdminImagesImport.run(mode: 'csv')
+    redirect_to request.referer, notice: 'CSV created!' if result.valid?
+    redirect_to request.referer, alert: 'Error!' unless result.valid?
   end
 
   action_item :i_xls, only: :index do
@@ -182,25 +138,9 @@ ActiveAdmin.register Image do
   end
 
   collection_action :xlsimage, method: :post do
-    @images_xls = Her.all
-    path = Rails.root.join('public', 'import', 'images.xls')
-    File.open(path, 'w+') do |f|
-      f.write(@images_xls.to_a.to_xls(only: [:idd,
-                                             :image,
-                                             :i_u_id,
-                                             :i_created_at,
-                                             :state,
-                                             :title,
-                                             :tags,
-                                             :likes,
-                                             :u_id,
-                                             :name,
-                                             :email,
-                                             :c_id,
-                                             :comment_text,
-                                             :c_created_at]).force_encoding('utf-8').encode)
-    end
-    redirect_to request.referer, notice: 'XLS created!'
+    result = AdminImagesImport.run(mode: 'xls')
+    redirect_to request.referer, notice: 'XLS created!' if result.valid?
+    redirect_to request.referer, alert: 'Error!' unless result.valid?
   end
 
   controller do
@@ -213,42 +153,18 @@ ActiveAdmin.register Image do
     end
 
     def reject
-      image = Image.find_by(id: params[:id])
-      if image.reject!
-        CleanImages.perform_at(1.hour.from_now, image.id)
-        redirect_to request.referer, notice: 'Image Rejected!'
-      else
-        redirect_to request.referer, alert: 'Action didnt work!'
-      end
-      begin
-        Redis.new.set('getstatus', 1)
-        IMAGE_VOTES_COUNT.remove_member(params[:id])
-      rescue Redis::CannotConnectError
-        mes = 'Image Rejected!Without Redis!Talk with administrator right now!'
-        redirect_to request.referer, alert: mes if image.reject!
-      end
+      result = AdminImageReject.run(image_id: params[:id])
+      redirect_to request.referer, notice: 'Image Rejected!' if result.valid?
+      error = result.errors.full_messages.to_sentence
+      redirect_to request.referer, alert: error unless result.valid?
     end
 
     def verify
-      image = Image.find_by(id: params[:id])
-      if image.rejected?
-        scheduled = Sidekiq::ScheduledSet.new.select
-        scheduled.map do |job|
-          job.delete if job.args == Array(params[:id].to_i)
-        end.compact
-      end
-      if image.verify!
-        redirect_to request.referer, notice: 'Image Verified! Task deleted!'
-      else
-        redirect_to request.referer, alert: 'Action didnt work!'
-      end
-      begin
-        Redis.new.set('getstatus', 1)
-        IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
-      rescue Redis::CannotConnectError
-        mes = 'Image verified but cant work because Redis is down now'
-        redirect_to request.referer, alert: mes if image.verify!
-      end
+      result = AdminImageVerify.run(image_id: params[:id])
+      message_valid = Image Verified! Task deleted!
+      redirect_to request.referer, notice: message_valid if result.valid?
+      error = result.errors.full_messages.to_sentence
+      redirect_to request.referer, alert: error unless result.valid?
     end
   end
 end

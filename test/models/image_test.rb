@@ -15,7 +15,7 @@ class ImageTest < ActiveSupport::TestCase
 
   test 'should return count of comments' do
     image = images(:one)
-    assert_equal(1, image.comments_count)
+    assert_equal(1, image.commentable_count)
   end
 
   test 'should verify from unverified image' do

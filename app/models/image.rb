@@ -39,11 +39,11 @@ class Image < ApplicationRecord
   #   parent.table[:id]
   # end
 
-  def score_like
-    likes.count
-  end
+  # def score_like
+  #   likes.count
+  # end
 
-  def self.comments_count
-    comments.count
-  end
+  # def self.comments_count
+  #   comments.count
+  # end
 end

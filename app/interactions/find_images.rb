@@ -14,10 +14,10 @@ class FindImages < ActiveInteraction::Base
     images = images.reorder(created_at: :DESC) if params[:sort_data]
     images = images.reorder(likes_img: :ASC) if params[:sort_upvote] && !params[:sort_data]
     images = images.order(likes_img: :ASC) if params[:sort_upvote] && params[:sort_data]
-    if params[:sort_comments]
-      images.sort_by(&:comments_count).map do |image|
-      end
-    end
+    images = images.reorder(commentable_count: :DESC) if params[:sort_comments]
+    #   images.sort_by(&:commentable_count).map do |image|
+    #   end
+    # end
     # errors.add(:base, 'No photos in database!') if images.empty?
     images
   end

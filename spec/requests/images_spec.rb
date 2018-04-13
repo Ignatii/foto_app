@@ -41,7 +41,10 @@ RSpec.describe 'Users', type: :request do
     end
 
     it 'should save image with params valid(image), title, tags and user_id' do
-      file = File.open('/home/ignatiy/Загрузки/index.jpeg', 'r')
+      file = File.open(Rails.root.join('spec',
+                                       'fixtures',
+                                       'files',
+                                       'index.jpeg'), 'r')
       post '/images',
            params: { image: { image: file,
                               title_img: 'testing',

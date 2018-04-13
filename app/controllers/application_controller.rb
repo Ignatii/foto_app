@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
+    I18n.locale = params[:locale].downcase || I18n.default_locale
   end
 
-  def default_url_options(options={})
-    { :locale => I18n.locale }
+  def default_url_options
+    { locale: I18n.locale }
   end
   # before_action :check_current_user, :except => [:controller => :admin]
   # before_action :check_banned_user

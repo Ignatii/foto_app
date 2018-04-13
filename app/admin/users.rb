@@ -72,42 +72,18 @@ ActiveAdmin.register User do
 
   controller do
     def reject
-      image = Image.find_by(id: params[:id])
-      if image.reject!
-        CleanImages.perform_at(1.hour.from_now, image.id)
-        redirect_to request.referer, notice: 'Image Rejected!'
-      else
-        redirect_to request.referer, alert: 'Action didnt work!'
-      end
-      begin
-        Redis.new.set('getstatus', 1)
-        IMAGE_VOTES_COUNT.remove_member(params[:id])
-      rescue Redis::CannotConnectError
-        mes = 'Image Rejected!Without REDIS!Talk with administrator right now!'
-        redirect_to request.referer, alert: mes if image.reject!
-      end
+      result = AdminImageReject.run(image_id: params[:id])
+      redirect_to request.referer, notice: 'Image Rejected!' if result.valid?
+      error = result.errors.full_messages.to_sentence
+      redirect_to request.referer, alert: error unless result.valid?
     end
 
     def verify
-      image = Image.find_by(id: params[:id])
-      if image.rejected?
-        scheduled = Sidekiq::ScheduledSet.new.select
-        scheduled.map do |job|
-          job.delete if job.args == Array(params[:id].to_i)
-        end.compact
-      end
-      if image.verify!
-        redirect_to request.referer, notice: 'Image Verified! Task deleted!'
-      else
-        redirect_to request.referer, alert: 'Action didnt work!'
-      end
-      begin
-        Redis.new.set('getstatus', 1)
-        IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
-      rescue Redis::CannotConnectError
-        mes = 'Image verified but cant work because Redis is down now'
-        redirect_to request.referer, alert: mes if image.verify!
-      end
+      result = AdminImageVerify.run(image_id: params[:id])
+      message_valid = Image Verified! Task deleted!
+      redirect_to request.referer, notice: message_valid if result.valid?
+      error = result.errors.full_messages.to_sentence
+      redirect_to request.referer, alert: error unless result.valid?
     end
   end
 end

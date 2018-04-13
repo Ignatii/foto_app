@@ -1,17 +1,17 @@
 # model for users in app
 class User < ApplicationRecord
-  before_create :generate_authentication_token
   has_many :images, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :identities, dependent: :destroy
-  validates :name, presence: true
-  validates :email, presence: true
   has_many :visits, dependent: :destroy
   has_many :countries, through: :visits
+  validates :name, presence: true
+  validates :email, presence: true
   accepts_nested_attributes_for :visits, allow_destroy: true
+  before_create :generate_authentication_token
 
-  def self.create_user(info)
+  def create_user(info)
     # where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
     #  user.provider = auth.provider
     #  user.uid = auth.uid
@@ -22,7 +22,7 @@ class User < ApplicationRecord
     # if auth.provider == 'facebook'
     #  user.save!
     # end
-    create(name: info[:name], email: info[:email])
+    User.create(name: info[:name], email: info[:email])
   end
 
   def generate_authentication_token

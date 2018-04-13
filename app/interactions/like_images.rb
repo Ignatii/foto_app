@@ -23,7 +23,7 @@ class LikeImages < ActiveInteraction::Base
 
   def update_image
     img_lks_create = image.likes.create(user_id: user[:id])
-    img_upd = image.update(likes_img: image[:likes_img] + 1)
+    # img_upd = image.update(likes_img: image[:likes_img] + 1)
     return errors.merge!(Like.errors) unless img_lks_create
     return errors.merge!(image.errors) unless img_upd
   end

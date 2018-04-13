@@ -20,7 +20,8 @@ class CreateSessions < ActiveInteraction::Base
     else
       email = auth_hash[:info][:email].nil? ? 'github' : auth_hash[:info][:email]
       user = signed_in? ? current_user_session : User.create_user(name: auth_hash[:info][:name], email: email)
-      Identity.create_identity(
+      ident = Identity.new
+      ident.create_identity(
         provider: auth_hash[:provider],
         uid: auth_hash[:uid],
         token: auth_hash[:credentials][:token],

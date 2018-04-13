@@ -6,7 +6,6 @@ ActiveAdmin.register Country do
        parent: 'tree_1'
   remove_filter :visits, :users
 
-
   # menu parent: 'test',label: 'test', if: proc { I18n.locale == :en }
 
   # menu parent: 'test_ru',label: 'test', if: proc { I18n.locale == :ru }
@@ -48,13 +47,15 @@ ActiveAdmin.register Country do
         a.input :enable, type: :checkboxes
         a.input :user_id,
                 as: :select,
-                collection: User.all.map { |u| [u.name, u.id] }
+                # collection: User.all.map { |u| [u.name, u.id] }
+                collection: User.pluck(:name,:id)
         # a.input :delete, as: :radio
        # unless a.object.new_record?
        a.actions do
          link_to I18n.t(:delete,
                         scope: %i[active_admin]),
-                 "/admin/visits/#{object.id}", method: :delete
+                 delete_admin_visits(object.id), method: :delete
+         # "/admin/visits/#{object.id}"
        end
         # a.actions do
         #     # link_to 'Delete',

@@ -18,7 +18,10 @@ FactoryBot.define do
   factory :image do
     id 1
     user_id 1
-    image File.open('/home/ignatiy/Загрузки/index.jpeg', 'r')
+    image File.open(Rails.root.join('spec',
+                                    'fixtures',
+                                    'files',
+                                    'index.jpeg'), 'r')
     created_at '2018-03-28 10:55:18'
     updated_at '2018-03-28 13:10:33'
     aasm_state 'verified'

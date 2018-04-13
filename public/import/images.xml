@@ -1,32 +1,17 @@
 <?xml version="1.0"?>
 <images>
   <image>
-    <id>29</id>
-    <image_name>/uploads/image/image/29/19985285_156248764922992_3814815296909213696_n.jpg</image_name>
-    <created_at>2018-04-05 12:53:06 UTC</created_at>
-    <state>verified</state>
-    <title>&#x412;&#x44B;&#x448;&#x435;&#x43B; &#x43D;&#x435; &#x43D;&#x430; &#x442;&#x43E;&#x439; &#x43E;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x435;,&#x43D;&#x43E; &#x43D;&#x435; &#x43F;&#x43E;&#x436;&#x430;&#x43B;&#x435;&#x43B; &#x43E;&#x431; &#x44D;&#x442;&#x43E;&#x43C; &#x1F60F; </title>
-    <tags>tree podrezkovo dead sky</tags>
-    <likes>0</likes>
-    <user>
-      <user_id>1</user_id>
-      <name_user>&#x418;&#x433;&#x43D;&#x430;&#x442;&#x438;&#x439; &#x413;&#x440;&#x438;&#x433;&#x43E;&#x440;&#x430;&#x449;&#x435;&#x43D;&#x43A;&#x43E;</name_user>
-      <email>test@mail.ru</email>
-    </user>
-    <comments/>
-  </image>
-  <image>
     <id>1</id>
     <image_name>/uploads/image/image/1/22159151_829602187220226_7997297330707496960_n.jpg</image_name>
     <created_at>2018-03-28 10:55:18 UTC</created_at>
     <state>verified</state>
     <title>&#x422;&#x432;&#x435;&#x440;&#x441;&#x43A;&#x43E;&#x439; &#x431;&#x43E;&#x43C;&#x43E;&#x43D;&#x434; &#x43D;&#x430; &#x432;&#x44B;&#x435;&#x437;&#x434;&#x435; &#x1F601; </title>
     <tags>friends saintpetersburg bomondtver</tags>
-    <likes>1</likes>
+    <likes>0</likes>
     <user>
       <user_id>1</user_id>
       <name_user>&#x418;&#x433;&#x43D;&#x430;&#x442;&#x438;&#x439; &#x413;&#x440;&#x438;&#x433;&#x43E;&#x440;&#x430;&#x449;&#x435;&#x43D;&#x43A;&#x43E;</name_user>
-      <email>test@mail.ru</email>
+      <email>ignatiy.anatolich@mail.ru</email>
     </user>
     <comments>
       <comment_xml>
@@ -41,6 +26,18 @@
         <body>test11</body>
         <created_at>2018-03-30 08:33:34 UTC</created_at>
       </comment_xml>
+      <comment_xml>
+        <comment_id>14</comment_id>
+        <user_id>1</user_id>
+        <body>test</body>
+        <created_at>2018-04-11 11:21:13 UTC</created_at>
+      </comment_xml>
+      <comment_xml>
+        <comment_id>15</comment_id>
+        <user_id>1</user_id>
+        <body>test</body>
+        <created_at>2018-04-11 11:22:52 UTC</created_at>
+      </comment_xml>
     </comments>
   </image>
   <image>
@@ -54,7 +51,7 @@
     <user>
       <user_id>1</user_id>
       <name_user>&#x418;&#x433;&#x43D;&#x430;&#x442;&#x438;&#x439; &#x413;&#x440;&#x438;&#x433;&#x43E;&#x440;&#x430;&#x449;&#x435;&#x43D;&#x43A;&#x43E;</name_user>
-      <email>test@mail.ru</email>
+      <email>ignatiy.anatolich@mail.ru</email>
     </user>
     <comments>
       <comment_xml>
@@ -68,6 +65,12 @@
         <user_id>1</user_id>
         <body>fuck</body>
         <created_at>2018-04-05 12:34:57 UTC</created_at>
+      </comment_xml>
+      <comment_xml>
+        <comment_id>16</comment_id>
+        <user_id>1</user_id>
+        <body>test</body>
+        <created_at>2018-04-13 08:01:19 UTC</created_at>
       </comment_xml>
     </comments>
   </image>

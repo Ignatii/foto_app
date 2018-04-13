@@ -68,6 +68,7 @@ class ImagesController < ProxyController
     result = DislikeImages.run image_id: params[:id], user: current_user
     res = result.valid?
     flash[:warning] = result.errors.full_messages.to_sentence unless res
+    redirect_to root_url
   end
 
   def unshit

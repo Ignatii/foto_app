@@ -9,7 +9,10 @@ RSpec.describe CreateImages do
       user_id: user.id }
   end
   let!(:params_false) do
-    { image: File.open('/home/ignatiy/Загрузки/Postman-linux-x64-6.0.10.tar.gz', 'r'),
+    { image: File.open(Rails.root.join('spec',
+                                       'fixtures',
+                                       'files',
+                                       'Postman-linux-x64-6.0.10.tar.gz'), 'r'),
       title_img: 'title',
       tags: 'tag1',
       user_id: user.id }

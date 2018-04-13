@@ -26,8 +26,9 @@ class DislikeImages < ActiveInteraction::Base
   end
 
   def update_image
-    return errors.merge!(Like.errors) unless Like.delete(Like.find_by(user_id: user.id, image_id: image.id))
-    return errors.merge!(image.errors) unless image.update(likes_img: image[:likes_img] - 1) if image[:likes_img].positive?
+    like_des = Like.find_by(user_id: user.id, image_id: image.id)
+    return errors.merge!(Like.errors) unless Like.destroy(like_des.id)
+    #return errors.merge!(image.errors) unless image.update(likes_img: image[:likes_img] - 1) if image[:likes_img].positive?
   end
 
   def update_leaderboard
