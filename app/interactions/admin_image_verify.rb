@@ -18,7 +18,7 @@ class AdminImageVerify < ActiveInteraction::Base
   def update_leaderboard
     begin
       Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.rank_member(params[:id].to_s, image.likes_img)
+      IMAGE_VOTES_COUNT.rank_member(image_id.to_s, image.likes_img)
     rescue Redis::CannotConnectError
       return errors.add(:base, 'Redis not working!')
     end
@@ -28,7 +28,7 @@ class AdminImageVerify < ActiveInteraction::Base
     return unless image.rejected?
     scheduled = Sidekiq::ScheduledSet.new.select
     scheduled.map do |job|
-      job.delete if job.args == Array(params[:id].to_i)
+      job.delete if job.args == Array(image_id.to_i)
     end.compact
   end
 end

@@ -2,7 +2,7 @@ require 'active_interaction'
 require 'nokogiri'
 require 'csv'
 # add functionality to show needed images
-class AdminImport < ActiveInteraction::Base
+class AdminImagesImport < ActiveInteraction::Base
   string :mode
   validates :mode, presence: true
   def execute

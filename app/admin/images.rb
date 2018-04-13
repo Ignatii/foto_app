@@ -161,7 +161,7 @@ ActiveAdmin.register Image do
 
     def verify
       result = AdminImageVerify.run(image_id: params[:id])
-      message_valid = Image Verified! Task deleted!
+      message_valid = 'Image Verified! Task deleted!'
       redirect_to request.referer, notice: message_valid if result.valid?
       error = result.errors.full_messages.to_sentence
       redirect_to request.referer, alert: error unless result.valid?

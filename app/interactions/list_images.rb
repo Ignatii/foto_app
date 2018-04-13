@@ -18,7 +18,7 @@ class ListImages < ActiveInteraction::Base
       # errors.add(:base, 'No photos in database!')
       @images
     rescue Redis::CannotConnectError
-      Image.verified_image.order(likes_img: :desc)
+      Image.verified_image.order(likes_count: :desc)
     end
   end
 end

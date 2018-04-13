@@ -25,13 +25,13 @@ class LikeImages < ActiveInteraction::Base
     img_lks_create = image.likes.create(user_id: user[:id])
     # img_upd = image.update(likes_img: image[:likes_img] + 1)
     return errors.merge!(Like.errors) unless img_lks_create
-    return errors.merge!(image.errors) unless img_upd
+    # return errors.merge!(image.errors) unless img_upd
   end
 
   def update_leaderboard
     begin
       Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.score_like)
+      IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.likes_count)
     rescue Redis::CannotConnectError
     end
   end
