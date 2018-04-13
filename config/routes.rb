@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       put 'images/like/', to: 'images#upvote_like'
       put 'images/dislike/', to: 'images#downvote_like'
+      get 'images/group', to: 'images#groupping_answer'
       resources :users, only: [:index, :show]
       resources :images do
         # member do
