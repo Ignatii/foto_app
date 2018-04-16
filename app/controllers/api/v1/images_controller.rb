@@ -13,11 +13,11 @@ class Api::V1::ImagesController < Api::V1::BaseController
   end
 
   def index
-    @images = ListImages.run!.page(params[:page]).per(12)
-    if @images.valid?
+    @images = Images::List.run(params: { a: '' }).result.page(params[:page]).per(12)
+    if @images.present?
       render(
         json: ActiveModel::ArraySerializer.new(
-          ListImages.run!.page(params[:page]).per(12),
+          @images,
           each_serializer: Api::V1::ImageSerializer,
           root: 'images',
           # meta: meta_attributes(Image.all.verified_image)
@@ -33,7 +33,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
   def groupping_answer
     # a=Image.all.order(likes_count: :DESC).pluck(:user_id)
     # User.all.where("id in (#{a.join(',')})").includes(:images)
-    result = GroupImages.run!
+    result = Images::Group.run!
     if result.valid?
       render json: array, each_serializer: Api::V1::ImageSerializer
     else
@@ -49,7 +49,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
                  title_img: params['title_img'],
                  tags: params['tags'],
                  user_id: current_user }
-      result = CreateImages.run(params)
+      result = Images::Create.run(params)
       # image_param = Hash.new(image: params['image'])
       # @images = current_user.images.build(image_param[:image])
       if result.valid?
@@ -66,7 +66,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
   end
 
   def upvote_like
-    result = LikeImages.run(image_id: params['id'], user: current_user)
+    result = Images::LikeInt.run(image_id: params['id'], user: current_user)
     if result.valid?
       render(json: Api::V1::ImageSerializer.new(result.result).to_json)
     else
@@ -90,7 +90,7 @@ class Api::V1::ImagesController < Api::V1::BaseController
   end
 
   def downvote_like
-    result = DislikeImages.run(image_id: params['id'], user: current_user)
+    result = Images::Dislike.run(image_id: params['id'], user: current_user)
     if result.valid?
       render(json: Api::V1::ImageSerializer.new(result.result).to_json)
     else

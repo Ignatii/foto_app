@@ -10,18 +10,18 @@ describe CreateRemoteImages do
     t = %w[testing insta teg]
     te = 'Testing text #ffff'
     id = User.first.id
-    @result_true = CreateRemoteImages.run(params: { url_image: { url: url_in },
-                                                    insta_tags: t,
-                                                    text: te,
-                                                    user_id: id })
+    @result_true = Images::CreateRemote.run(params: { url_image: { url: url_in },
+                                                      insta_tags: t,
+                                                      text: te,
+                                                      user_id: id })
     url_in = 'in/cache/23466317216_b99485ba14_o-panorama.jpg'
     t = %w[testing insta teg]
     te = 'Testing text #ffff'
     id = User.first.id
-    @result_false = CreateRemoteImages.run(params: { url_image: { url: url_in },
-                                                     insta_tags: t,
-                                                     text: te,
-                                                     user_id: id })
+    @result_false = Images::CreateRemote.run(params: { url_image: { url: url_in },
+                                                       insta_tags: t,
+                                                       text: te,
+                                                       user_id: id })
   end
 
   describe 'create image with valid params' do

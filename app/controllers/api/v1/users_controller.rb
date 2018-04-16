@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def index
-    result = ApiFindUsers.run!
+    result = Api::FindUsers.run!
     if result.valid?
       render(
         json: ActiveModel::ArraySerializer.new(

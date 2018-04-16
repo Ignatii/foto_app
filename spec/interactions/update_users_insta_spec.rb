@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe UpdateUsersInsta, vcr: true do
+RSpec.describe Images::UpdateUsersInsta, vcr: true do
   let!(:user) { create(:user) }
   let(:params_true) { { user: user, token_insta: 'token=gfgsdfr4f' } }
-  let(:outcome_true) { UpdateUsersInsta.run(params_true) }
+  let(:outcome_true) { Images::UpdateUsersInsta.run(params_true) }
   let(:params_false) { { user: user, token_insta: 'gfgsdfr4f' } }
-  let(:outcome_false) { UpdateUsersInsta.run(params_false) }
+  let(:outcome_false) { Images::UpdateUsersInsta.run(params_false) }
 
   it 'should be valid' do
     expect(outcome_true.valid?).to be(true)

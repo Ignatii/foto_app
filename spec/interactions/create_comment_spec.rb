@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe CreateComments do
+RSpec.describe Comments::Create do
   let!(:user) { create(:user) }
   let!(:image) { create(:image) }
   let!(:params_true) { { body: 'test', image_id: image.id } }
   let!(:params_false) { { body: '', image_id: image.id } }
-  let!(:outcome_true) { CreateComments.run(params: params_true, user: user) }
-  let!(:outcome_false) { CreateComments.run(params: params_false, user: user) }
+  let!(:outcome_true) { Comments::Create.run(params: params_true, user: user) }
+  let!(:outcome_false) { Comments::Create.run(params: params_false, user: user) }
 
   it 'should be valid' do
     expect(outcome_true.valid?).to be(true)

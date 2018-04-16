@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe LikeImages do
+RSpec.describe Images::LikeInt do
   let!(:user) { create(:user) }
   let!(:image) { create(:image) }
   let!(:image2) { create(:image, id: 2) }
   let!(:like) { create(:like, image_id: image2.id) }
   let!(:params_true) { { user: user, image_id: image.id } }
-  let!(:outcome_true) { LikeImages.run(params_true) }
+  let!(:outcome_true) { Images::LikeInt.run(params_true) }
   let!(:params_false) { { user: user, image_id: image2.id } }
-  let!(:outcome_false) { LikeImages.run(params_false) }
+  let!(:outcome_false) { Images::LikeInt.run(params_false) }
 
   it 'should be valid' do
     expect(outcome_true.valid?).to be(true)

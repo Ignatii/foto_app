@@ -31,7 +31,7 @@ class Api::V1::CommentsController < Api::V1::BaseController
     par_f_com = { body: params['body'],
                   image_id: params['commentable_id_image'],
                   comment_id:  params['commentable_id_comment'] }
-    result = CreateComments.run(params: par_f_com, user: current_user)
+    result = Comments::Create.run(params: par_f_com, user: current_user)
     # @comment = Comment.new
     # @comment.body = params['body']
     # @comment.user_id = current_user.id

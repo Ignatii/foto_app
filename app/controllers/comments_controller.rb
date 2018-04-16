@@ -8,24 +8,27 @@ class CommentsController < ProxyController
   end
 
   def create
-    par_f_com = params.require(:comment).permit(:body, :image_id, :comment_id)
-    par_f_com = par_f_com.to_unsafe_h
-    result = CreateComments.run(params: par_f_com, user: current_user)
+    result = Comments::Create.run(params: required_params.to_unsafe_h, user: current_user)
     res = result.valid?
-    flash[:success] = 'Comment added' if res
-    flash[:warning] = result.errors.full_messages.to_sentence unless res
+    err = result.errors.full_messages.to_sentence
+    m = { flash: res ? { success: 'Comment added' } : { warning: err } }
     red_img = Image.find_by(id: params[:comment][:image_id])
     red_img_c = Image.find_by(id: params[:comment][:image_id])
-    redirect_path = red_img if red_img
-    redirect_path = red_img_c if red_img_c
-    redirect_to redirect_path
-    # redirect_to red_img_c if red_img_c
+    redirect_path = red_img ? red_img : red_img_c
+    redirect_to redirect_path, flash: m[:flash]
   end
 
   def destroy
     @comment = Comment.find_by(id: params[:id])
+    m = { flash: @comment.nil? ? { warning: 'Comment not found!' } : { success: 'Comment deleted' } }
+    redirect_to request.referer, flash: m[:flash] if @comment.nil?
     @comment.destroy
-    flash[:success] = 'Comment deleted'
-    redirect_to request.referer
+    redirect_to request.referer, flash: m[:flash]
+  end
+
+  private
+
+  def required_params
+    params.require(:comment).permit(:body, :image_id, :comment_id)
   end
 end

@@ -1,12 +1,12 @@
 require 'minitest/autorun'
 
 # Image.transaction do
-describe LikeImages do
+describe Images::LikeInt do
   before do
     like = Like.where(image_id: Image.second.id).first
     Like.where(image_id: Image.second.id).first.delete if like
-    @result_true = LikeImages.run(image_id: Image.second.id, user: User.first)
-    @result_false = LikeImages.run(image_id: Image.first.id, user: User.first)
+    @result_true = Images::LikeInt.run(image_id: Image.second.id, user: User.first)
+    @result_false = Images::LikeInt.run(image_id: Image.first.id, user: User.first)
   end
 
   describe 'when liked by user who didnt like' do

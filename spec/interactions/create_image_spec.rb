@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CreateImages do
+RSpec.describe Images::Create do
   let!(:user) { create(:user) }
   let!(:params_true) do
     { image: fixture_file_upload('files/index.jpeg', 'image/jpeg'),
@@ -17,8 +17,8 @@ RSpec.describe CreateImages do
       tags: 'tag1',
       user_id: user.id }
   end
-  let!(:outcome_true) { CreateImages.run(params: params_true) }
-  let!(:outcome_false) { CreateImages.run(params: params_false) }
+  let!(:outcome_true) { Images::Create.run(params: params_true) }
+  let!(:outcome_false) { Images::Create.run(params: params_false) }
 
   it 'should be valid' do
     expect(outcome_true.valid?).to be(true)

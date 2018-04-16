@@ -2,7 +2,7 @@
 class Api::V1::SessionsController < Api::V1::BaseController
   def create
     # user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
-    result = ApiFindUser.run(request.headers['HTTP_TOKEN_USER'])
+    result = Api::FindUser.run(request.headers['HTTP_TOKEN_USER'])
     if result.valid?
       self.current_user = result.result
       render(

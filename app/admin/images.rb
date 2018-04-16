@@ -114,7 +114,7 @@ ActiveAdmin.register Image do
   end
 
   collection_action :xmlimage, method: :post do
-    result = AdminImagesImport.run(mode: 'xml')
+    result = Admin::ImagesImport.run(mode: 'xml')
     redirect_to request.referer, notice: 'XML created!' if result.valid?
     redirect_to request.referer, alert: 'Error!' unless result.valid?
   end
@@ -126,7 +126,7 @@ ActiveAdmin.register Image do
   end
 
   collection_action :csvimage, method: :post do
-    result = AdminImagesImport.run(mode: 'csv')
+    result = Admin::ImagesImport.run(mode: 'csv')
     redirect_to request.referer, notice: 'CSV created!' if result.valid?
     redirect_to request.referer, alert: 'Error!' unless result.valid?
   end
@@ -138,7 +138,7 @@ ActiveAdmin.register Image do
   end
 
   collection_action :xlsimage, method: :post do
-    result = AdminImagesImport.run(mode: 'xls')
+    result = Admin::ImagesImport.run(mode: 'xls')
     redirect_to request.referer, notice: 'XLS created!' if result.valid?
     redirect_to request.referer, alert: 'Error!' unless result.valid?
   end
@@ -153,14 +153,14 @@ ActiveAdmin.register Image do
     end
 
     def reject
-      result = AdminImageReject.run(image_id: params[:id])
+      result = Admin::ImageReject.run(image_id: params[:id])
       redirect_to request.referer, notice: 'Image Rejected!' if result.valid?
       error = result.errors.full_messages.to_sentence
       redirect_to request.referer, alert: error unless result.valid?
     end
 
     def verify
-      result = AdminImageVerify.run(image_id: params[:id])
+      result = Admin::ImageVerify.run(image_id: params[:id])
       message_valid = 'Image Verified! Task deleted!'
       redirect_to request.referer, notice: message_valid if result.valid?
       error = result.errors.full_messages.to_sentence

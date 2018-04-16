@@ -37,7 +37,7 @@ module FotoApp
     config.load_defaults 5.1
     config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
     config.assets.initialize_on_precompile = false
-    config.autoload_paths += Dir.glob("#{config.root}/app/interactions/*")
+    # config.autoload_paths += Dir.glob("#{config.root}/app/interactions/**/*")
     config.autoload_paths += Dir[Rails.root.join('app/services/**/*.rb')].each{|rb| require rb}
     config.encoding = "utf-8"
     config.middleware.insert_before(Rack::Sendfile, StackProf::Middleware, enabled: true, mode: :cpu, interval: 1000, save_every: 5)

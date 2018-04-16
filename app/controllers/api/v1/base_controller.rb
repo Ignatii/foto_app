@@ -26,9 +26,9 @@ class Api::V1::BaseController < ActionController::API
 
   def authenticate_user!
     user = User.find_by(api_token: request.headers['HTTP_TOKEN_USER'])
-    return user if current_user && (redis_status == 'true' || redis_status.nil?)
     return unauthenticated! unless current_user
     return disabled! if redis_status == 'false' || redis_status.nil?
+    return user if current_user && (redis_status == 'true')
   end
 
   def current_user
@@ -39,7 +39,7 @@ class Api::V1::BaseController < ActionController::API
   private
 
   def redis_status
-    $redis_api.get('api')
+    Redis.new.get('api')
   rescue Redis::CannotConnectError
     'false'
   end

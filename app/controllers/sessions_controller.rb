@@ -3,8 +3,8 @@ class SessionsController < ApplicationController
   skip_before_action :set_locale
   def create
     if auth_hash
-      result = CreateSessions.run(session: session,
-                                  auth_hash: request.env['omniauth.auth'])
+      result = Session::Create.run(session: session,
+                                   auth_hash: request.env['omniauth.auth'])
       # flash[:success] = "Open point via #{auth_hash.provider} added"
       user = result.result
     end

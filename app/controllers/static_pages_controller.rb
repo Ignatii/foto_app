@@ -6,15 +6,12 @@ class StaticPagesController < ProxyController
   layout 'layouts/application', only: [:home]
 
   def home
-    @images = ListImages.run!.page(params[:page]).per(12)
-    return @images unless request.xhr?
-    @result = FindImages.run(params: params.permit(:condition_search,
-                                                   :sort_data,
-                                                   :sort_upvote,
-                                                   :sort_comments).to_unsafe_h)
-    @images = @result.result
+    # @images.page(params[:page]).per(12)
     respond_to do |format|
-      format.js {}
+      format.js do
+        @images = Images::List.run(params: required_params.to_unsafe_h).result
+      end
+      format.html { @images = Images::List.run(params: { a: '' }).result.page(params[:page]).per(12) }
     end
     # end
   end
@@ -26,5 +23,14 @@ class StaticPagesController < ProxyController
   end
 
   def contacts
+  end
+
+  private
+
+  def required_params
+    params.permit(:condition_search,
+                  :sort_data,
+                  :sort_upvote,
+                  :sort_comments)
   end
 end

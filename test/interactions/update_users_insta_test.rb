@@ -3,10 +3,10 @@ require 'minitest/autorun'
 # User.transaction do
 describe FindImages do
   before do
-    @result_true = UpdateUsersInsta.run(user: User.first,
-                                        token_insta: 'token=gfgsdfr4f')
-    @result_false = UpdateUsersInsta.run(user: User.first,
-                                         token_insta: 'gfgsdfr4f')
+    @result_true = Images::UpdateUsersInsta.run(user: User.first,
+                                                token_insta: 'token=gfgsdfr4f')
+    @result_false = Images::UpdateUsersInsta.run(user: User.first,
+                                                 token_insta: 'gfgsdfr4f')
   end
 
   describe 'when valid params passed' do

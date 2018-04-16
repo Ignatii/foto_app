@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe ShowUsersInsta, vcr: true do
+RSpec.describe Images::ShowUsersInsta, vcr: true do
   let!(:user) { create(:user) }
   let!(:user2) { create(:user, id: 2, insta_token: '3454545') }
   let(:params_true) { { user: user } }
   let(:outcome_true) do
     VCR.use_cassette('insta_api') do
-      ShowUsersInsta.run(params_true)
+      Images::ShowUsersInsta.run(params_true)
     end
   end
   let(:params_false) { { user: user2 } }
   let(:outcome_false) do
     VCR.use_cassette('insta_api_invalid') do
-      ShowUsersInsta.run(params_false)
+      Images::ShowUsersInsta.run(params_false)
     end
   end
 

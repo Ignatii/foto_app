@@ -13,21 +13,11 @@ class ImagesController < ProxyController
   def create
     con = params[:image][:image].nil?
     return (flash[:warning] = 'Empty img!') && redirect_to(current_user) if con
-    par_f_img = params.require(:image).permit(:image,
-                                              :title_img,
-                                              :tags,
-                                              :user_id).to_unsafe_h
-    result = CreateImages.run(params: par_f_img)
+    result = Images::Create.run(params: required_params.to_unsafe_h)
     res = result.valid?
-    flash[:warning] = result.errors.full_messages.to_sentence unless res
-    flash[:success] = 'Image uploaded!Wait moderation :)' if res
-    # case result.result
-    # when true
-    #   flash[:success] = 'Image uploaded!Wait moderation :)'
-    # else
-    #   flash[:warning] = 'Image do not uploaded!'
-    # end
-    redirect_to current_user
+    err_str = result.errors.full_messages.to_sentence unless res
+    m = { flash: res ? { success: 'Image uploaded!Wait moderation' } : { warning: err_str } }
+    redirect_to current_user, flash: m[:flash]
   end
 
   def share
@@ -37,7 +27,7 @@ class ImagesController < ProxyController
 
   def create_remote
     return (flash[:warning] = 'Somethimg wrong! Talk with moderator') && redirect_to(current_user) unless params.key?(:url_image)
-    result = CreateRemoteImages.run(params: params.to_unsafe_h)
+    result = Images::CreateRemote.run(params: params.to_unsafe_h)
     res = result.valid?
     flash[:warning] = result.errors.full_messages.to_sentence unless res
     flash[:success] = 'Image uploaded!Wait moderation :)' if res
@@ -58,27 +48,20 @@ class ImagesController < ProxyController
   # end
 
   def upvote_like
-    result = LikeImages.run image_id: params[:id], user: current_user
+    result = Images::LikeInt.run image_id: params[:id], user: current_user
     res = result.valid?
     flash[:warning] = result.errors.full_messages.to_sentence unless res
     redirect_to root_url
   end
 
   def downvote_like
-    result = DislikeImages.run image_id: params[:id], user: current_user
+    result = Images::Dislike.run image_id: params[:id], user: current_user
     res = result.valid?
     flash[:warning] = result.errors.full_messages.to_sentence unless res
     redirect_to root_url
   end
 
   def unshit
-    # Image.find_by(id: params[:id]).verify!
-    # begin
-    #   Redis.new.set('getstatus', 1)
-    #   IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.score_like)
-    # rescue Redis::CannotConnectError
-    # end
-    # flash[:success] = 'Image unshitted!'
     result = UnshitImage.run!
     flash[:success] = 'Image unshitted!' if result.valid?
     redirect_to request.referer
@@ -92,5 +75,12 @@ class ImagesController < ProxyController
 
   def page_size(options)
     options[:page_size] || 12
+  end
+
+  def required_params
+    params.require(:image).permit(:image,
+                                  :title_img,
+                                  :tags,
+                                  :user_id)
   end
 end

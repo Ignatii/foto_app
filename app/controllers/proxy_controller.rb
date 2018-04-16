@@ -6,12 +6,10 @@ class ProxyController < ApplicationController
   skip_before_action :set_locale
 
   def current_user
-    return false if session[:user_id].nil?
-    begin
-      User.find(session[:user_id])
-    rescue ActiveRecord::RecordNotFound
-      session[:user_id] = nil
-    end
+    return session[:user_id] if session[:user_id].nil?
+    User.find(session[:user_id])
+  rescue ActiveRecord::RecordNotFound
+    session[:user_id] = nil
   end
 
   private

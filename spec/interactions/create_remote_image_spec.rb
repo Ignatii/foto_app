@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CreateRemoteImages, vcr: true do
+RSpec.describe Images::CreateRemote, vcr: true do
   let(:url_str) do
     'https://scontent.cdninstagram.com/vp/9225dda2a4739d20fe2a452b6c8491a1/'\
     '5B6B6405/t51.2885-15/s320x320/e35/'\
@@ -21,12 +21,12 @@ RSpec.describe CreateRemoteImages, vcr: true do
   end
   let(:outcome_true) do
     VCR.use_cassette('remote_image') do
-      CreateRemoteImages.run(params: params_true)
+      Images::CreateRemote.run(params: params_true)
     end
   end
   let(:outcome_false) do
     VCR.use_cassette('remote_image_invalid') do
-      CreateRemoteImages.run(params: params_false)
+      Images::CreateRemote.run(params: params_false)
     end
   end
 

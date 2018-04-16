@@ -2,7 +2,7 @@
 class Identity < ApplicationRecord
   belongs_to :user
 
-  def create_identity(info)
-    Identity.create(info)
-  end
+  # def create_identity(info)
+  #   Identity.create(info)
+  # end
 end
