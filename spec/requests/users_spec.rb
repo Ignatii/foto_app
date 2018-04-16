@@ -5,7 +5,8 @@ RSpec.describe 'Users', type: :request do
   # let(:identity) { create(:identity) }
 
   before do
-    Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:facebook]
+    omni ||= OmniAuth.config.mock_auth[:facebook]
+    Rails.application.env_config['omniauth.auth'] = omni
     get '/auth/facebook/callback'
   end
 

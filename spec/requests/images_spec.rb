@@ -4,7 +4,8 @@ RSpec.describe 'Users', type: :request do
   let(:image) { create(:image) }
 
   before do
-    Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:facebook]
+    omni ||= OmniAuth.config.mock_auth[:facebook]
+    Rails.application.env_config['omniauth.auth'] = omni
     get '/auth/facebook/callback'
   end
 
@@ -65,7 +66,10 @@ RSpec.describe 'Users', type: :request do
     end
 
     it 'should save remote with valid params image' do
-      get '/users/create_remote/', params: { url_image: { url: 'https://scontent.cdninstagram.com/vp/9225dda2a4739d20fe2a452b6c8491a1/5B6B6405/t51.2885-15/s320x320/e35/21689930_2017148641838602_4835430415567159296_n.jpg' },
+      url_str = 'https://scontent.cdninstagram.com/'\
+      'vp/9225dda2a4739d20fe2a452b6c8491a1/5B6B6405/t51.2885-15/s320x320/'\
+      'e35/21689930_2017148641838602_4835430415567159296_n.jpg'
+      get '/users/create_remote/', params: { url_image: { url: url_str },
                                              text: 'testing remote',
                                              inta_tags: 'test remote',
                                              user_id: session[:user_id] }

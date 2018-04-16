@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe 'CommentsAPI', type: :request do
   let!(:user) { create(:user, id: 1) }
   let!(:image) { create(:image, id: 1, user_id: user.id) }
-  let!(:comment) { create(:comment, commentable_id: image.id, user_id: user.id) }
+  let!(:comment) do
+    create(:comment, commentable_id: image.id, user_id: user.id)
+  end
 
   describe 'GET /comments/:id' do
     it 'show comments on image' do

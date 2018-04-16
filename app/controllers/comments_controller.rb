@@ -12,7 +12,7 @@ class CommentsController < ProxyController
     par_f_com = par_f_com.to_unsafe_h
     result = CreateComments.run(params: par_f_com, user: current_user)
     res = result.valid?
-    flash[:success] = result.result if res
+    flash[:success] = 'Comment added' if res
     flash[:warning] = result.errors.full_messages.to_sentence unless res
     red_img = Image.find_by(id: params[:comment][:image_id])
     red_img_c = Image.find_by(id: params[:comment][:image_id])

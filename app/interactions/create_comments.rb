@@ -20,7 +20,7 @@ class CreateComments < ActiveInteraction::Base
     #   false
     # end
     return errors.merge!(@comment.errors) unless @comment.save
-    return 'Comment added' if @comment.save
+    return @comment if @comment.save
   end
 
   def parent
