@@ -16,12 +16,10 @@ class AdminImageVerify < ActiveInteraction::Base
   end
 
   def update_leaderboard
-    begin
-      Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.rank_member(image_id.to_s, image.likes_img)
-    rescue Redis::CannotConnectError
-      return errors.add(:base, 'Redis not working!')
-    end
+    Redis.new.set('getstatus', 1)
+    IMAGE_VOTES_COUNT.rank_member(image_id.to_s, image.likes_img)
+  rescue Redis::CannotConnectError
+    errors.add(:base, 'Redis not working!')
   end
 
   def check_state

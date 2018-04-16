@@ -29,10 +29,9 @@ class LikeImages < ActiveInteraction::Base
   end
 
   def update_leaderboard
-    begin
-      Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.likes_count)
-    rescue Redis::CannotConnectError
-    end
+    Redis.new.set('getstatus', 1)
+    IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.likes_count)
+  rescue Redis::CannotConnectError
+    'ok'
   end
 end

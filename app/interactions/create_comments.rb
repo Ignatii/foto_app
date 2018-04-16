@@ -12,6 +12,7 @@ class CreateComments < ActiveInteraction::Base
   validates :user, presence: true
   def execute
     return errors.add(:base, 'Comment is empty!') if params[:body].empty?
+    return errors.add(:base, 'Not found parent') if parent.nil?
     @comment = parent.comments.build(body: params[:body], user_id: user.id)
     return errors.merge!(@comment.errors) unless @comment
     # if @comment.save

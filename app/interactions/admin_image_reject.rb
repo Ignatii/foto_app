@@ -16,11 +16,9 @@ class AdminImageReject < ActiveInteraction::Base
   end
 
   def update_leaderboard
-    begin
-      Redis.new.set('getstatus', 1)
-      IMAGE_VOTES_COUNT.remove_member(image_id)
-    rescue Redis::CannotConnectError
-      return errors.add(:base, 'Redis not working!')
-    end
+    Redis.new.set('getstatus', 1)
+    IMAGE_VOTES_COUNT.remove_member(image_id)
+  rescue Redis::CannotConnectError
+    errors.add(:base, 'Redis not working!')
   end
 end
