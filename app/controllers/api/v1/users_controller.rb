@@ -7,19 +7,17 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def index
-    result = Api::FindUsers.run!
-    if result.valid?
+    find_users = Api::FindUsers.run!
+    if find_users.valid?
       render(
         json: ActiveModel::ArraySerializer.new(
-          User.where("id in (#{ids.keys.join(',')})"),
+          result.result,
           each_serializer: Api::V1::UserSerializer,
-          root: 'users',
-          # meta: meta_attributes(Image.all.verified_image)
+          root: 'users'
         )
       )
     else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: result.errors.full_messages.to_sentence },
+      render json: { error: find_users.errors.details },
              status: :unauthorized
     end
   end

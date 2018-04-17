@@ -6,6 +6,7 @@ module Images
     end
 
     validates :params, presence: true
+    validate :check_url_existence
 
     def execute
       @image = user.images.create(remote_image_url: params[:url_image][:url],
@@ -17,12 +18,16 @@ module Images
 
     private
 
+    def check_url_existence
+      return errors.add(:base, 'Somethimg wrong! Talk with moderator') if params[:url_image].empty?
+    end
+
     def user
       @user ||= User.find_by(id: params[:user_id])
     end
 
     def tags
-      @tags = params[:insta_tags].join(' ') unless params[:insta_tags].nil?
+      params[:insta_tags].join(' ') if params[:insta_tags].present?
     end
 
     def title

@@ -5,14 +5,15 @@
      <div style="display: inline-block;">
       <h1 style="font-size: 24px;">        
         <%= current_user.name %></h1>
-        <% if current_user.insta_token.nil? %>  
+        <% if current_user.insta_token.blank? %>  
           <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
           <%= link_to "https://api.instagram.com/oauth/authorize/?client_id=#{ENV['INSTA_ID']}&redirect_uri=#{ENV['REDIRECT_INSTA']}/user/1&response_type=token", class: "btn btn-block btn-social btn-instagram", style: "margin-top:10px;color:white;text-decoration:none;" do%>
           <span class='fa fa-instagram'></span>
           Add Photos from Instagram
-          <% end %>
+        <% end %>
          </div>
          <% end %>
+         
          <% unless Identity.where(user_id: current_user.id, provider: 'facebook').first %>
            <div class="center-block" style="width: 300px;height:40px;vertical-align: center;">
             <%= link_to "/auth/facebook", class: "btn btn-block btn-social btn-facebook", style: "margin-top:10px;color:white;text-decoration:none;" do%>
@@ -47,8 +48,7 @@
       <p style="font-size:16px;" id="token_api" class="hide center-block"><%= current_user.api_token%></p>
    </div>  
 </div>
-<% if defined? @insta_images %>
-<% unless @insta_images.empty? %>
+<% if @insta_images.present? %>
 <div class="center jumbotron insta_images" style="margin-top: 10px;">
 <h2>Last 12 images from Your Instagram<sup style="color:blue;cursor: pointer;" title="If you want to add photo from Instagram just click on chosen picture" target="_blank" onmouseover="">¿</sup>
 [<a href="" id="show_hide_insta">Hide</a>]
@@ -65,7 +65,7 @@
 </div>
 </div>
 <% end %>
-<% end %>
+
 <div class="row">
 <div class="col-md-4">
   <%= render 'images/image_form' %>
@@ -92,16 +92,16 @@
 <script type="text/javascript">
   $(document).ready(function(){
    //$.post('update', {hash: document.location.hash});
-   if (document.location.hash.length > 5){
-     $.ajax({ 
-      type: 'PUT', 
-      url: 'update', 
-      data: {'token_insta' : document.location.hash}, 
-      success: function(data){
+    if (document.location.hash.length > 5){
+      $.ajax({ 
+        type: 'PUT', 
+        url: 'update', 
+        data: {'token_insta' : document.location.hash}, 
+        success: function(data){
         //data is whatever you RETURN from your controller. 
         //an array, string, object...something 
-      } 
-    });  
-   }
-});
+        } 
+      });  
+    }
+  });
 </script>

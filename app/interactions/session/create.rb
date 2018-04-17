@@ -27,8 +27,12 @@ module Session
     end
 
     def identity
-      @identity ||= Identity.find_by(provider: auth_hash[:provider],
-                                     uid: auth_hash[:uid])
+      @identity ||= Identity.create_with(token: auth_hash[:credentials][:token],
+                                         secret: auth_hash[:credentials][:secret],
+                                         expires_at: expires_at,
+                                         user_id: user.id)
+                            .find_or_create_by(provider: auth_hash[:provider],
+                                               uid: auth_hash[:uid])
     end
 
     def create_identity
@@ -53,11 +57,9 @@ module Session
     def current_user_session
       return false if session[:user_id].nil?
       begin
-        # user_path(User.find_by(id: session[:user_id]))
-        User.find_by(id: session[:user_id])
+        User.find(session[:user_id])
       rescue ActiveRecord::RecordNotFound
         session[:user_id] = nil
-        # root_path
       end
     end
 
@@ -67,9 +69,9 @@ module Session
 
     def expires_at
       if auth_hash[:credentials][:expires_at].present?
-        Time.zone.at(auth_hash[:credentials][:expires_at]).to_datetime
+        (auth_hash[:credentials][:expires_at]).to_datetime
       elsif auth_hash[:credentials][:expires_in].present?
-        Time.zone.now + auth_hash[:credentials][:expires_in].to_i.seconds
+        Time.current + auth_hash[:credentials][:expires_in].to_i.seconds
       end
     end
   end

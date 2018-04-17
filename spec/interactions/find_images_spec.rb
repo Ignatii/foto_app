@@ -13,7 +13,7 @@ RSpec.describe FindImages do
   let(:params_upvote) { { condition_search: '', sort_upvote: 'true' } }
   let(:outcome_data) { Images::List.run(params: params_data) }
   let(:outcome_upvote) { Images::List.run(params: params_upvote) }
-  let(:outcome_list) { Images::List.run( a: '' ) }
+  let(:outcome_list) { Images::List.run(a: '') }
 
   it 'should be valid' do
     vexpect(outcome_data.valid?).to be(true)

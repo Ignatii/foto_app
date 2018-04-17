@@ -2,27 +2,26 @@
 # add functionality to show sorted images
 module Images
   class Create < ActiveInteraction::Base
-    hash :params do
-      file :image
-      string :title_img
-      string :tags
-      integer :user_id
-    end
+    file :image
+    string :title_img
+    string :tags
+    object :user, class: '::User'
 
-    validates :params, presence: true
+    validates :image, :title_img, :tags, :user, presence: true
+    validate :check_image
 
     def execute
-      image = user.images.create(image: params[:image],
-                                 title_img: params[:title],
-                                 tags: params[:tags])
-      return errors.merge!(image.errors) unless image
-      image
+      image_create = user.images.create(image: image,
+                                        title_img: title_img,
+                                        tags: tags)
+      return errors.merge!(image.errors) unless image_create.valid?
+      image_create
     end
 
     private
 
-    def user
-      @user ||= User.find_by(id: params[:user_id])
+    def check_image
+      return errors.add(:base, 'Empty image!') if image.empty?
     end
   end
 end

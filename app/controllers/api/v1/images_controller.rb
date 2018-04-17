@@ -13,104 +13,69 @@ class Api::V1::ImagesController < Api::V1::BaseController
   end
 
   def index
-    @images = Images::List.run(params: { a: '' }).result.page(params[:page]).per(12)
+    @images = Images::List.run(params).result.page(params[:page]).per(12)
     if @images.present?
       render(
-        json: ActiveModel::ArraySerializer.new(
+        json: Api::V1::PaginationSerializer.new(
           @images,
           each_serializer: Api::V1::ImageSerializer,
-          root: 'images',
-          # meta: meta_attributes(Image.all.verified_image)
+          root: 'images'
+          # meta: { current_page: @images.current_page,
+          #         next_page: @images.next_page,
+          #         prev_page: @images.prev_page,
+          #         total_pages: @images.total_pages,
+          #         total_count: @images.total_count
+          # }
         )
       )
+      # render json: @images, serializer: Api::V1::PaginationSerializer
     else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
       render json: { error: @images.errors.full_messages.to_sentence },
              status: :bad_request
     end
   end
 
   def groupping_answer
-    # a=Image.all.order(likes_count: :DESC).pluck(:user_id)
-    # User.all.where("id in (#{a.join(',')})").includes(:images)
-    result = Images::Group.run!
-    if result.valid?
-      render json: array, each_serializer: Api::V1::ImageSerializer
+    images_groupes = Images::Group.run!
+    if images_groupes.valid?
+      # render json: images_groupes.result, each_serializer: Api::V1::ImageSerializer
+      render(
+        json: ActiveModel::ArraySerializer.new(
+          images_groupes,
+          each_serializer: Api::V1::ImageSerializer,
+          root: 'images'
+        )
+      )
     else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: @images.errors.full_messages.to_sentence },
+      render json: { error: images_groupes.errors.details },
              status: :bad_request
     end
   end
 
   def create
-    if params.key?('image')
-      params = { image: params['image'],
-                 title_img: params['title_img'],
-                 tags: params['tags'],
-                 user_id: current_user }
-      result = Images::Create.run(params)
-      # image_param = Hash.new(image: params['image'])
-      # @images = current_user.images.build(image_param[:image])
-      if result.valid?
-        render(json: Api::V1::ImageSerializer.new(result.result).to_json)
-      else
-        response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-        error = result.errors.full_messages.to_sentence
-        render json: { error: error }, status: :bad_request
-      end
+    create_image = Images::Create.run(params.merge(user: current_user))
+    if create_image.valid?
+      render(json: Api::V1::ImageSerializer.new(create_image.result).to_json)
     else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      render json: { error: 'Pass image!' }, status: :bad_request
+      render json: { error: create_image.errors.details }, status: :bad_request
     end
   end
 
   def upvote_like
-    result = Images::LikeInt.run(image_id: params['id'], user: current_user)
-    if result.valid?
+    upvote_image = Images::LikeInt.run(params.merge(user: current_user))
+    if upvote_image.valid?
       render(json: Api::V1::ImageSerializer.new(result.result).to_json)
     else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      error = result.errors.full_messages.to_sentence
-      render json: { error: error }, status: :bad_request
+      render json: { error: upvote_image.errors.details }, status: :bad_request
     end
-    # @image = Image.find(params['id'])
-    # return (response.headers['WWW-UPLOAD'] = 'Token realm=Application')
-    # && (render json: { error: 'Current user already upvoted for this picture'
-    # }, status: :unauthorized) unless @image.likes.where(user_id:
-    # current_user.id).count.zero?
-    # @image.likes.create(user_id: current_user.id)
-    # @image.update(likes_img: @image[:likes_img] + 1)
-    # begin
-    #   Redis.new.set('getstatus', 1)
-    #   IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)
-    # ensure
-    #   render(json: Api::V1::ImageSerializer.new(@image).to_json)
-    # end
   end
 
   def downvote_like
-    result = Images::Dislike.run(image_id: params['id'], user: current_user)
-    if result.valid?
+    downvote_image = Images::Dislike.run(params.merge(user: current_user))
+    if downvote_image.valid?
       render(json: Api::V1::ImageSerializer.new(result.result).to_json)
     else
-      response.headers['WWW-UPLOAD'] = 'Token realm=Application'
-      error = result.errors.full_messages.to_sentence
-      render json: { error: error }, status: :bad_request
+      render json: { error: downvote_image.errors.details }, status: :bad_request
     end
-    # @image = Image.find(params['id'])
-    # return (response.headers['WWW-UPLOAD'] = 'Token realm=Application')
-    # && (render json: { error: 'Current user didnt voted for this picture' },
-    # status: :unauthorized) if @image.likes.where(user_id:
-    # current_user.id).count < 1
-    # Like.delete(Like.where(user_id: current_user.id, image_id: @image.id))
-    # condition = @image[:likes_img].positive?
-    # @image.update(likes_img: @image[:likes_img] - 1) if condition
-    # begin
-    #   Redis.new.set('getstatus', 1)
-    #   IMAGE_VOTES_COUNT.rank_member(@image.id.to_s, @image.score_like)
-    # ensure
-    #   render(json: Api::V1::ImageSerializer.new(@image).to_json)
-    # end
   end
 end

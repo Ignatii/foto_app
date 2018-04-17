@@ -2,41 +2,56 @@
 # add functionality to show needed images
 module Images
   class List < ActiveInteraction::Base
-    hash :params, strip: false
+    boolean :sort_data, default: nil
+    boolean :sort_upvote, default: nil
+    boolean :sort_comments, default: nil
+    string :condition_search, default: nil
 
-    validates :params, presence: true
     def execute
       Redis.new.set('getstatus', 1)
-      work_with_redis
+      define_images
+      sort_and_filter
     rescue Redis::CannotConnectError
-      work_without_redis
+      define_images(false)
+      sort_and_filter
     end
 
     private
 
-    def work_without_redis
-      images = Image.verified_image.order(likes_count: :desc)
-      images = title_search(images) if params[:condition_search] && params[:condition_search].present?
-      images = sort_in_date(images) if params[:sort_data]
-      images = sort_in_upvote(images) if params[:sort_upvote]
-      images = sort_in_comments(images) if params[:sort_comments]
-      images
-    end
-
-    def work_with_redis
-      actualize_leaderboard if IMAGE_VOTES_COUNT.leaders(IMAGE_VOTES_COUNT.total_pages).count.zero?
-      images = Image.find_ordered(ids)
-      images = title_search(images) if params[:condition_search] && params[:condition_search].present?
-      images = sort_in_date(images) if params[:sort_data]
-      images = sort_in_upvote(images) if params[:sort_upvote]
-      images = sort_in_comments(images) if params[:sort_comments]
-      images
+    def define_images(mode = true)
+      @images = if mode
+                  actualize_leaderboard
+                  Image.find_ordered(ids)
+                else
+                  Image.verified_image.order(likes_count: :desc)
+                end
     end
 
     def actualize_leaderboard
+      create_leaderboard if IMAGE_VOTES_COUNT.leaders(IMAGE_VOTES_COUNT.total_pages).count.zero?
+    end
+
+    def create_leaderboard
       Image.all.verified_image.each do |image|
         IMAGE_VOTES_COUNT.rank_member(image.id.to_s, image.score_like)
       end
+    end
+
+    def sort_and_filter
+      filter_images
+      sort_images
+    end
+
+    def sort_images
+      @images = sort_by_date if sort_data
+      @images = sort_by_upvote if sort_upvote
+      @images = sort_by_comments if sort_comments
+      @images
+    end
+
+    def filter_images
+      @images = search_by_title if condition_search.present?
+      @images
     end
 
     def ids
@@ -47,22 +62,22 @@ module Images
       @ids
     end
 
-    def title_search(images)
-      images.where('title_img LIKE ? or tags LIKE ?',
-                   "%#{params[:condition_search]}%",
-                   "%#{params[:condition_search]}%")
+    def search_by_title
+      @images.where('title_img LIKE ? or tags LIKE ?',
+                    "%#{condition_search}%",
+                    "%#{condition_search}%")
     end
 
-    def sort_in_date(images)
-      images.reorder(created_at: :DESC)
+    def sort_by_date
+      @images.reorder(created_at: :DESC)
     end
 
-    def sort_in_upvote(images)
-      images.reorder(created_at: :DESC)
+    def sort_by_upvote
+      @images.reorder(likes_count: :ASC)
     end
 
-    def sort_in_comments(images)
-      images.reorder(commentable_count: :DESC)
+    def sort_by_comments
+      @images.reorder(commentable_count: :DESC)
     end
   end
 end

@@ -7,13 +7,13 @@ describe Images::Create do
     file = File.open('/home/ignatiy/Загрузки/ngrok-stable-linux-amd64.zip', 'r')
     file_true =  fixture_file_upload('files/index.jpeg', 'image/jpeg')
     @result_true = Images::Create.run(params: { image: file_true,
-                                                      title_img: 'testing title',
-                                                      tags: 'testing title1',
-                                                      user_id: User.first.id })
+                                                title_img: 'testing title',
+                                                tags: 'testing title1',
+                                                user_id: User.first.id })
     @result_false = Images::Create.run(params: { image: file,
-                                                       title_img: 'testing title',
-                                                       tags: 'testing title1',
-                                                       user_id: User.first.id })
+                                                 title_img: 'testing title',
+                                                 tags: 'testing title1',
+                                                 user_id: User.first.id })
   end
 
   describe 'create image with valid params' do

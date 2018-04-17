@@ -1,34 +1,22 @@
 # comments controller for app
 class CommentsController < ProxyController
   skip_before_action :verify_authenticity_token
-  # before_action :get_parent, only: [:create, :new]
 
   def new
-    # @comment = @parent.comments.build
   end
 
   def create
-    result = Comments::Create.run(params: required_params.to_unsafe_h, user: current_user)
-    res = result.valid?
-    err = result.errors.full_messages.to_sentence
-    m = { flash: res ? { success: 'Comment added' } : { warning: err } }
-    red_img = Image.find_by(id: params[:comment][:image_id])
-    red_img_c = Image.find_by(id: params[:comment][:image_id])
-    redirect_path = red_img ? red_img : red_img_c
-    redirect_to redirect_path, flash: m[:flash]
+    result = Comments::Create.run(params.merge(user: current_user))
+    message = result.errors.full_messages.to_sentence if result.invalid?
+    flash = result.valid? ? { success: 'Comment added' } : { warning: message }
+    red_img = Image.find_by(id: params[:comment][:image_id] || params[:comment][:comment_id])
+    redirect_to red_img, flash: flash
   end
 
   def destroy
-    @comment = Comment.find_by(id: params[:id])
-    m = { flash: @comment.nil? ? { warning: 'Comment not found!' } : { success: 'Comment deleted' } }
-    redirect_to request.referer, flash: m[:flash] if @comment.nil?
-    @comment.destroy
-    redirect_to request.referer, flash: m[:flash]
-  end
-
-  private
-
-  def required_params
-    params.require(:comment).permit(:body, :image_id, :comment_id)
+    destroy_comment = Comments::DestroyCustom.run(params['id'].merge(user: current_user))
+    message = destroy_comment.errors.full_messages.to_sentence if result.invalid?
+    flash = destroy_comment.valid? ? { success: 'Comment deleted' } : { warning: message }
+    redirect_to request.referer, flash: flash
   end
 end

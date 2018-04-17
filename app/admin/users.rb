@@ -8,11 +8,7 @@ ActiveAdmin.register User do
                 :api_token,
                 :insta_token
   filter :name_cont
-  # label: I18n.t(:name_filter, scope: %i[active_admin models_db user]),
-  # as: :string
   filter :email_cont
-  # label: I18n.t(:email_filter, scope: %i[active_admin models_db user]),
-  # as: :string
   index do
     selectable_column
     column :name
@@ -34,8 +30,7 @@ ActiveAdmin.register User do
       column I18n.t(:verify,
                     scope: %i[active_admin models_db user]) do |image|
         link_to I18n.t(:verify,
-                       scope: %i[active_admin models_db user]),
-                verify_admin_image_path(image) unless image.verified?
+                       scope: %i[active_admin models_db user]), verify_admin_image_path(image) unless image.verified?
       end
       column I18n.t(:reject,
                     scope: %i[active_admin models_db user]) do |image|

@@ -2,10 +2,10 @@
 # add functionality to show sorted images
 module Images
   class LikeInt < ActiveInteraction::Base
-    integer :image_id # , class: '::Image'
+    integer :id # , class: '::Image'
     object :user, class: '::User'
 
-    validates :image_id, presence: true
+    validates :id, presence: true
     validates :user, presence: true
     validate :check_like
 
@@ -18,12 +18,12 @@ module Images
     private
 
     def check_like
-      img_bln = image.likes.where(user_id: user[:id]).count.zero?
-      return errors.add(:base, 'You already voted for this photo!') unless img_bln
+      image_voted = image.likes.where(user_id: user[:id]).count.zero?
+      return errors.add(:base, 'You already voted for this image!') unless image_voted
     end
 
     def image
-      @image ||= Image.find(image_id)
+      @image ||= Image.find(id)
     end
 
     def update_image

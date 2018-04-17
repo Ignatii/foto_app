@@ -9,11 +9,11 @@ ActiveAdmin.register AdminUser do
     column :created_at
     actions
   end
-  # menu parent: I18n.t(:menu_cusotm, scope: [:active_admin], locale: I18n.locale),
-  #      id: 'menu_cusotm'
-  #menu parent: 'shit' , priority: 1, url: ->{ admin_users_path(locale: I18n.locale) }
-  menu label: ->{ I18n.t(:other,
-                         scope: %i[activerecord models admin_user]) },
+
+  menu label: proc {
+                I18n.t(:other,
+                       scope: %i[activerecord models admin_user])
+              },
        parent: 'tree_1'
   filter :email
   filter :current_sign_in_at

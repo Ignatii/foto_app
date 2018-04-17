@@ -5,14 +5,17 @@ require 'csv'
 module Admin
   class ImagesImport < ActiveInteraction::Base
     string :mode
-    validates :mode, presence: true
+
+    validates :mode, presence: true, inclusion: { in: %w[xml xls csv],
+                                                  message: 'Not valid' }
+
     def execute
       case mode
       when 'xml'
         import_xml
       when 'csv'
         import_csv
-      else
+      when 'xls'
         import_xls
       end
     end
@@ -59,24 +62,28 @@ module Admin
     end
 
     def import_csv
-      @images_csv = Her.all
-      path = Rails.root.join('public', 'import', 'images.csv')
       CSV.open(path, 'wb') do |csv|
-        csv << @images_csv.attribute_names
-        @images_csv.each do |image|
+        csv << images_her.attribute_names
+        images_her.each do |image|
           csv << image.attributes.values
         end
       end
     end
 
     def import_xls
-      @images_xls = Her.all
-      path = Rails.root.join('public', 'import', 'images.xls')
       File.open(path, 'w+') do |f|
-        xls_str = %i[idd image i_u_id i_created_at state title tags likes u_id name email c_id comment_text c_created_at]
-        write_info = @images_xls.to_a.to_xls(only: xls_str)
+        colums = %i[idd image i_u_id i_created_at state title tags likes u_id name email c_id comment_text c_created_at]
+        write_info = images_her.to_a.to_xls(only: colums)
         f.write(write_info.force_encoding('utf-8').encode)
       end
+    end
+
+    def path
+      @path = Rails.root.join('public', 'import', "images.#{mode}")
+    end
+
+    def images_her
+      @images_her = Her.all
     end
   end
 end

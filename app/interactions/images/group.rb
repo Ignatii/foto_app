@@ -3,15 +3,7 @@
 module Images
   class Group < ActiveInteraction::Base
     def execute
-      users = Image.all.joins(:user).group(:user_id)
-      array = []
-      users.each do |user|
-        array.push(Image.all.select(:id,
-                                    :user_id,
-                                    :aasm_state,
-                                    :likes_count).where(user: user.user))
-      end
-      array
+      Image.all.joins(:user).group_by(&:user_id)
     end
   end
 end

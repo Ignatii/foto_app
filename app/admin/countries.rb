@@ -1,14 +1,12 @@
 ActiveAdmin.register Country do
   permit_params :name_country, :created_at, :updated_at,
                 visits_attributes: %i[id user_id enable _destroy]
-  menu label: proc { I18n.t(:other,
-                            scope: %i[activerecord models country]) },
+  menu label: proc {
+                I18n.t(:other,
+                       scope: %i[activerecord models country])
+              },
        parent: 'tree_1'
   remove_filter :visits, :users
-
-  # menu parent: 'test',label: 'test', if: proc { I18n.locale == :en }
-
-  # menu parent: 'test_ru',label: 'test', if: proc { I18n.locale == :ru }
 
   show do
     default_main_content
@@ -47,24 +45,12 @@ ActiveAdmin.register Country do
         a.input :enable, type: :checkboxes
         a.input :user_id,
                 as: :select,
-                # collection: User.all.map { |u| [u.name, u.id] }
-                collection: User.pluck(:name,:id)
-        # a.input :delete, as: :radio
-       # unless a.object.new_record?
-       a.actions do
-         link_to I18n.t(:delete,
-                        scope: %i[active_admin]),
-                 delete_admin_visits(object.id), method: :delete
-         # "/admin/visits/#{object.id}"
-       end
-        # a.actions do
-        #     # link_to 'Delete',
-        #     #         "/admin/visits/#{object.id}",
-        #     #         method: :delete
-        #     a.action:submit ,label:"Delete",url:"/admin/visits/#{object.id}",
-        #               method: :delete
-        # end
-        # end
+                collection: User.pluck(:name, :id)
+        a.actions do
+          link_to I18n.t(:delete,
+                         scope: %i[active_admin]),
+                  delete_admin_visits(object.id), method: :delete
+        end
       end
     end
     f.submit

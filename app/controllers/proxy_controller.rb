@@ -19,20 +19,7 @@ class ProxyController < ApplicationController
   end
 
   def check_banned_user
-    # if current_user
-    #   unless current_user[:banned_until].nil?
-    #   end
-    # end
   end
-
-  # def current_user
-  #   return false if session[:user_id].nil?
-  #   begin
-  #     User.find(session[:user_id])
-  #   rescue ActiveRecord::RecordNotFound
-  #     session[:user_id] = nil
-  #   end
-  # end
 
   def signed_in?
     !!current_user

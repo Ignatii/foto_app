@@ -3,10 +3,12 @@
 module Admin
   class ImageReject < ActiveInteraction::Base
     integer :image_id
+
     validates :image_id, presence: true
+
     def execute
       return errors.add(:base, 'Error rejecting!') unless image.reject!
-      CleanImages.perform_at(1.hour.from_now, image.id)
+      CleanImages.perform_in(1.hour, image.id)
       update_leaderboard
       image
     end

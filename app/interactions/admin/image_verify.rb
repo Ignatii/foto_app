@@ -3,10 +3,12 @@ require 'active_interaction'
 module Admin
   class ImageVerify < ActiveInteraction::Base
     integer :image_id
+
     validates :image_id, presence: true
+
     def execute
+      return errors.add(:base, message: 'Error verifying!') unless image.verify!
       check_state
-      return errors.add(:base, 'Error verifying!') unless image.verify!
       update_leaderboard
       image
     end
